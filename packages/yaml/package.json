@@ -1,15 +1,18 @@
 {
   "name": "@nodejs-loaders/yaml",
-  "description": "Extend node to support YAML via customisation hooks.",
+  "description": "Extend node to support YAML via customization hooks.",
   "version": "1.0.1",
   "type": "module",
   "author": "Augustin Mauroy",
-  "maintainers": ["Jacob Smith"],
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
   "license": "ISC",
   "main": "./yaml.mjs",
   "types": "./yaml.d.mts",
   "keywords": [
-    "customisation hook",
+    "customization hooks",
     "loader",
     "node",
     "node.js",

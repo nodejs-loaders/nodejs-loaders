@@ -1,15 +1,18 @@
 {
   "version": "1.0.1",
   "name": "@nodejs-loaders/jsonc",
-  "description": "Extend node to support JSONC via customisation hooks.",
+  "description": "Extend node to support JSONC via customization hooks.",
   "type": "module",
   "author": "Augustin Mauroy",
-  "maintainers": ["Jacob Smith"],
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
   "license": "ISC",
   "main": "./jsonc.mjs",
   "types": "./jsonc.d.mts",
   "keywords": [
-    "customisation hook",
+    "customization hooks",
     "json",
     "json with comments",
     "jsonc",

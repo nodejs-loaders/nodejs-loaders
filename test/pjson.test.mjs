@@ -4,9 +4,9 @@ import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 test('Loader `package.json`s', { concurrency: true }, async (t) => {
-	const descriptionRgx = /Extend node to support [\w]+ via customisation hooks./;
+	const descriptionRgx = /Extend node to support .+ via customization hooks./;
 	const keywordsList = [
-		"customisation hook",
+		"customization hooks",
 		"loader",
 		"node",
 		"node.js",
@@ -16,39 +16,50 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 		"Jacob Smith",
 	];
 	const nameRgx = /@nodejs-loaders\/[a-z\n]+/;
-	const pjsonPaths = globSync(fileURLToPath(`${import.meta.resolve('../packages/')}**/package.json`));
-	const repoUrl = 'https://github.com/nodejs-loaders/nodejs-loaders';
+	const pjsonPaths = globSync(fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`));
+	/** @type {Record<string, unknown>[]} */
+	let pjsons = new Array(pjsonPaths.length);
+	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
 
-	for (const pjsonPath of pjsonPaths) {
-		await t.test('should contain required fields', async () => {
+	for (let i = pjsonPaths.length - 1; i > -1; i--) {
+		pjsons[i] = import(pjsonPaths[i], { with: { type: 'json' } }).then((m) => m.default);
+	}
+
+	pjsons = await Promise.all(pjsons);
+
+	for (const pjson of pjsons) {
+		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
 			const {
 				author,
 				description,
 				engines,
 				keywords,
+				license,
 				main,
 				maintainers,
 				name,
 				repository,
 				type,
 				types,
-			} = (await import(pjsonPath, { with: { type: 'json' } })).default;
+			} = pjson;
 
 			assert.match(name, nameRgx);
-			const strippedName = name.slice(16);
-			console.log({ strippedName })
+			const loaderName = name.slice(16);
 			assert.ok(author);
-			assert.match(description, descriptionRgx);
 			assert.ok(engines.node);
-			assert.deepEqual(keywords, keywordsList);
 			assert.equal(license, 'ISC');
-			assert.match(main, new RegExp(`/\.\/${strippedName}\.mjs/`));
-			assert.deepEqual(maintainers, maintainersList);
+			assert.match(main, new RegExp(`\.\/${loaderName}\.mjs`));
+			assert.partialDeepStrictEqual(maintainers, maintainersList);
 			assert.equal(repository.type, 'git');
 			assert.equal(repository.url, repoUrl);
-			assert.match(repository.directory, new RegExp('/packages/${strippedName}/'));
+			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
-			assert.match(types, new RegExp(`/\.\/${strippedName}\.d\.mts/`));
+			assert.match(types, new RegExp(`\.\/${loaderName}\.d\.mts`));
+
+			if (!pjson.isNotLoader) {
+				assert.match(description, descriptionRgx);
+				assert.partialDeepStrictEqual(keywords, keywordsList);
+			}
 		});
 	}
 });
