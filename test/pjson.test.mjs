@@ -16,16 +16,12 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 		"Jacob Smith",
 	];
 	const nameRgx = /@nodejs-loaders\/[a-z\n]+/;
-	const pjsonPaths = globSync(fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`));
 	/** @type {Record<string, unknown>[]} */
-	let pjsons = new Array(pjsonPaths.length);
+	const pjsons = await Promise.all(
+		globSync(fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`))
+			.map((pjsonPath) => import(pjsonPath, { with: { type: 'json' } }).then((m) => m.default))
+	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
-
-	for (let i = pjsonPaths.length - 1; i > -1; i--) {
-		pjsons[i] = import(pjsonPaths[i], { with: { type: 'json' } }).then((m) => m.default);
-	}
-
-	pjsons = await Promise.all(pjsons);
 
 	for (const pjson of pjsons) {
 		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
