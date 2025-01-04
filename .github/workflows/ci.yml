@@ -22,6 +22,8 @@ jobs:
           version: latest
       - name: Run Biome
         run: biome ci .
+      - name: Validate `package.json`s
+        run: npm run pjson:check
 
   test:
     runs-on: ubuntu-latest
@@ -43,8 +45,6 @@ jobs:
           cache: 'npm'
       - name: npm clean install
         run: npm ci
-      - name: Validate `package.json`s
-        run: npm run pjson:check
       - run: npm test
       - name: Publish coverage to Coveralls ${{ matrix.test_number }}
         uses: coverallsapp/github-action@v2
