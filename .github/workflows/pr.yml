@@ -1,3 +1,5 @@
+# This workflow is about the PR itself, not project code.
+
 name: Validate PR Title
 
 on:
