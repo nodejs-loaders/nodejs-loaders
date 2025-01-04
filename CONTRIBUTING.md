@@ -31,9 +31,7 @@ Code should be well documented and tested. Each loader must:
 * Cover at least 90% of code between unit and end-to-end tests
   * unit tests for branching and especially failure cases
   * end-to-end for [happy-paths](https://en.wikipedia.org/wiki/Happy_path)
-  * You can run tests locally via `npm run test --workspace=packages/LOADER_NAME`
-* Adhere to code styles
-  * Code can be validated with `node --run pre-commit` from the project root (CI will verify adherence but will not auto-fix).
+* Adhere to code styles (CI will verify adherence but will not auto-fix).
 
 We take pride in this project. That said, we're pretty reasonable and friendly people; if there is a very good reason for something, make an objective case. But please also realise that our time is limited and this is not our job.
 
