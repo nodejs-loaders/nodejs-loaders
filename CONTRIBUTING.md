@@ -57,7 +57,7 @@ Create a new directory in the `packages` directory with the name of the loader
 
 #### Add a `package.json` file
 
-```jsonc
+```json
 {
   "version": "1.0.0",
   "name": "@nodejs-loaders/YOUR-LOADER",
@@ -78,7 +78,7 @@ Create a new directory in the `packages` directory with the name of the loader
     "node.js"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
