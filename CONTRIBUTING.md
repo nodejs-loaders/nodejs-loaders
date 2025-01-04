@@ -1,65 +1,24 @@
 # Nodejs Loaders Contributing Guide
 
-Thank you for considering contributing to Nodejs Loaders! We welcome all contributions, whether they are bug reports, feature requests, pull requests, or just questions.
+Thank you for considering contributing to Node.js Loaders! Contributions welcome, be they bug reports, feature requests, pull requests, or just questions.
 
 ## Getting started
 
-The steps below will give you a general idea of how to prepare your local environment for nodejs loaders development.
+Commands specifically relevant to this project are:
 
-1. Click the fork button in the top right to clone the [Node.js Website Repository](https://github.com/nodejs-loaders/nodejs-loaders/fork)
-
-2. Clone your fork using SSH, GitHub CLI, or HTTPS.
-```bash
-git clone git@github.com:<YOUR_GITHUB_USERNAME>/nodejs-loaders.git # SSH
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/nodejs-loaders.git # HTTPS
-gh repo clone <YOUR_GITHUB_USERNAME>/nodejs-loaders.org # GitHub CLI
-```
-
-3. Change into the directory.
-```bash
-cd nodejs-loaders
-```
-
-4. Create a remote to keep your fork and local clone up-to-date.
-```bash
-git remote add upstream git@github.com:nodejs-loaders/nodejs-loaders.git # SSH
-git remote add upstream https://github.com/nodejs-loaders/nodejs-loaders.git # HTTPS
-gh repo sync nodejs-loaders/nodejs-loaders # GitHub CLI
-```
-
-5. Create a new branch for your work.
-```bash
-git checkout -b my-new-feature
-```
-
-6. Install the dependencies.
-```bash
-npm install
-```
-
-7. Run the tests
+Run the tests:
 ```bash
 node --run test
 ```
 
-8. Run lint and formatting
+Alternatively, run the tests for a specific loader:
+```bash
+npm run test --workspace=packages/LOADER_NAME_HERE
+```
+
+Lint, format, and check types:
 ```bash
 node --run pre-commit
-```
-
-9. Let's make some changes!
-
-10. Keep your fork up-to-date with the upstream repository.
-```bash
-git fetch upstream
-git merge upstream/main
-```
-
-11. Once you're ready, push your changes to your fork.
-```bash
-git add .
-git commit -m "describe your changes"
-git push -u origin name-of-your-branch
 ```
 
 ## Authoring
@@ -78,7 +37,187 @@ Code should be well documented and tested. Each loader must:
 
 We take pride in this project. That said, we're pretty reasonable and friendly people; if there is a very good reason for something, make an objective case. But please also realise that our time is limited and this is not our job.
 
-## Pull Request Guidelines
+### Introducing a New Loader
+
+If you want to introduce a new loader, please follow the steps below:
+
+- Open an issue to discuss the new loader
+  - Describe the use case for the new loader
+	- What problem does it solve?
+	- What are the benefits of the new loader?
+	- Which dependencies will be required?
+- Once the issue is approved, make changes to the codebase
+- Open a pull request
+- Once the pull request is approved, the new loader will be merged
+- Let's realease it.
+
+#### Add the directory
+
+Create a new directory in the `packages` directory with the name of the loader
+
+#### Add a `package.json` file
+
+```jsonc
+{
+  "version": "1.0.0",
+  "name": "@nodejs-loaders/YOUR-LOADER",
+  "description": "Extend node to support YOUR THING via customisation hooks.",
+  "type": "module",
+  "main": "./YOUR-LOADER.mjs",
+  "types": "./YOUR-LOADER.d.mts",
+  "author": "YOUR NAME",
+  "license": "ISC",
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
+  "keywords": [
+    "customisation hook",
+    "loader",
+    "node",
+    "node.js"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejs-loaders/nodejs-loaders",
+    "directory": "packages/YOUR-LOADER"
+  }
+}
+```
+
+> [!NOTE]
+> Types are automatically generated from jsdocs during publication. Presumptively set the `"types"` field in package.json so they can be found (it's much easier than programmatically updating package.json).
+
+CI will validate `package.json`, providing detailed errors if something is wrong.
+
+#### Create the loader
+
+Loaders leverage [customizaiton hooks](https://nodejs.org/api/module.html#customization-hooks) to be able to customise/extend node. Exported names must match customization hook names; that's not terribly helpful in a stacktrace, so to aid debugging, it's kinder to give the hook a more descriptive name (`<load|resolve>MyThing`), and then alias (`export { resolveMyThing as resolve }`) it to an expected name so node understands what it is.
+
+```js
+/**
+ * @type {import('node:module').ResolveHook}
+ */
+function resolveMyThing(specifier, ctx, nextResolve) {
+	/* Do some awesome stuff */
+}
+export { resolveMyThing as resolve };
+
+/**
+ * @type {import('node:module').LoadHook}
+ */
+function loadMyThing(url, ctx, nextLoad) {
+	/* Do some awesome stuff */
+}
+export { loadMyThing as load };
+```
+
+### Tests
+
+There are two part of testing: unit tests and end-to-end tests.
+
+First write unit tests for your hooks via [`node:test`](https://nodejs.org/api/test.html), to validate the individual logic with your hooks. Unit tests should follow the naming convention `your-loader.spec.mjs`. And the test file should be co-located (in the same directory) with the loader; there is a separate `test` directory in the repo root—these are not the droids you're looking for (mostly ignore that directory).
+
+The high-level structure of a unit test looks like:
+
+```js
+import assert from 'node:assert/strict';
+import { describe it } from 'node:test';
+
+import { resolve, load } from './your-loader.mjs';
+
+describe('Your Loader', () => {
+	describe('resolve', () => {
+		it('should resolve the specifier', () => {
+			/* Test your resolve hook */
+		});
+	});
+
+	describe('load', () => {
+		it('should load the module', () => {
+			/* Test your load hook */
+		});
+	});
+});
+```
+
+Second, write end-to-end (e2e / E2E) tests. These prove the loader works IRL. End-to-end tests should follow the naming convention `your-loader.test.mjs`.
+
+```js
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import { execPath } from 'node:process';
+import { describe, it } from 'node:test';
+
+import { spawnPromisified } from '../../test/spawn-promisified.mjs';
+
+describe('Your Loader (e2e)', () => {
+	const opts = {
+		cwd: fileURLToPath(import.meta.resolve('./fixtures')),
+		encoding = 'utf-8',
+	};
+	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
+
+	it('should work with `--loader`', async (t) => {
+		const { code, stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--loader',
+				fileURLToPath(import.meta.resolve('./alias.mjs')),
+				e2eTest,
+			],
+			opts,
+		);
+
+		assert.equal(stderr, ''); // ! Check this first
+		t.assert.snapshot(stdout);
+		assert.equal(code, 0);
+	});
+
+	it('should work with `module.register`', () => {
+		const { code, stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				e2eTest,
+			],
+			opts,
+		);
+
+		assert.equal(stderr, ''); // ! Check this first
+		t.assert.snapshot(stdout);
+		assert.equal(code, 0);
+	});
+
+	// This is not always (probably, rarely) applicable, so likely you would skip this one
+	if (process.version.slice(1,3) >= 23) { // module.registerHooks only exists in v23+
+		it('should work with `module.registerHooks`', async (t) => {
+			const { code, stderr, stdout } = await spawnPromisified(
+				execPath,
+				[
+					'--no-warnings',
+					'--import',
+					fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+					e2eTest,
+				],
+				opts,
+			);
+
+			assert.equal(stderr, ''); // ! Check this first
+			t.assert.snapshot(stdout);
+			assert.equal(code, 0);
+		});
+	}
+});
+```
+
+## Pull Requests
 
 Changes should be atomic; do not combine multiple, discrete changes within a single PR.
 
@@ -103,131 +242,6 @@ Before a pull request is merged, the following requirements should be met:
 - An approval is valid if there have been no major changes since it was granted.
 - 24 hours after approval and no objections, the pull request can be merged.
 - All tests pass.
-
-## Introduce a New Loader
-
-If you want to introduce a new loader, please follow the steps below:
-
-- Open an issue to discuss the new loader
-  - Describe the use case for the new loader
-	- What problem does it solve?
-	- What are the benefits of the new loader?
-	- Which dependencies will be required?
-- Once the issue is approved, make changes to the codebase
-- Open a pull request
-- Once the pull request is approved, the new loader will be merged
-- Let's realease it.
-
-### Create a New Loader
-
-1. Create a new directory in the `packages` directory with the name of the loader
-2. Create the package.json file
-```json
-{
-	"version": "1.0.0",
-	"name": "@nodejs-loaders/your-loader",
-	"type": "module",
-	"author": "Your Name",
-	"maintainers": [
-		"Jacob Smith",
-		"Augustin Mauroy"
-	],
-  "license": "ISC",
-	"main": "./your-loader.mjs",
-  "repository": {
-    "url": "https://github.com/JakobJingleheimer/nodejs-loaders"
-  }
-}
-```
-
-> [!NOTE]
-> The `repository.url` field must be present. It's use for generating the provenance signature.
-
-3. Create the loader
-
-Your loader have to export [customisaiton hooks](https://nodejs.org/api/module.html#customization-hooks) to be able to customize the loader behavior.
-
-```js
-/**
- * @type {import('node:module').LoadHook}
- */
-function resolveMyLoader(specifier, ctx, next) {
-	/* Do some awesome stuff */
-}
-export { resolveMyLoader as resolve };
-
-/**
- * @type {import('node:module').LoadHook}
- */
-function loadMyLoader(url, ctx, defaultLoad) {
-	/* Do some awesome stuff */
-}
-export { loadMyLoader as load };
-```
-
-4. Write unit tests
-
-Yours customisation hooks must be tested. There are two part of testing, unit tests and integration tests.
-
-First write unit tests for your hooks. We use [`node:test`](https://nodejs.org/api/test.html) to run the tests. All unit test should have this naming convention `your-loader.spec.mjs`. And the test file should be in the same directory as the loader. Also the test file should have the following structure:
-
-```js
-import assert from 'node:assert/strict';
-import { describe it } from 'node:test';
-
-import { resolve, load } from './your-loader.mjs';
-
-describe('Your Loader', () => {
-	describe('resolve', () => {
-		it('should resolve the specifier', () => {
-			/* Test your resolve hook */
-		});
-	});
-
-	describe('load', () => {
-		it('should load the module', () => {
-			/* Test your load hook */
-		});
-	});
-});
-```
-
-Second write integration tests for your loader. We use [`node:module`](https://nodejs.org/api/module.html) to load the loader.
-
-```js
-import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
-import { execPath } from 'node:process';
-import { describe, it } from 'node:test';
-import { fileURLToPath } from 'node:url';
-
-describe('Your Loader', () => {
-	it('should work with --loader', () => {
-		const { status, stdout, stderr } = spawnSync(execPath, [
-			'--loader',
-			'./your-loader.mjs',
-			'./path/to/module.js'
-		]);
-
-		assert.strictEqual(status, 0);
-		assert.match(stdout, /Hello, World!/);
-	});
-
-	it('should work with `module.register', () => {
-		const { status, stdout, stderr } = spawnSync(execPath, [
-			'--import',
-			fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
-			'-e',
-			'module.register("./path/to/module.js")'
-		]);
-
-		assert.strictEqual(status, 0);
-		assert.match(stdout, /Hello, World!/);
-	});
-});
-```
-
-> You may need to add one case if the loader support [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions) API.
 
 ## [Developer's Certificate of Origin 1.1](https://developercertificate.org)
 
