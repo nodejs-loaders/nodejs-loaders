@@ -5,21 +5,16 @@ import { fileURLToPath } from 'node:url';
 
 test('Loader `package.json`s', { concurrency: true }, async (t) => {
 	const descriptionRgx = /Extend node to support .+ via customization hooks./;
-	const keywordsList = [
-		"customization hooks",
-		"loader",
-		"node",
-		"node.js",
-	];
-	const maintainersList = [
-		"Augustin Mauroy",
-		"Jacob Smith",
-	];
+	const keywordsList = ['customization hooks', 'loader', 'node', 'node.js'];
+	const maintainersList = ['Augustin Mauroy', 'Jacob Smith'];
 	const nameRgx = /@nodejs-loaders\/[a-z\n]+/;
 	/** @type {Record<string, unknown>[]} */
 	const pjsons = await Promise.all(
-		globSync(fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`))
-			.map((pjsonPath) => import(pjsonPath, { with: { type: 'json' } }).then((m) => m.default))
+		globSync(
+			fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`),
+		).map((pjsonPath) =>
+			import(pjsonPath, { with: { type: 'json' } }).then((m) => m.default),
+		),
 	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
 
