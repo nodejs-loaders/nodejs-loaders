@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "@nodejs-loaders/media",
-  "description": "Media loader for Node.js",
+  "description": "Extend node to support media imports via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
   "maintainers": ["Augustin Mauroy"],
@@ -15,6 +15,7 @@
     "video",
     "loader",
     "media",
+    "node",
     "node.js"
   ],
   "engines": {

@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "@nodejs-loaders/text",
-  "description": "Text loader for Node.js",
+  "description": "Extend node to support plain-text files via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
   "maintainers": ["Augustin Mauroy"],
@@ -11,6 +11,7 @@
   "keywords": [
     "customisation hook",
     "loader",
+    "node",
     "node.js",
     "plain text"
   ],

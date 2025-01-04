@@ -1,7 +1,7 @@
 {
   "name": "@nodejs-loaders/yaml",
-  "description": "YAML loader for Node.js",
-  "version": "1.0.0",
+  "description": "Extend node to support YAML via customisation hooks.",
+  "version": "1.0.1",
   "type": "module",
   "author": "Augustin Mauroy",
   "maintainers": ["Jacob Smith"],
@@ -11,6 +11,7 @@
   "keywords": [
     "customisation hook",
     "loader",
+    "node",
     "node.js",
     "yaml"
   ],
@@ -19,7 +20,7 @@
   },
   "dependencies": {
     "@nodejs-loaders/parse-filename": "1.0.0",
-    "yaml": "^2.6.0"
+    "yaml": "^2.7.0"
   },
   "repository": {
     "type": "git",

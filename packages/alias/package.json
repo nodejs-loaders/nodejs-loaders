@@ -1,7 +1,7 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "@nodejs-loaders/alias",
-  "description": "Typescript path alias loader for Node.js",
+  "description": "Extend node to support TypeScript 'paths' via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
   "maintainers": ["Augustin Mauroy"],
@@ -9,10 +9,15 @@
   "main": "./alias.mjs",
   "types": "./alias.d.mts",
   "keywords": [
+    "aliases",
+    "aliasing",
     "customisation hook",
     "loader",
+    "node",
     "node.js",
-    "path alias"
+    "path aliasing",
+    "paths",
+    "typescript"
   ],
   "engines": {
     "node": ">=22 || ^20.6.0 || ^18.19.0"
