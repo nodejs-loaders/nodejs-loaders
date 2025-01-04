@@ -82,7 +82,7 @@ Create a new directory in the `packages` directory with the name of the loader
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodejs-loaders/nodejs-loaders",
+    "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",
     "directory": "packages/YOUR-LOADER"
   }
 }
@@ -95,7 +95,7 @@ CI will validate `package.json`, providing detailed errors if something is wrong
 
 #### Create the loader
 
-Loaders leverage [customizaiton hooks](https://nodejs.org/api/module.html#customization-hooks) to be able to customise/extend node. Exported names must match customization hook names; that's not terribly helpful in a stacktrace, so to aid debugging, it's kinder to give the hook a more descriptive name (`<load|resolve>MyThing`), and then alias (`export { resolveMyThing as resolve }`) it to an expected name so node understands what it is.
+Loaders leverage [customization hooks](https://nodejs.org/api/module.html#customization-hooks) to be able to customise/extend node. Exported names must match customization hook names; that's not terribly helpful in a stacktrace, so to aid debugging, it's kinder to give the hook a more descriptive name (`<load|resolve>MyThing`), and then alias (`export { resolveMyThing as resolve }`) it to an expected name so node understands what it is.
 
 ```js
 /**
@@ -171,7 +171,7 @@ describe('Your Loader (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./alias.mjs')),
+				fileURLToPath(import.meta.resolve('./your-loader.mjs')),
 				e2eTest,
 			],
 			opts,
