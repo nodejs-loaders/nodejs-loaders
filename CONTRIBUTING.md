@@ -115,6 +115,10 @@ function loadMyThing(url, ctx, nextLoad) {
 export { loadMyThing as load };
 ```
 
+### Security
+
+Loaders making their own network calls (not just facilitating a user-specified call) will almost surely be rejected. For example, an `https` loader that facilitates `import foo from 'https://example.com/foo'` is okay. A loader fetching its own configuration file from a hard-coded `fetch('https://random.com/config')` is not okay.
+
 ### Tests
 
 There are two part of testing: unit tests and end-to-end tests.
