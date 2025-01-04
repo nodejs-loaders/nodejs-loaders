@@ -41,15 +41,15 @@ We take pride in this project. That said, we're pretty reasonable and friendly p
 
 If you want to introduce a new loader, please follow the steps below:
 
-- Open an issue to discuss the new loader
-  - Describe the use case for the new loader
-	- What problem does it solve?
-	- What are the benefits of the new loader?
-	- Which dependencies will be required?
-- Once the issue is approved, make changes to the codebase
-- Open a pull request
-- Once the pull request is approved, the new loader will be merged
-- Let's realease it.
+1. Open an issue to discuss the new loader
+   1. Describe the use case for the new loader
+	 1. What problem does it solve?
+	 1. What are the benefits of the new loader?
+	 1. Which dependencies will be required?
+1. Once the issue is approved, make changes to the codebase
+1. Open a pull request
+1. Once the pull request is approved, the new loader will be merged
+1. Realease!
 
 #### Add the directory
 
