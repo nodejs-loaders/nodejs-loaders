@@ -1,17 +1,21 @@
 {
   "name": "@nodejs-loaders/svelte",
-  "description": "Extend Node to support svelte via customization hooks",
+  "description": "Extend node to support svelte via customization hooks.",
   "version": "1.0.0",
   "type": "module",
   "author": "Augustin Mauroy",
-  "maintainers": ["Jacob Smith"],
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
   "license": "ISC",
   "main": "./svelte.mjs",
   "types": "./svelte.d.mts",
   "keywords": [
-    "customisation hooks",
+    "customization hooks",
     "loader",
     "node",
+    "node.js",
     "svelte"
   ],
   "engines": {

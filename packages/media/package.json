@@ -1,16 +1,19 @@
 {
   "version": "1.0.1",
   "name": "@nodejs-loaders/media",
-  "description": "Extend node to support media imports via customisation hooks.",
+  "description": "Extend node to support media imports via customization hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": ["Augustin Mauroy"],
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
   "license": "ISC",
   "main": "./media.mjs",
   "types": "./media.d.mts",
   "keywords": [
     "audio",
-    "customisation hook",
+    "customization hooks",
     "images",
     "video",
     "loader",
