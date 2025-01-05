@@ -15,7 +15,7 @@
 -->
 
 <!--
-	See CONTRIBUTING.md for tips opening a PR, like checking for lint.
+	See https://github.com/nodejs-loaders/nodejs-loaders/blob/main/CONTRIBUTING.md for tips opening a PR, like checking for lint.
 -->
 
 The following have been added/updated as appropriate:
