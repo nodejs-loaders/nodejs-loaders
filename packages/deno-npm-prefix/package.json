@@ -1,7 +1,7 @@
 {
   "name": "@nodejs-loaders/deno-npm-prefix",
   "description": "Extend node to support a 'npm:' prefix via customization hooks.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "author": "Augustin Mauroy",
   "maintainers": [
