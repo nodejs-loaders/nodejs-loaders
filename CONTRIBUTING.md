@@ -159,7 +159,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 describe('Your Loader (e2e)', () => {
 	const opts = {
 		cwd: fileURLToPath(import.meta.resolve('./fixtures')),
-		encoding = 'utf-8',
+		encoding: 'utf-8',
 	};
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
