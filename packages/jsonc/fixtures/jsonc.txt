@@ -1,0 +1,13 @@
+{
+	// a super comment
+	"foo": "bar",
+	/*
+	another super comment
+	*/
+	/* and another one */
+	"baz": "qux",
+	"quux": [
+		"corge",
+		"grault"
+	]
+}

@@ -19,6 +19,7 @@ node
   --loader=@nodejs-loaders/mismatched-format \
 # sequence here is NOT important:
   --loader=@nodejs-loaders/css-module \
+  --loader=@nodejs-loaders/deno-npm-prefix \
   --loader=@nodejs-loaders/media \
   --loader=@nodejs-loaders/text \
   --loader=@nodejs-loaders/yaml \
@@ -27,6 +28,8 @@ node
 
 * [Alias loader](./packages/alias/)
 * [CSS Modules loader](./packages/css-module/)
+* [deno `npm:` prefix](./packages/deno-npm-prefix/)
+* [JSONC loader](./packages/jsonc/)
 * [JSX / TSX loader](./packages/tsx/)
 * [Media loader](./packages/media/)
 * [Mismatched format loader](./packages/mismatched-format/)

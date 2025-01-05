@@ -1,19 +1,21 @@
 {
   "version": "1.0.1",
-  "name": "@nodejs-loaders/css-module",
-  "description": "Extend node to support css modules via customization hooks.",
+  "name": "@nodejs-loaders/jsonc",
+  "description": "Extend node to support JSONC via customization hooks.",
   "type": "module",
-  "author": "Jacob Smith",
+  "author": "Augustin Mauroy",
   "maintainers": [
     "Augustin Mauroy",
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./css-module.mjs",
-  "types": "./css-module.d.mts",
+  "main": "./jsonc.mjs",
+  "types": "./jsonc.d.mts",
   "keywords": [
     "customization hooks",
-    "css modules",
+    "json",
+    "json with comments",
+    "jsonc",
     "loader",
     "node",
     "node.js"
@@ -22,14 +24,12 @@
     "node": ">=22 || ^20.6.0 || ^18.19.0"
   },
   "dependencies": {
-    "@nodejs-loaders/parse-filename": "1.0.0"
-  },
-  "peerDependencies": {
-    "postcss": "~8.4.38"
+    "@nodejs-loaders/parse-filename": "^1.0.0",
+    "strip-json-comments": "^5.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",
-    "directory": "packages/css-module"
+    "directory": "packages/jsonc"
   }
 }

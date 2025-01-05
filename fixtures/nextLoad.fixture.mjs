@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 export const nextLoad = async (
@@ -9,6 +9,6 @@ export const nextLoad = async (
 
 	return {
 		format,
-		source: await fs.readFile(fsPath, 'utf-8'),
+		source: await readFile(fsPath, 'utf-8'),
 	};
 };
