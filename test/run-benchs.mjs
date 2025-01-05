@@ -3,24 +3,35 @@
  * @link https://github.com/RafaelGSS/bench-node
  */
 import { spawnSync } from 'node:child_process';
-import { styleText } from 'node:util';
+import { styleText, parseArgs } from 'node:util';
 import { globSync } from 'node:fs';
 
-// hacky way to use work around npm workspaces
-const args = process.argv.slice(2);
-const w =
-	args
-		.find((arg) => arg.startsWith('--w='))
-		?.replace('--w=', '')
-		.trim()
-		.replace('package/', '') ?? '';
+/**
+ * @type {import('node:util').ParseArgsConfig}
+ */
+const options = {
+	workspace: {
+		type: 'string',
+		default: '',
+	},
+	w: {
+		type: 'string',
+		default: '',
+	},
+};
 
-if (!w.endsWith('/') && w.length > 0) w.concat('/');
+const { values } = parseArgs({ args: process.argv.slice(2), options });
+let w = values.workspace || values.w;
+
+if (w) {
+	w = `${w}/`;
+	w = w.replace('packages/', '');
+}
 
 const files = globSync(`packages/${w}**/**.bench.{js,mjs}`);
 
 if (files.length === 0) {
-	new Error(`${styleText(['red'], '✕')} No benchmarks found`);
+	throw new Error(`${styleText(['red'], '✕')} No benchmarks found`);
 }
 
 console.log(`${styleText(['green'], '✓')} Found ${files.length} benchmarks`);
