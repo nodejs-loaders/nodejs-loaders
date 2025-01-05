@@ -2,9 +2,7 @@
   "version": "2.0.0",
   "name": "nodejs-loaders",
   "author": "Jacob Smith",
-  "maintainers": [
-    "Augustin Mauroy"
-  ],
+  "maintainers": ["Augustin Mauroy"],
   "license": "ISC",
   "keywords": [
     "customisation hooks",
@@ -28,9 +26,7 @@
     "type": "git",
     "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git"
   },
-  "workspaces": [
-    "./packages/*"
-  ],
+  "workspaces": ["./packages/*"],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.10.5",
