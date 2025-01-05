@@ -1,21 +1,17 @@
 {
   "version": "1.0.1",
   "name": "@nodejs-loaders/tsx",
-  "description": "Extend node to support JSX & TSX via customization hooks.",
+  "description": "Extend node to support JSX & TSX via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": [
-    "Augustin Mauroy",
-    "Jacob Smith"
-  ],
+  "maintainers": ["Augustin Mauroy"],
   "license": "ISC",
   "main": "./tsx.mjs",
   "types": "./tsx.d.mts",
   "keywords": [
-    "customization hooks",
+    "customisation hook",
     "jsx",
     "loader",
-    "node",
     "node.js",
     "tsx",
     "typescript"

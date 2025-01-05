@@ -1,18 +1,15 @@
 {
   "version": "1.0.1",
   "name": "@nodejs-loaders/mismatched-format",
-  "description": "Extend node to support misconfigured module formats via customization hooks.",
+  "description": "Correct misconfigured module formats via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": [
-    "Augustin Mauroy",
-    "Jacob Smith"
-  ],
+  "maintainers": ["Augustin Mauroy"],
   "license": "ISC",
   "main": "./mismatched-format.mjs",
   "types": "./mismatched-format.d.mts",
   "keywords": [
-    "customization hooks",
+    "customisation hook",
     "loader",
     "misconfiguration",
     "node",

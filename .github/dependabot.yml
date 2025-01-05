@@ -1,17 +1,12 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    commit-message:
-        prefix: dep
-        include: scope
     directory: /
+    schedule:
+      interval: monthly
     open-pull-requests-limit: 10
-    schedule:
-      interval: monthly
   - package-ecosystem: github-actions
-    commit-message:
-        prefix: setup
-        include: scope
     directory: /
     schedule:
       interval: monthly
+      

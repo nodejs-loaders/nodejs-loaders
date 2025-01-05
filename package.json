@@ -16,7 +16,6 @@
     "biome:lint:fix": "biome lint --fix ./",
     "biome:lint": "biome lint ./",
     "biome:ci": "biome ci ./",
-    "pjson:check": "node --no-warnings --test ./test/pjson.test.mjs",
     "pre-commit": "node --run biome:lint:fix; node --run biome:format:fix",
     "test": "node --no-warnings --import='./test/snapshots.mjs' --experimental-test-snapshots --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=./coverage.lcov --test-reporter=spec --test-reporter-destination=stdout --experimental-test-module-mocks --test --test-coverage-include='packages/**/*.mjs' --test-coverage-exclude='**/*.spec.mjs' --test-coverage-exclude='**/*.test.mjs' './packages/*/*.spec.mjs' './packages/*/*.test.mjs'",
     "types:check": "tsc --noEmit",

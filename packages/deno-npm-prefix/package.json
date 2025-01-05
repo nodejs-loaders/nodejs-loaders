@@ -1,20 +1,16 @@
 {
   "name": "@nodejs-loaders/deno-npm-prefix",
-  "description": "Extend node to support a 'npm:' prefix via customization hooks.",
+  "description": "Support 'npm:' prefix on node via customization hooks",
   "version": "1.0.0",
   "type": "module",
   "author": "Augustin Mauroy",
-  "maintainers": [
-    "Augustin Mauroy",
-    "Jacob Smith"
-  ],
+  "maintainers": ["Jacob Smith"],
   "license": "ISC",
   "main": "./deno-npm-prefix.mjs",
   "types": "./deno-npm-prefix.d.mts",
   "keywords": [
-    "customization hooks",
+    "customisation hook",
     "loader",
-    "node",
     "node.js",
     "npm"
   ],

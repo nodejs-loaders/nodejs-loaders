@@ -1,18 +1,15 @@
 {
   "version": "1.0.1",
   "name": "@nodejs-loaders/text",
-  "description": "Extend node to support plain-text files via customization hooks.",
+  "description": "Extend node to support plain-text files via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": [
-    "Augustin Mauroy",
-    "Jacob Smith"
-  ],
+  "maintainers": ["Augustin Mauroy"],
   "license": "ISC",
   "main": "./text.mjs",
   "types": "./text.d.mts",
   "keywords": [
-    "customization hooks",
+    "customisation hook",
     "loader",
     "node",
     "node.js",

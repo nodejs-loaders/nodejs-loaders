@@ -1,20 +1,17 @@
 {
   "version": "1.1.1",
   "name": "@nodejs-loaders/alias",
-  "description": "Extend node to support TypeScript 'paths' via customization hooks.",
+  "description": "Extend node to support TypeScript 'paths' via customisation hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": [
-    "Augustin Mauroy",
-    "Jacob Smith"
-  ],
+  "maintainers": ["Augustin Mauroy"],
   "license": "ISC",
   "main": "./alias.mjs",
   "types": "./alias.d.mts",
   "keywords": [
     "aliases",
     "aliasing",
-    "customization hooks",
+    "customisation hook",
     "loader",
     "node",
     "node.js",
