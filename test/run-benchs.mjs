@@ -37,6 +37,7 @@ if (files.length === 0) {
 console.log(`${styleText(['green'], '✓')} Found ${files.length} benchmarks`);
 
 for (const file of files) {
+	console.log(`${styleText(['blue'], 'ℹ')} Running ${file}`);
 	const proc = spawnSync('node', ['--allow-natives-syntax', file], {
 		stdio: 'inherit',
 	});
