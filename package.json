@@ -11,6 +11,7 @@
     "plugin"
   ],
   "scripts": {
+    "bench": "node --no-warnings ./test/run-benchs.mjs",
     "biome:format:fix": "biome format --fix ./",
     "biome:format": "biome format ./",
     "biome:lint:fix": "biome lint --fix ./",
