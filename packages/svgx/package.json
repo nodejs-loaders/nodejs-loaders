@@ -1,16 +1,20 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "@nodejs-loaders/svgx",
-  "description": "SVG loader for Node.js",
+  "description": "Extend node to support SVG as JSX via customization hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": ["Augustin Mauroy"],
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
   "license": "ISC",
   "main": "./svgx.mjs",
   "types": "./svgx.d.mts",
   "keywords": [
-    "customisation hook",
+    "customization hooks",
     "loader",
+    "node",
     "node.js",
     "svg as jsx"
   ],

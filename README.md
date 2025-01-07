@@ -1,39 +1,73 @@
 # Nodejs Loaders
 
-<img src="https://raw.githubusercontent.com/JakobJingleheimer/nodejs-loaders/refs/heads/main/logo.svg" height="100" width="100" alt="@node.js loaders logo" />
+<img src="https://raw.githubusercontent.com/nodejs-loaders/nodejs-loaders/refs/heads/main/logo.svg" height="100" width="100" alt="@node.js loaders logo" />
 
-![coverage](https://img.shields.io/coverallsCoverage/github/JakobJingleheimer/nodejs-loaders)
-![tests](https://github.com/JakobJingleheimer/nodejs-loaders/actions/workflows/ci.yml/badge.svg)
+![coverage](https://img.shields.io/coverallsCoverage/github/nodejs-loaders/nodejs-loaders)
+![tests](https://github.com/nodejs-loaders/nodejs-loaders/actions/workflows/ci.yml/badge.svg)
 
-This package provides a variety of loaders to facilitate a quick and easy CI testing environment.
+This package provides a variety of loaders to facilitate quick and easy local development and CI testing.
 
 > [!WARNING]
 > These should NOT be used in production; they will likely not do what you need there anyway.
 
+## Usage
+
+The following JustWorks¹:
+
 ```console
-node
-# sequence here IS important:
-  --loader=@nodejs-loaders/alias \
-  --loader=@nodejs-loaders/tsx \
-  --loader=@nodejs-loaders/svgx \
-  --loader=@nodejs-loaders/mismatched-format \
-# sequence here is NOT important:
-  --loader=@nodejs-loaders/css-module \
-  --loader=@nodejs-loaders/media \
-  --loader=@nodejs-loaders/text \
-  --loader=@nodejs-loaders/yaml \
-  ./main.js
+$ node --import ./register.mts ./main.tsx
 ```
 
-* [Alias loader](./packages/alias/)
-* [CSS Modules loader](./packages/css-module/)
-* [JSONC loader](./packages/jsonc/)
-* [JSX / TSX loader](./packages/tsx/)
-* [Media loader](./packages/media/)
-* [Mismatched format loader](./packages/mismatched-format/)
-* [SVGX loader](./packages/svgx/)
-* [Text loader](./packages/text/)
-* [YAML loader](./packages/yaml/)
+```ts
+import { register } from 'node:module';
+
+register('@nodejs-loaders/tsx', import.meta.url);
+register('@nodejs-loaders/css-module', import.meta.url);
+register('@nodejs-loaders/media', import.meta.url);
+```
+
+```tsx
+import { ProfileAvatar } from './ProfileAvatar.tsx';
+import * as classes from './ProfileAvatar.module.css';
+import defaultProfileAvatar from './default.png';
+
+console.log(
+  <ProfileAvatar
+    className={classes.AdminUser}
+    src={defaultProfileAvatar}
+  />
+);
+```
+
+¹ Prior to node 23.6.0, a flag is needed to support TypeScript in `register.mts` (otherwise, it can be `register.mjs` instead).
+
+## Available loaders
+
+* [Alias](./packages/alias/)
+* [CSS Modules](./packages/css-module/)
+* [deno 'npm:' prefix](./packages/deno-npm-prefix/)
+* [JSONC](./packages/jsonc/)
+* [JSX / TSX](./packages/tsx/)
+* [Media](./packages/media/)
+* [Mismatched format](./packages/mismatched-format/)
+* [SVGX](./packages/svgx/)
+* [Text](./packages/text/)
+* [YAML](./packages/yaml/)
+
+Some loaders must be registered in a specific sequence:
+
+1. alias
+2. tsx
+3. svgx
+4. mismatched-format
+
+These don't need a specific registration sequence:
+
+* css-module
+* deno-npm-prefix
+* media
+* text
+* yaml
 
 ## Project-official loaders
 

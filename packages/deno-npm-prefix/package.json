@@ -1,6 +1,6 @@
 {
-  "name": "@nodejs-loaders/yaml",
-  "description": "Extend node to support YAML via customization hooks.",
+  "name": "@nodejs-loaders/deno-npm-prefix",
+  "description": "Extend node to support a 'npm:' prefix via customization hooks.",
   "version": "1.0.1",
   "type": "module",
   "author": "Augustin Mauroy",
@@ -9,25 +9,21 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./yaml.mjs",
-  "types": "./yaml.d.mts",
+  "main": "./deno-npm-prefix.mjs",
+  "types": "./deno-npm-prefix.d.mts",
   "keywords": [
     "customization hooks",
     "loader",
     "node",
     "node.js",
-    "yaml"
+    "npm"
   ],
   "engines": {
-    "node": ">=22 || ^20.6.0 || ^18.19.0"
-  },
-  "dependencies": {
-    "@nodejs-loaders/parse-filename": "1.0.0",
-    "yaml": "^2.7.0"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",
-    "directory": "packages/yaml"
+    "directory": "packages/deno-npm-prefixyaml"
   }
 }

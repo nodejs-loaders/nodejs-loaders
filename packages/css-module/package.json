@@ -1,17 +1,21 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "@nodejs-loaders/css-module",
-  "description": "A Node.js loader for css files",
+  "description": "Extend node to support css modules via customization hooks.",
   "type": "module",
   "author": "Jacob Smith",
-  "maintainers": ["Augustin Mauroy"],
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
   "license": "ISC",
   "main": "./css-module.mjs",
   "types": "./css-module.d.mts",
   "keywords": [
-    "customisation hook",
+    "customization hooks",
     "css modules",
     "loader",
+    "node",
     "node.js"
   ],
   "engines": {
