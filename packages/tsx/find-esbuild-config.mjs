@@ -20,11 +20,10 @@ export const configs = new Map();
  * @param {FileURL} target
  * @param {FileURL} parentURL
  */
-export function findEsbuildConfig(target, parentURL) {
+export function findEsbuildConfig(target, parentURL = target) {
 	if (configs.has(target)) return configs.get(target);
 
-	// Should this be findPackageJSON(target, parentURL) ?
-	const esBuildConfigLocus = findPackageJSON(target, target)?.replace(
+	const esBuildConfigLocus = findPackageJSON(target, parentURL)?.replace(
 		PJSON_FNAME,
 		CONFIG_FNAME,
 	);
@@ -36,7 +35,7 @@ export function findEsbuildConfig(target, parentURL) {
 		try {
 			esbuildConfig = req(esBuildConfigLocus)?.default;
 		} catch (err) {
-			if (err.code !== 'ENOENT') throw err;
+			if (err.code !== 'ENOENT' && err.code !== 'MODULE_NOT_FOUND') throw err;
 		}
 	}
 

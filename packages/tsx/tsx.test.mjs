@@ -13,7 +13,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 	 * transpilation failed (kind of hypothetical)
 	 */
 	it('should load a TSX file but fail because of missing react package', async () => {
-		const cwd = path.join(import.meta.dirname, 'fixtures');
+		const cwd = path.join(import.meta.dirname, 'fixtures/with-config');
 		const { stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
