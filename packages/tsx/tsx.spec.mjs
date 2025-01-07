@@ -5,7 +5,9 @@ import { assertSuffixedSpecifiers } from '../../fixtures/assert-suffixed-specifi
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
-describe('JSX & TypeScript loader', { concurrency: true }, () => {
+const skip = +process.version.slice(1, 3) < 23;
+
+describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 	let jsxExts;
 	let tsxExts;
 	let load;
