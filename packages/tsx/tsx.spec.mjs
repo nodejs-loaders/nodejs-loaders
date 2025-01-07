@@ -17,7 +17,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 		// This is necessary because now `load` depends on `resolve` having run.
 		const esbuildConfig = {
 			...(await import('./find-esbuild-config.mjs')).defaults,
-			...(await import('./fixtures/esbuild.config.mjs')).default,
+			...(await import('./fixtures/with-config/esbuild.config.mjs')).default,
 		};
 		mock.module('./find-esbuild-config.mjs', {
 			namedExports: { findEsbuildConfig: () => esbuildConfig },
@@ -106,7 +106,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 		].join('\n');
 
 		it('should transpile JSX', async () => {
-			const fileUrl = import.meta.resolve('./fixtures/main.jsx');
+			const fileUrl = import.meta.resolve('./fixtures/with-config/main.jsx');
 			const result = await load(fileUrl, { format: 'jsx' }, nextLoad);
 
 			assert.equal(result.format, 'module');
@@ -114,7 +114,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 		});
 
 		it('should transpile TSX', async () => {
-			const fileUrl = import.meta.resolve('./fixtures/main.tsx');
+			const fileUrl = import.meta.resolve('./fixtures/with-config/main.tsx');
 			const result = await load(fileUrl, { format: 'tsx' }, nextLoad);
 
 			assert.equal(result.format, 'module');
