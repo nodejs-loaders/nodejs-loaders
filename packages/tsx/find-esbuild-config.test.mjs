@@ -8,7 +8,9 @@ describe('finding an ESbuild config (e2e)', { skip }, () => {
 	let findEsbuildConfig;
 
 	before(async () => {
-		({ defaults, findEsbuildConfig } = await import('./find-esbuild-config.mjs'));
+		({ defaults, findEsbuildConfig } = await import(
+			'./find-esbuild-config.mjs'
+		));
 	});
 
 	it('should fail gracefully when no esbuild config is found', () => {
