@@ -1,43 +1,60 @@
-//@ts-nocheck - until https://github.com/nodejs-loaders/nodejs-loaders/pull/54 is merged
 import { createRequire, findPackageJSON } from 'node:module';
-import process from 'node:process';
+import { emitWarning } from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-// This config must contain options that are compatible with esbuild's `transform` API.
-let esbuildConfig;
+/** @typedef {import('esbuild').TransformOptions} ESBuildOptions */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
- * @param {URL['href']} parentURL
+ * This config must contain options that are compatible with esbuild's `transform` API.
+ * @private Exported for testing
+ * @type {Map<FileURL, ESBuildOptions>}
  */
-export function findEsbuildConfig(parentURL) {
-	if (esbuildConfig != null) return esbuildConfig;
+export const configs = new Map();
 
-	const esBuildConfigLocus = findPackageJSON(parentURL)?.replace(
-		'package.json',
-		'esbuild.config.mjs',
+/**
+ * @param {FileURL} target
+ * @param {FileURL} parentURL
+ */
+export function findEsbuildConfig(target, parentURL) {
+	if (configs.has(target)) return configs.get(target);
+
+	// Should this be findPackageJSON(target, parentURL) ?
+	const esBuildConfigLocus = findPackageJSON(target, target)?.replace(
+		PJSON_FNAME,
+		CONFIG_FNAME,
 	);
-	const req = createRequire(fileURLToPath(parentURL));
 
-	try {
-		esbuildConfig = req(esBuildConfigLocus)?.default;
-	} catch (err) {
-		if (err.code !== 'ENOENT') throw err;
+	/** @type {ESBuildOptions} */
+	let esbuildConfig;
+	if (esBuildConfigLocus != null) {
+		const req = createRequire(fileURLToPath(parentURL));
+		try {
+			esbuildConfig = req(esBuildConfigLocus)?.default;
+		} catch (err) {
+			if (err.code !== 'ENOENT') throw err;
+		}
+	}
 
-		process.emitWarning(
-			'No esbuild config found in project root. Using default config.',
+	if (esbuildConfig == null) {
+		emitWarning(
+			`No esbuild config found for "${target}" relative to "${parentURL}"; using defaults.`,
 		);
 	}
 
-	esbuildConfig = Object.assign(
-		{
-			jsx: 'automatic',
-			jsxDev: true,
-			jsxFactory: 'React.createElement',
-			loader: 'tsx',
-			minify: true,
-		},
-		esbuildConfig,
-	);
+	esbuildConfig = Object.assign({}, defaults, esbuildConfig);
+	configs.set(target, esbuildConfig);
 
 	return esbuildConfig;
 }
+
+const PJSON_FNAME = 'package.json';
+const CONFIG_FNAME = 'esbuild.config.mjs';
+
+export const defaults = {
+	jsx: 'automatic',
+	jsxDev: true,
+	jsxFactory: 'React.createElement',
+	loader: 'tsx',
+	minify: true,
+};
