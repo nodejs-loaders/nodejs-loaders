@@ -8,11 +8,15 @@ import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import { findEsbuildConfig } from './find-esbuild-config.mjs';
 
 /**
+ * @typedef {import('./find-esbuild-config.mjs').FileURL} FileURL
+ */
+
+/**
  * The load hook needs to know the parent URL to find the esbuild config.
  * But load hooks don't have access to the parent URL.
  * If you try to pass it as return value from the resolve hook, it will be overwritten by node.
  *
- * @type {Map<URL['href'], URL['href']>}
+ * @type {Map<FileURL, FileURL>}
  */
 export const parentURLs = new Map();
 
@@ -26,8 +30,10 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const ext = getFilenameExt(nextResult.url);
 
 	parentURLs.set(
-		nextResult.url,
-		ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href,
+		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
+		/** @type {FileURL} */ (nextResult.url),
+		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
+		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
 	if (jsxExts.has(ext)) {
@@ -52,6 +58,7 @@ export { resolveTSX as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
+ * @argument {FileURL} url
  */
 async function loadTSX(url, ctx, nextLoad) {
 	if (!formats.has(ctx.format)) return nextLoad(url); // not (j|t)sx
