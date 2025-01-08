@@ -10,7 +10,7 @@ const suite = new Suite({
 const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
 const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
-suite.add('--loader', { repeatSuite: 2 }, () => {
+suite.add('--loader', { repeatSuite: 20 }, () => {
 	spawnSync(
 		execPath,
 		[
@@ -29,7 +29,7 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 	);
 });
 
-suite.add('--import (register)', { repeatSuite: 2 }, () => {
+suite.add('--import (register)', { repeatSuite: 20 }, () => {
 	spawnSync(
 		execPath,
 		[

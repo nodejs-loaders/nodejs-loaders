@@ -44,7 +44,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 				const result = await resolve(fileUrl, {}, nextResolve);
 
 				assert.deepEqual(result, {
-					format: 'jsx',
+					format: '(j|t)sx',
 					url: fileUrl,
 				});
 			}
@@ -56,7 +56,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 				const result = await resolve(fileUrl, {}, nextResolve);
 
 				assert.deepEqual(result, {
-					format: 'tsx',
+					format: '(j|t)sx',
 					url: fileUrl,
 				});
 			}
@@ -64,9 +64,9 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should handle specifiers with appending data', async () => {
 			for (const ext of jsxExts)
-				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'jsx');
+				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, '(j|t)sx');
 			for (const ext of tsxExts)
-				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'tsx');
+				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, '(j|t)sx');
 		});
 	});
 
@@ -109,7 +109,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should transpile JSX', async () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.jsx');
-			const result = await load(fileUrl, { format: 'jsx' }, nextLoad);
+			const result = await load(fileUrl, { format: '(j|t)sx' }, nextLoad);
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled);
@@ -117,7 +117,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should transpile TSX', async () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.tsx');
-			const result = await load(fileUrl, { format: 'tsx' }, nextLoad);
+			const result = await load(fileUrl, { format: '(j|t)sx' }, nextLoad);
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled);
@@ -133,7 +133,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			await load(
 				'whatever.tsx',
 				{
-					format: 'tsx',
+					format: '(j|t)sx',
 					parentURL: import.meta.url,
 				},
 				async () => ({ source: badJSX }),

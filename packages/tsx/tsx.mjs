@@ -36,19 +36,11 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
-	if (ext === '.jsx') {
+	if (ext === '.jsx' || ext === '.tsx' || ext === '.mts' || ext === '.ts') {
 		return {
 			...nextResult,
 			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
-			format: 'jsx',
-		};
-	}
-
-	if (ext === '.tsx' || ext === '.mts' || ext === '.ts') {
-		return {
-			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
-			format: 'tsx',
+			format: '(j|t)sx',
 		};
 	}
 
@@ -62,7 +54,7 @@ export { resolveTSX as resolve };
  */
 async function loadTSX(url, ctx, nextLoad) {
 	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
-	if (ctx.format !== 'jsx' || ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
+	if (ctx.format !== '(j|t)sx') return nextLoad(url); // not (j|t)sx
 
 	const format = 'module';
 	const esbuildConfig = findEsbuildConfig(url, parentURLs.get(url));
