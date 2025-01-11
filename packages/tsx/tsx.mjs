@@ -44,7 +44,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 		};
 	}
 
-	if (ext === '.jsx' || ext === '.tsx' || ext === '.mts' || ext === '.ts') {
+	if (ext === '.mts' || ext === '.ts' || ext === '.tsx') {
 		return {
 			...nextResult,
 			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
