@@ -64,7 +64,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should handle specifiers with appending data', async () => {
 			for (const ext of jsxExts)
-				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, '(jsx');
+				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'jsx');
 			for (const ext of tsxExts)
 				await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'tsx');
 		});
