@@ -38,3 +38,7 @@ Images:
 * `.png`
 * `.webp`
 </details>
+
+## Alternatives
+
+* [`esm-loader-images`](https://github.com/brev/esm-loaders/tree/main/packages/esm-loader-images#readme) - This alternative loader just supports images.
