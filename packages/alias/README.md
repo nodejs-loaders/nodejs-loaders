@@ -27,7 +27,3 @@ This is commonly used to reference the project root; common prefixes are `@/` (o
 ## A pointer
 
 This is a static specifier similar to a bare module specifier: `foo` → `${project_root}/src/app/foo.mts`. This may be useful when you have a commonly referenced file like config (which may conditionally not even live on the same filesystem): `import CONF from 'conf';` → `${project_root}/config.json`.
-
-## Alternatives
-
-* [`esm-loader-import-alias`](https://www.npmjs.com/package/esm-loader-import-alias)
