@@ -11,7 +11,7 @@ const jsxExts = new Set(['.jsx']);
 
 const tsxExts = new Set(['.mts', '.ts', '.tsx']);
 
-describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
+describe('JSX & TypeScript loader with esbuild', { skip }, () => {
 	let load;
 	let resolve;
 
@@ -25,7 +25,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			namedExports: { findEsbuildConfig: () => esbuildConfig },
 		});
 
-		({ load, resolve } = await import('./tsx.mjs'));
+		({ load, resolve } = await import('./esbuild.mjs'));
 	});
 
 	describe('resolve', () => {

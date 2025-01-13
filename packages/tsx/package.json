@@ -9,7 +9,7 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./tsx.mjs",
+  "main": "./esbuild.mjs",
   "types": "./tsx.d.mts",
   "keywords": [
     "customization hooks",
@@ -23,11 +23,17 @@
   "engines": {
     "node": "^23.6 || ^22.14"
   },
+  "exports": {
+    ".": "./esbuild.mjs",
+    "./esbuild": "./esbuild.mjs",
+    "./oxc-transform": "./oxc-transform.mjs"
+  },
   "dependencies": {
     "@nodejs-loaders/parse-filename": "1.0.0"
   },
   "peerDependencies": {
-    "esbuild": "~0.19.5"
+    "esbuild": "^0.19.5",
+    "oxc-transform": "^0.45.0"
   },
   "repository": {
     "type": "git",
