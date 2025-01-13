@@ -36,15 +36,15 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
-	if (jsxExts.has(ext)) {
+	if (ext === '.jsx') {
 		return {
 			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
+			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493,
 			format: 'jsx',
 		};
 	}
 
-	if (tsxExts.has(ext)) {
+	if (ext === '.mts' || ext === '.ts' || ext === '.tsx') {
 		return {
 			...nextResult,
 			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
@@ -61,14 +61,14 @@ export { resolveTSX as resolve };
  * @argument {FileURL} url
  */
 async function loadTSX(url, ctx, nextLoad) {
-	if (!formats.has(ctx.format)) return nextLoad(url); // not (j|t)sx
+	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
+	if (ctx.format !== 'jsx' && ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
 
 	const format = 'module';
 	const esbuildConfig = findEsbuildConfig(url, parentURLs.get(url));
 
 	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
 	const nextResult = await nextLoad(url, {
-		// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 		format,
 	});
 	let rawSource = `${nextResult.source}`; // byte array → string
@@ -104,9 +104,3 @@ async function loadTSX(url, ctx, nextLoad) {
 	};
 }
 export { loadTSX as load };
-
-export const jsxExts = new Set(['.jsx']);
-
-export const tsxExts = new Set(['.mts', '.ts', '.tsx']);
-
-const formats = new Set(['jsx', 'tsx']);

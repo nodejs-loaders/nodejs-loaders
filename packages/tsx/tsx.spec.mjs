@@ -7,9 +7,11 @@ import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
 const skip = +process.version.slice(1, 3) < 23;
 
+const jsxExts = new Set(['.jsx']);
+
+const tsxExts = new Set(['.mts', '.ts', '.tsx']);
+
 describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
-	let jsxExts;
-	let tsxExts;
 	let load;
 	let resolve;
 
@@ -23,7 +25,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			namedExports: { findEsbuildConfig: () => esbuildConfig },
 		});
 
-		({ jsxExts, tsxExts, load, resolve } = await import('./tsx.mjs'));
+		({ load, resolve } = await import('./tsx.mjs'));
 	});
 
 	describe('resolve', () => {
@@ -129,9 +131,9 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			const consoleErr = (globalThis.console.error = mock.fn());
 
 			await load(
-				'whatever.tsx',
+				'whatever.jsx',
 				{
-					format: 'tsx',
+					format: 'jsx',
 					parentURL: import.meta.url,
 				},
 				async () => ({ source: badJSX }),
