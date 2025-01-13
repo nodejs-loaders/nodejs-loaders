@@ -19,3 +19,7 @@ This loader handles files that are effectively plain text.
 * `.md`
 * `.txt`
 </details>
+
+## Alternatives
+
+* [`esm-loader-css`](https://www.npmjs.com/package/esm-loader-css) - This alternative **only** supports CSS files.
