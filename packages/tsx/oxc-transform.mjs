@@ -1,3 +1,4 @@
+import { styleText } from 'node:util';
 import oxc from 'oxc-transform';
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
@@ -63,20 +64,20 @@ async function loadTSX(url, ctx, nextLoad) {
 		typescript: default_typescript_options,
 	});
 
-	// todo(@AugustinMauroy): polish error handling
 	if (transformed.errors.length > 0) {
 		for (const error of transformed.errors) {
-			console.error(`Error: ${error.message}`);
+			console.error(`${styleText(['bold', 'red'], 'Error')}: ${error.message}`);
 			if (error.labels && error.labels.length > 0) {
 				for (const label of error.labels) {
 					console.error(
-						`  at ${label.start}-${label.end}: ${label.message || ''}`,
+						`  at ${styleText(['yellow'], `${label.start}-${label.end}`)}: ${label.message || ''}`,
 					);
 				}
 			}
-			if (error.helpMessage) {
-				console.error(`Help: ${error.helpMessage}`);
-			}
+			if (error.helpMessage)
+				console.info(
+					`${styleText(['bold', 'cyan'], 'Help')}: ${error.helpMessage}`,
+				);
 		}
 	}
 
