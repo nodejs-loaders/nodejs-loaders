@@ -48,6 +48,8 @@ jobs:
           cache: 'npm'
       - name: npm clean install
         run: npm ci
+      - name: type check
+        run: npm run types:check
       - run: node --run test
       - name: Publish coverage to Coveralls ${{ matrix.test_number }}
         uses: coverallsapp/github-action@v2
