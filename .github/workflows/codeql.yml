@@ -52,10 +52,14 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@4e83f6b818d7c9f52143570963b2c7f7f055decb # v3.28.6
         with:
+          # https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#example-configuration
           languages: ${{ matrix.language }}
-          # If you wish to specify custom queries, you can do so here or in a config file.
-          # By default, queries listed here will override any specified in a config file.
-          # Prefix the list here with "+" to use these queries and those in the config file.
+          config: |
+            paths-ignore:
+                - '**/*.test.js'
+                - '**/*.test.mjs'
+                - '**/*.bench.js'
+                - '**/*.bench.mjs'
 
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below)
