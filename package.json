@@ -30,7 +30,7 @@
   "workspaces": ["./packages/*"],
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.10.5",
+    "@types/node": "^22.13.0",
     "bench-node": "^0.5.2"
   },
   "optionalDependencies": {
