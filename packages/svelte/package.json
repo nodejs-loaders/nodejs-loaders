@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "@nodejs-loaders/parse-filename": "^1.0.0",
-    "svelte": "^5.16.1"
+    "svelte": "^5.19.6"
   }
 }
