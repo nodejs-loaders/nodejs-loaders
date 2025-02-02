@@ -20,7 +20,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./tsx.mjs')),
+				fileURLToPath(import.meta.resolve('./tsx.register.mjs')),
 				path.join(cwd, 'main.tsx'),
 			],
 			{
@@ -38,7 +38,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			execPath,
 			[
 				'--no-warnings',
-				`--import=${path.join(cwd, 'register.mjs')}`,
+				`--import=${path.join(cwd, 'tsx.register.mjs')}`,
 				path.join(cwd, 'main.jsx'),
 			],
 			{

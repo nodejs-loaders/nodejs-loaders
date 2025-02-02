@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { before, describe, it, mock } from 'node:test';
 
 describe('Mismatched format loader (unit)', () => {
-	/** @type {import('./mismatched-format.mjs').load} */
+	/** @type {import('./mismatched-format.loader.mjs').load} */
 	let load;
 	/** @type {MockFunctionContext<NoOpFunction>} */
 	let mock__containsCJS;
@@ -12,7 +12,7 @@ describe('Mismatched format loader (unit)', () => {
 		mock__containsCJS = containsCJS.mock;
 		mock.module('./contains-cjs.mjs', { namedExports: { containsCJS } });
 
-		({ load } = await import('./mismatched-format.mjs'));
+		({ load } = await import('./mismatched-format.loader.mjs'));
 	});
 
 	describe('when "esm" is actually cjs', () => {
