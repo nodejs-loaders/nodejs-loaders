@@ -15,6 +15,24 @@ This package provides a variety of loaders to facilitate quick and easy local de
 
 The following JustWorks¹:
 
+You can register an individual nodejs-loader via `--import` like:
+
+```console
+$ node --import=@nodejs-loaders/tsx ./main.tsx
+```
+
+Or register multiple nodejs-loaders via multiple `--import`s like:
+
+```console
+$ node \
+  --import=@nodejs-loaders/tsx \
+  --import=@nodejs-loaders/css-module \
+  --import=@nodejs-loaders/media \
+  ./main.tsx
+```
+
+But that can quickly clutter the CLI. Instead, you may want to create your own `register.mts` like so:
+
 ```console
 $ node --import ./register.mts ./main.tsx
 ```
