@@ -48,7 +48,7 @@ console.log(
 * [CSS Modules](./packages/css-module/)
 * [deno 'npm:' prefix](./packages/deno-npm-prefix/)
 * [JSONC](./packages/jsonc/)
-* [JSONC](./packages/json5/)
+* [JSON5](./packages/json5/)
 * [JSX / TSX](./packages/tsx/)
 * [Media](./packages/media/)
 * [Mismatched format](./packages/mismatched-format/)
