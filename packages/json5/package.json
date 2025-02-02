@@ -1,0 +1,33 @@
+{
+  "name": "@nodejs-loaders/json5",
+  "version": "1.0.0",
+  "main": "./json5.mjs",
+  "types": "./json5.d.mts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mert Can Altin",
+  "license": "ISC",
+  "description": "Extend Node.js to support JSON5 via customization hooks.",
+  "keywords": [
+    "json5",
+    "nodejs",
+    "loader",
+    "customization",
+    "hooks",
+    "json",
+    "parser",
+    "configuration",
+    "modern",
+    "node"
+  ],
+  "dependencies": {
+    "json5": "^2.2.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",
+    "directory": "packages/json5"
+  }
+}
