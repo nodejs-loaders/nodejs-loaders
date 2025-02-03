@@ -42,3 +42,13 @@ If your project contains erroneous specifiers like above, use the [correct-ts-sp
 * [SWC register](https://github.com/swc-project/swc-node/tree/master/packages/register#swc-noderegister)
 * [ts-node](https://typestrong.org/ts-node/docs/), it's bigger because they support old node versions. It's also based on typescript.
 * [tsx](https://github.com/privatenumber/tsx), it's bigger because they inlude more features such as a cli. It's also based on esbuild.
+
+## Experimental features
+
+`@nodejs-loaders/tsx/oxc-transform` is an experimental feature that allows you to use [oxc](https://oxc.rs/docs/guide/usage/transformer.html) as a transform.
+
+<!--
+	todo(@AugustinMauroy):
+		- add better doc of multiple loaders for same behavior
+		- how experimental features will be handle in the future
+-->

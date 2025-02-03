@@ -17,6 +17,10 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 		),
 	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
+	// main is different for tsx because there are 2 loader with different transformer
+	const mainFileNameExeption = [
+		"tsx"
+	]
 
 	for (const pjson of pjsons) {
 		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
@@ -39,7 +43,8 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.ok(author);
 			assert.ok(engines.node);
 			assert.equal(license, 'ISC');
-			assert.match(main, new RegExp(`\.\/${loaderName}\.mjs`));
+			if(!mainFileNameExeption.includes(loaderName))
+				assert.match(main, new RegExp(`\.\/${loaderName}\.mjs`));
 			assert.partialDeepStrictEqual(maintainers, maintainersList);
 			assert.equal(repository.type, 'git');
 			assert.equal(repository.url, repoUrl);

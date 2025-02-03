@@ -39,7 +39,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	if (ext === '.jsx') {
 		return {
 			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493,
+			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 			format: 'jsx',
 		};
 	}

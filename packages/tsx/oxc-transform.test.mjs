@@ -8,7 +8,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
 const skip = +process.version.slice(1, 3) < 23;
 
-describe('JSX & TypeScript loader (e2e)', { skip }, () => {
+describe('JSX & TypeScript loader (e2e) whit oxc-transform', { skip }, () => {
 	/**
 	 * If react isn't found, the transpilation has happened. If there is another error, the
 	 * transpilation failed (kind of hypothetical)
@@ -20,7 +20,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./tsx.mjs')),
+				fileURLToPath(import.meta.resolve('./oxc-transform.mjs')),
 				path.join(cwd, 'main.tsx'),
 			],
 			{
@@ -38,7 +38,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			execPath,
 			[
 				'--no-warnings',
-				`--import=${path.join(cwd, 'register.mjs')}`,
+				`--import=${path.join(cwd, 'oxc-transform-register.mjs')}`,
 				path.join(cwd, 'main.jsx'),
 			],
 			{
