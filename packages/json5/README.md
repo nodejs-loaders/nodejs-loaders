@@ -24,7 +24,7 @@ const data = await import('./data.json5', { with: { type: 'json5' } });
 {
   // JSON5 file example
   key: "value",
-  number: 42
+  number: 42,
   // Comment line
 }
 ```
