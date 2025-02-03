@@ -22,7 +22,7 @@ export { resolveJSON5 as resolve };
  * @type {import('node:module').LoadHook}
  * @argument {FileURL} url
  */
-async function loadJSON5(url, options = {}, nextLoad = async () => ({})) {
+async function loadJSON5(url, ctx, nextLoad) {
 	const urlStr = String(url);
 
 	if (!urlStr.endsWith('.json5')) {
