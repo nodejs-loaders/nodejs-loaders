@@ -11,16 +11,16 @@
   "license": "ISC",
   "description": "Extend Node.js to support JSON5 via customization hooks.",
   "keywords": [
-    "json5",
-    "nodejs",
-    "loader",
+    "configuration",
     "customization",
     "hooks",
     "json",
-    "parser",
-    "configuration",
+    "json5",
+    "loader",
     "modern",
-    "node"
+    "node",
+    "nodejs",
+    "parser"
   ],
   "dependencies": {
     "json5": "^2.2.3"
