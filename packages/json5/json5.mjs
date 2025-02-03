@@ -1,9 +1,6 @@
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import JSON5 from 'json5';
 
-/** @typedef {import('esbuild').TransformOptions} ESBuildOptions */
-/** @typedef {`file://${string}`} FileURL */
-
 /**
  * @type {import('node:module').ResolveHook}
  */
