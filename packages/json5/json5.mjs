@@ -26,11 +26,6 @@ async function loadJSON5(url, ctx, nextLoad) {
 		return nextLoad(url);
 	}
 
-	if (typeof nextLoad !== 'function') {
-		throw new TypeError(
-			`Expected nextLoad to be a function, but received ${typeof nextLoad}`,
-		);
-	}
 
 	const loaded = await nextLoad(url);
 
