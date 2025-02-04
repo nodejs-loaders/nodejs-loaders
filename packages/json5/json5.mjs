@@ -20,11 +20,6 @@ export { resolveJSON5 as resolve };
  * @argument {FileURL} url
  */
 async function loadJSON5(url, ctx, nextLoad) {
-	const urlStr = String(url);
-
-	if (!urlStr.endsWith('.json5')) {
-		return nextLoad(url);
-	}
 
 
 	const loaded = await nextLoad(url);
