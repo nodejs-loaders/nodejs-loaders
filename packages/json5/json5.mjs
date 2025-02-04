@@ -11,7 +11,7 @@ async function resolveJSONC(specifier, ctx, nextResolve) {
 	/**
 	 * On Node.js v20, v22, v23 the extension **and** the `importAttributes`
 	 * are needed to import correctly json files. So we want to have same
-	 * behavior than Node.js.
+	 * behavior as Node.js.
 	 */
 	if (ext === '.json5' && ctx.importAttributes?.type === 'json5') {
 		return {
