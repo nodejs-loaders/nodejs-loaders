@@ -29,12 +29,12 @@ async function loadJSON5(url, ctx, nextLoad) {
 
 	const loaded = await nextLoad(url);
 
-	if (!loaded.source) {
-		throw new SyntaxError(`Empty JSON5 file: ${url}`);
-	}
-
 	if (options.format !== 'json5') {
 		return loaded;
+	}
+	
+		if (!loaded.source) {
+		throw new SyntaxError(`Empty JSON5 file: ${url}`);
 	}
 
 	const json = JSON5.parse(String(loaded.source));
