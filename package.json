@@ -31,7 +31,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.13.0",
-    "bench-node": "^0.5.2"
+    "bench-node": "^0.5.2",
+    "semver": "^7.7.1"
   },
   "optionalDependencies": {
     "typescript": "^5.7.2"

@@ -3,6 +3,10 @@ import { globSync } from 'node:fs';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
+/**
+ * @todo(@AugustinMauroy): refracto to include JSR.json testing
+ */
+
 test('Loader `package.json`s', { concurrency: true }, async (t) => {
 	const descriptionRgx = /Extend node to support .+ via customization hooks./;
 	const keywordsList = ['customization hooks', 'loader', 'node', 'node.js'];

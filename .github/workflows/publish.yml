@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  npm-publish:
     runs-on: ubuntu-latest
 
     permissions:
@@ -34,3 +34,4 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --provenance --workspace="packages/$pkg_name"
+  #todo(@AugustinMauroy): add a job to publish JSR
