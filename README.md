@@ -47,6 +47,7 @@ console.log(
 * [Alias](./packages/alias/)
 * [CSS Modules](./packages/css-module/)
 * [deno 'npm:' prefix](./packages/deno-npm-prefix/)
+* [JSON5](./packages/json5/)
 * [JSONC](./packages/jsonc/)
 * [JSX / TSX](./packages/tsx/)
 * [Media](./packages/media/)
