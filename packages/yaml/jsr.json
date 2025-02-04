@@ -2,5 +2,8 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "name": "@nodejs-loaders/yaml",
   "version": "1.0.1",
-  "exports": "./yaml.mjs"
+  "exports": "./yaml.js",
+  "publish": {
+    "include": ["yaml.js", "yaml.d.ts"]
+  }
 }

@@ -2,5 +2,8 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.1",
   "name": "@nodejs-loaders/svgx",
-  "exports": "./svgx.mjs"
+  "exports": "./svgx.js",
+  "publish": {
+    "include": ["svgx.js", "svgx.d.ts"]
+  }
 }

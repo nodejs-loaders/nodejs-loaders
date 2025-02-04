@@ -2,5 +2,8 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.1",
   "name": "@nodejs-loaders/jsonc",
-  "exports": "./jsonc.mjs"
+  "exports": "./jsonc.js",
+  "publish": {
+    "include": ["jsonc.js", "jsonc.d.ts"]
+  }
 }

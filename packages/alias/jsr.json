@@ -2,5 +2,8 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.1.1",
   "name": "@nodejs-loaders/alias",
-  "exports": "./alias.mjs"
+  "exports": "./alias.js",
+  "publish": {
+    "include": ["alias.js", "alias.d.ts"]
+  }
 }

@@ -2,5 +2,8 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.2",
   "name": "@nodejs-loaders/tsx",
-  "exports": "./tsx.mjs"
+  "exports": "./tsx.js",
+  "publish": {
+    "include": ["tsx.js", "tsx.d.ts", "find-esbuild-config.js", "find-esbuild-config.d.ts"]
+  }
 }

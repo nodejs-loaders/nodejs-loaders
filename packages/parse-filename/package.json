@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./parse-filename.mjs",
-  "types": "./parse-filename.d.mts",
+  "main": "./parse-filename.js",
+  "types": "./parse-filename.d.ts",
   "engines": {
     "node": ">=22 || ^20.6.0 || ^18.19.0"
   },

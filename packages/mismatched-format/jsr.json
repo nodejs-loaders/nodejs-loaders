@@ -2,5 +2,13 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.1",
   "name": "@nodejs-loaders/mismatched-format",
-  "exports": "./mismatched-format.mjs"
+  "exports": "./mismatched-format.js",
+  "publish": {
+    "include": [
+      "mismatched-format.js",
+      "mismatched-format.d.ts",
+      "contains-cjs.js",
+      "contains-cjs.d.ts"
+    ]
+  }
 }

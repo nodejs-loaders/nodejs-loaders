@@ -2,5 +2,11 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.0",
   "name": "@nodejs-loaders/parse-filename",
-  "exports": "./parse-filename.mjs"
+  "exports": "./parse-filename.js",
+  "publish": {
+    "include": [
+      "parse-filename.js",
+      "parse-filename.d.ts"
+    ]
+  }
 }

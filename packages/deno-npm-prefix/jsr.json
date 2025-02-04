@@ -2,5 +2,11 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.1",
   "name": "@nodejs-loaders/deno-npm-prefix",
-  "exports": "./deno-npm-prefix.mjs"
+  "exports": "./deno-npm-prefix.js",
+  "publish": {
+    "include": [
+      "deno-npm-prefix.js",
+      "deno-npm-prefix.d.ts"
+    ]
+  }
 }

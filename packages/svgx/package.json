@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./svgx.mjs",
-  "types": "./svgx.d.mts",
+  "main": "./svgx.js",
+  "types": "./svgx.d.ts",
   "keywords": [
     "customization hooks",
     "loader",

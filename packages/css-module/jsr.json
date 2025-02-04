@@ -2,5 +2,11 @@
   "$schema": "https://jsr.io/schema/config-file.v1.json",
   "version": "1.0.1",
   "name": "@nodejs-loaders/css-module",
-  "exports": "./css-module.mjs"
+  "exports": "./css-module.js",
+  "publish": {
+    "include": [
+      "css-module.js",
+      "css-module.d.ts"
+    ]
+  }
 }

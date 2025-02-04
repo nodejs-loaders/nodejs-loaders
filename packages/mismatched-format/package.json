@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./mismatched-format.mjs",
-  "types": "./mismatched-format.d.mts",
+  "main": "./mismatched-format.js",
+  "types": "./mismatched-format.d.ts",
   "keywords": [
     "customization hooks",
     "loader",
