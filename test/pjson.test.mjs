@@ -1,40 +1,22 @@
 import assert from 'node:assert/strict';
-import { globSync } from 'node:fs';
-import { test, it } from 'node:test';
-import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { describe, it } from 'node:test';
 
-/**
- * @todo(@AugustinMauroy): refracto to include JSR.json testing
- */
-
-test('Loader `package.json`s', { concurrency: true }, async (t) => {
+describe('Loader `package.json`s', () => {
 	const descriptionRgx = /Extend node to support .+ via customization hooks./;
 	const keywordsList = ['customization hooks', 'loader', 'node', 'node.js'];
 	const maintainersList = ['Augustin Mauroy', 'Jacob Smith'];
 	const nameRgx = /@nodejs-loaders\/[a-z\n]+/;
-	/** @type {Record<string, unknown>[]} */
-	const pjsons = await Promise.all(
-		globSync(
-			fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`),
-		).map((pjsonPath) =>
-			import(pjsonPath, { with: { type: 'json' } }).then((m) => m.default),
-		),
-	);
-	const jsrjson = await Promise.all(
-		globSync(
-			fileURLToPath(`${import.meta.resolve('../packages/')}*/jsr.json`),
-		).map((jsrjsonPath) =>
-			import(jsrjsonPath, { with: { type: 'json' } }).then((m) => m.default),
-		),
-	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
+	const workspacesOutput = execSync('npm query .workspace').toString();
+	const workspaces = JSON.parse(workspacesOutput).map((w) => w.path);
 
-	it('should have same amount of packages', () => {
-		assert.equal(jsrjson.length, pjsons.length);
-	});
+	for (const workspace of workspaces) {
+		const pjson = JSON.parse(readFileSync(`${workspace}/package.json`, 'utf8'));
+		const jsr = JSON.parse(readFileSync(`${workspace}/jsr.json`, 'utf8'));
 
-	for (const pjson of pjsons) {
-		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
+		it(`validate 'package.json' of ${pjson.name}`, () => {
 			const {
 				author,
 				description,
@@ -68,23 +50,16 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			}
 		});
 
-		for (const jsr of jsrjson) {
-			await t.test(`validate 'jsr.json' of ${jsr.name}`, async () => {
-				const { name, version } = jsr;
+		it(`validate 'jsr.json' of ${jsr.name}`, () => {
+			const { name, version } = jsr;
 
-				assert.match(name, nameRgx);
-				assert.ok(version);
-			});
-		}
+			assert.match(name, nameRgx);
+			assert.ok(version);
+		});
 
-		for (let i = 0; i < jsrjson.length; i++) {
-			t.test(
-				`validate jsr:${jsrjson[i].name} and npm:${pjsons[i].name}`,
-				() => {
-					assert.equal(jsrjson[i].name, pjsons[i].name);
-					assert.equal(jsrjson[i].version, pjsons[i].version);
-				},
-			);
-		}
+		it(`validate jsr:${jsr.name} and npm:${pjson.name}`, () => {
+			assert.equal(jsr.name, pjson.name);
+			assert.equal(jsr.version, pjson.version);
+		});
 	}
 });
