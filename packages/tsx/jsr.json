@@ -4,6 +4,11 @@
   "name": "@nodejs-loaders/tsx",
   "exports": "./tsx.js",
   "publish": {
-    "include": ["tsx.js", "tsx.d.ts", "find-esbuild-config.js", "find-esbuild-config.d.ts"]
+    "include": [
+      "tsx.js",
+      "tsx.d.ts",
+      "find-esbuild-config.js",
+      "find-esbuild-config.d.ts"
+    ]
   }
 }

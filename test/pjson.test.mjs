@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { globSync } from 'node:fs';
-import { test } from 'node:test';
+import { test, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 /**
@@ -20,7 +20,18 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			import(pjsonPath, { with: { type: 'json' } }).then((m) => m.default),
 		),
 	);
+	const jsrjson = await Promise.all(
+		globSync(
+			fileURLToPath(`${import.meta.resolve('../packages/')}*/jsr.json`),
+		).map((jsrjsonPath) =>
+			import(jsrjsonPath, { with: { type: 'json' } }).then((m) => m.default),
+		),
+	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
+
+	it('should have same amount of packages', () => {
+		assert.equal(jsrjson.length, pjsons.length);
+	});
 
 	for (const pjson of pjsons) {
 		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
@@ -56,5 +67,24 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 				assert.partialDeepStrictEqual(keywords, keywordsList);
 			}
 		});
+
+		for (const jsr of jsrjson) {
+			await t.test(`validate 'jsr.json' of ${jsr.name}`, async () => {
+				const { name, version } = jsr;
+
+				assert.match(name, nameRgx);
+				assert.ok(version);
+			});
+		}
+
+		for (let i = 0; i < jsrjson.length; i++) {
+			t.test(
+				`validate jsr:${jsrjson[i].name} and npm:${pjsons[i].name}`,
+				() => {
+					assert.equal(jsrjson[i].name, pjsons[i].name);
+					assert.equal(jsrjson[i].version, pjsons[i].version);
+				},
+			);
+		}
 	}
 });

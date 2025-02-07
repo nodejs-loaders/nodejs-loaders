@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./json5.mjs",
-  "types": "./json5.d.mts",
+  "main": "./json5.js",
+  "types": "./json5.d.ts",
   "keywords": [
     "customization hooks",
     "json",

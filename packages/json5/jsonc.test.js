@@ -9,9 +9,7 @@ const env = { NO_COLOR: true };
 
 describe('json5 (e2e)', () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
-	const e2eTest = fileURLToPath(
-		import.meta.resolve('./fixtures/e2e-json5.mjs'),
-	);
+	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e-json5.js'));
 
 	it('should work with `--loader`', (t) => {
 		const {
@@ -23,7 +21,7 @@ describe('json5 (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./json5.mjs')),
+				fileURLToPath(import.meta.resolve('./json5.js')),
 				e2eTest,
 			],
 			{
@@ -48,7 +46,7 @@ describe('json5 (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				fileURLToPath(import.meta.resolve('./fixtures/register.js')),
 				e2eTest,
 			],
 			{
