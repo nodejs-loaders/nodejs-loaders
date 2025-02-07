@@ -25,13 +25,16 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
+        - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
       - run: echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV"
+      - run: npm ci
+      - name: check integretiy between regestry and package.json
+        run: node --run pjson:check
       - name: Generate types
         run: node --run types:generate
-      - name: Publish $pkg_name $pkg_version with provenance
+      - name: Publish $pkg_name $pkg_version with provenance to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance --workspace="packages/$pkg_name"
-  #todo(@AugustinMauroy): add a job to publish JSR
+        run: npm publish --access public --provenance --workspace="packages/$pkg_name
+     - name: Publish $pkg_name $pkg_version to jsr
+       run: npx jsr publish --w="packages/$pkg_name"
