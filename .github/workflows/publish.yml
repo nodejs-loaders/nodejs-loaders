@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  npm-publish:
+  publish:
     runs-on: ubuntu-latest
 
     permissions:
@@ -32,6 +32,7 @@ jobs:
         run: node --run pjson:check
       - name: Generate types
         run: node --run types:generate
+    # try first publish to npm because it's our primary registry
       - name: Publish $pkg_name $pkg_version with provenance to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
