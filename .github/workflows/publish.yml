@@ -25,7 +25,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
-        - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
+      - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
       - run: echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV"
       - run: npm ci
       - name: check integretiy between regestry and package.json
@@ -33,7 +33,7 @@ jobs:
       - name: Generate types
         run: node --run types:generate
     # try first publish to npm because it's our primary registry
-      - name: Publish $pkg_name $pkg_version with provenance to npm
+      - name: Publish $pkg_name $pkg_version to npm with provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --provenance --workspace="packages/$pkg_name
