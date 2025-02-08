@@ -1,3 +1,4 @@
+/* @ts-self-types="./json5.d.ts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import JSON5 from 'json5';
 
