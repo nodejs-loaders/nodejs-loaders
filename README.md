@@ -61,6 +61,19 @@ console.log(
 
 ¹ Prior to node 23.6.0, a flag is needed to support TypeScript in `register.mts` (otherwise, it can be `register.mjs` instead).
 
+### Usage with `module.registerHooks`
+
+Some nodejs-loaders are compatible with the sync version of customization hooks. In order to avoid the loader automatically registering itself via the async API (which it does when imported via its `main` entrypoint), you must import it via the direct path:
+
+```js
+import module from 'node:module';
+
+import * as aliasLoader from '@nodejs-loaders/alias/alias.loader.mjs';
+ // ⚠️ Do NOT import via `main`, like '@nodejs-loaders/alias'
+
+module.registerHooks(aliasLoader);
+```
+
 ## Available loaders
 
 * [Alias](./packages/alias/)
@@ -78,17 +91,19 @@ console.log(
 Some loaders must be registered in a specific sequence:
 
 1. alias
-2. tsx
-3. svgx
-4. mismatched-format
+1. tsx
+1. svgx
+1. mismatched-format
 
 These don't need a specific registration sequence:
 
 * css-module
 * deno-npm-prefix
+* JSON5
+* JSONC
 * media
 * text
-* yaml
+* YAML
 
 ## Project-official loaders
 
