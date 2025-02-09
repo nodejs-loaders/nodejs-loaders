@@ -16,11 +16,7 @@ describe('jsonc (e2e)', () => {
 		);
 
 		it('should work with `--loader`', async (t) => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -41,11 +37,7 @@ describe('jsonc (e2e)', () => {
 		});
 
 		it('should work with `module.register`', async (t) => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -66,11 +58,7 @@ describe('jsonc (e2e)', () => {
 		});
 
 		it('should work with `--import`', async (t) => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -98,11 +86,7 @@ describe('jsonc (e2e)', () => {
 		);
 
 		it('should work with `--loader`', async (t) => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -123,11 +107,7 @@ describe('jsonc (e2e)', () => {
 		});
 
 		it('should work with `module.register`', async (t) => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -148,11 +128,7 @@ describe('jsonc (e2e)', () => {
 		});
 
 		it('should work with `--import`', async (t) => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',

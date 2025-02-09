@@ -11,11 +11,7 @@ describe('deno-npm-prefix (e2e)', () => {
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
 	it('should work with `--loader`', async () => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',
@@ -36,11 +32,7 @@ describe('deno-npm-prefix (e2e)', () => {
 	});
 
 	it('should work with `module.register`', async (t) => {
-		const {
-			code,
-			stdout,
-			stderr,
-		} = await spawnPromisified(
+		const { code, stdout, stderr } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',
@@ -62,11 +54,7 @@ describe('deno-npm-prefix (e2e)', () => {
 
 	if (process.version.startsWith('v23')) {
 		it('should work with `module.registerHooks`', async () => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -87,11 +75,7 @@ describe('deno-npm-prefix (e2e)', () => {
 	}
 
 	it('should work with `--import`', async (t) => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',

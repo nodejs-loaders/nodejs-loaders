@@ -14,11 +14,7 @@ describe('alias (e2e)', () => {
 	const msgRgx = new RegExp(message);
 
 	it('should work with `--loader`', async () => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',
@@ -38,11 +34,7 @@ describe('alias (e2e)', () => {
 	});
 
 	it('should work with `module.register`', async () => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',
@@ -63,11 +55,7 @@ describe('alias (e2e)', () => {
 
 	if (process.version.startsWith('v23')) {
 		it('should work with `module.registerHooks`', async () => {
-			const {
-				code,
-				stderr,
-				stdout,
-			} = await spawnPromisified(
+			const { code, stderr, stdout } = await spawnPromisified(
 				execPath,
 				[
 					'--no-warnings',
@@ -88,11 +76,7 @@ describe('alias (e2e)', () => {
 	}
 
 	it('should work with `--import`', async () => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',

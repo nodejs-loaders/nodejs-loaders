@@ -11,11 +11,7 @@ describe('css-module (e2e)', () => {
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
 	it('should work with `--loader`', async (t) => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',
@@ -36,11 +32,7 @@ describe('css-module (e2e)', () => {
 	});
 
 	it('should work with `module.register`', async (t) => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',
@@ -61,11 +53,7 @@ describe('css-module (e2e)', () => {
 	});
 
 	it('should work with `--import`', async (t) => {
-		const {
-			code,
-			stderr,
-			stdout,
-		} = await spawnPromisified(
+		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,
 			[
 				'--no-warnings',

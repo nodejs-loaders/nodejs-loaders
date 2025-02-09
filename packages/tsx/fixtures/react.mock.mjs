@@ -9,7 +9,7 @@ async function resolveReact(specifier, ctx, next) {
 		url: REACT_URL,
 	};
 }
-export { resolveReact as resolve }
+export { resolveReact as resolve };
 
 async function loadReact(url, ctx, next) {
 	if (url !== REACT_URL) return next(url);
@@ -20,4 +20,4 @@ async function loadReact(url, ctx, next) {
 		source: 'export function jsxDEV() {}',
 	};
 }
-export { loadReact as load }
+export { loadReact as load };
