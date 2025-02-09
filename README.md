@@ -5,6 +5,7 @@
 ![coverage](https://img.shields.io/coverallsCoverage/github/nodejs-loaders/nodejs-loaders)
 ![tests](https://github.com/nodejs-loaders/nodejs-loaders/actions/workflows/ci.yml/badge.svg)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/nodejs-loaders/nodejs-loaders/badge)](https://scorecard.dev/viewer/?uri=github.com/nodejs-loaders/nodejs-loaders)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10004/badge)](https://www.bestpractices.dev/projects/10004)
 
 This package provides a variety of loaders to facilitate quick and easy local development and CI testing.
 
@@ -65,6 +66,7 @@ console.log(
 * [Alias](./packages/alias/)
 * [CSS Modules](./packages/css-module/)
 * [deno 'npm:' prefix](./packages/deno-npm-prefix/)
+* [JSON5](./packages/json5/)
 * [JSONC](./packages/jsonc/)
 * [JSX / TSX](./packages/tsx/)
 * [Media](./packages/media/)
