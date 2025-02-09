@@ -25,9 +25,6 @@
   "engines": {
     "node": ">=22 || ^20.6.0 || ^18.19.0"
   },
-  "dependencies": {
-    "lodash.get": "^4.4.2"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",

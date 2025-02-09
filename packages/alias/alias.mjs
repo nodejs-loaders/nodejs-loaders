@@ -2,8 +2,6 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, URL } from 'node:url';
 
-import _get from 'lodash.get';
-
 const projectRoot = pathToFileURL(`${process.cwd()}/`);
 
 const aliases = await readConfigFile('tsconfig.json');
@@ -47,7 +45,7 @@ export function readConfigFile(filename) {
 			.then((contents) => contents.toString())
 			.then((contents) => JSON.parse(contents))
 			// Get the `compilerOptions.paths` object from the parsed JSON
-			.then((contents) => _get(contents, 'compilerOptions.paths'))
+			.then((contents) => contents?.compilerOptions?.paths)
 			.then(buildAliasMaps)
 			.catch((err) => {
 				if (err.code !== 'ENOENT') throw err;
