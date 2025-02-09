@@ -38,7 +38,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			execPath,
 			[
 				'--no-warnings',
-				`--import=${path.join(cwd, 'tsx.register.mjs')}`,
+				`--import=${path.join(cwd, 'register.mjs')}`,
 				path.join(cwd, 'main.jsx'),
 			],
 			{
