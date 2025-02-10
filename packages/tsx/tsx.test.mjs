@@ -20,7 +20,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./tsx.mjs')),
+				fileURLToPath(import.meta.resolve('./tsx.register.mjs')),
 				path.join(cwd, 'main.tsx'),
 			],
 			{

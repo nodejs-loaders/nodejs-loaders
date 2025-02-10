@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { resolve, load } from './yaml.mjs';
+import { resolve, load } from './yaml.loader.mjs';
 
 describe('YAML loader', { concurrency: true }, () => {
 	it('should resolve a ".yaml"', async () => {

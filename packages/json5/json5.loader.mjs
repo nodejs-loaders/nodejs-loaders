@@ -4,7 +4,7 @@ import JSON5 from 'json5';
 /**
  * @type {import('node:module').ResolveHook}
  */
-async function resolveJSONC(specifier, ctx, nextResolve) {
+async function resolveJSON5(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	const ext = getFilenameExt(nextResult.url);
 
@@ -23,12 +23,12 @@ async function resolveJSONC(specifier, ctx, nextResolve) {
 
 	return nextResult;
 }
-export { resolveJSONC as resolve };
+export { resolveJSON5 as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
  */
-async function loadJSONC(url, ctx, nextLoad) {
+async function loadJSON5(url, ctx, nextLoad) {
 	const nextResult = await nextLoad(url, ctx);
 
 	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
@@ -41,4 +41,4 @@ async function loadJSONC(url, ctx, nextLoad) {
 		source: JSON.stringify(data),
 	};
 }
-export { loadJSONC as load };
+export { loadJSON5 as load };

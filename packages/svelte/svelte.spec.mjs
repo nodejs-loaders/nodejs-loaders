@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
-import { load, resolve } from './svelte.mjs';
+import { load, resolve } from './svelte.loader.mjs';
 
 describe('svelte loader', { concurrency: true }, () => {
 	describe('resolve', () => {

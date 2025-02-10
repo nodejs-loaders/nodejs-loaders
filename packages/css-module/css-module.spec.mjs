@@ -5,7 +5,7 @@ import { assertSuffixedSpecifiers } from '../../fixtures/assert-suffixed-specifi
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
-import { resolve, load } from './css-module.mjs';
+import { resolve, load } from './css-module.loader.mjs';
 
 describe('css-module loader', { concurrency: true }, () => {
 	describe('resolve', () => {

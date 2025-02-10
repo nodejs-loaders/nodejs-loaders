@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { load } from './mismatched-format.mjs';
+import { load } from './mismatched-format.loader.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
 describe('Mismatched format loader (e2e)', () => {

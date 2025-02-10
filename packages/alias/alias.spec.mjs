@@ -43,7 +43,7 @@ describe('alias', () => {
 				throw new ENOENT(); // For any other file access, throw ENOENT
 			});
 
-			({ resolve } = await import('./alias.mjs'));
+			({ resolve } = await import('./alias.loader.mjs'));
 		});
 
 		await test('should de-alias a prefixed specifier', () => {

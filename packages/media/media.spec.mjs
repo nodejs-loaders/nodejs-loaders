@@ -5,7 +5,7 @@ import { assertSuffixedSpecifiers } from '../../fixtures/assert-suffixed-specifi
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
-import { exts, load, resolve } from './media.mjs';
+import { exts, load, resolve } from './media.loader.mjs';
 
 describe('media loader', { concurrency: true }, () => {
 	describe('resolve', () => {

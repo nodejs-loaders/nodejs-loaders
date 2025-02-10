@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./media.mjs",
-  "types": "./media.d.mts",
+  "main": "./media.register.mjs",
+  "types": "./media.register.d.mts",
   "keywords": [
     "audio",
     "customization hooks",

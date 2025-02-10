@@ -1,3 +1,3 @@
 import module from 'node:module';
 
-module.register('../css-module.mjs', import.meta.url);
+module.register('../css-module.loader.mjs', import.meta.url);

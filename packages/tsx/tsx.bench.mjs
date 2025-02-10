@@ -16,7 +16,7 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--loader',
-			fileURLToPath(import.meta.resolve('./tsx.mjs')),
+			fileURLToPath(import.meta.resolve('./tsx.loader.mjs')),
 			e2eTest,
 		],
 		{

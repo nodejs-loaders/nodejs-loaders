@@ -25,7 +25,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			namedExports: { findEsbuildConfig: () => esbuildConfig },
 		});
 
-		({ load, resolve } = await import('./tsx.mjs'));
+		({ load, resolve } = await import('./tsx.loader.mjs'));
 	});
 
 	describe('resolve', () => {

@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./css-module.mjs",
-  "types": "./css-module.d.mts",
+  "main": "./css-module.register.mjs",
+  "types": "./css-module.register.d.mts",
   "keywords": [
     "customization hooks",
     "css modules",

@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import { assertSuffixedSpecifiers } from '../../fixtures/assert-suffixed-specifiers.fixture.mjs';
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
-import { resolve, load } from './jsonc.mjs';
+import { resolve, load } from './jsonc.loader.mjs';
 
 describe('JSONC loader', { concurrency: true }, () => {
 	describe('resolve', () => {

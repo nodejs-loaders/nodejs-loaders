@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { resolve } from './deno-npm-prefix.mjs';
+import { resolve } from './deno-npm-prefix.loader.mjs';
 
 describe('deno-npm-prefix', () => {
 	describe('resolve', () => {
