@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./text.register.mjs",
-  "types": "./text.register.d.mts",
+  "main": "./text.mjs",
+  "types": "./text.d.mts",
   "keywords": [
     "customization hooks",
     "loader",

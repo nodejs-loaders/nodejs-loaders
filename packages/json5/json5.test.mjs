@@ -20,7 +20,7 @@ describe('json5 (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./json5.register.mjs')),
+				fileURLToPath(import.meta.resolve('./json5.mjs')),
 				e2eTest,
 			],
 			{
@@ -62,7 +62,7 @@ describe('json5 (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./json5.register.mjs')),
+				fileURLToPath(import.meta.resolve('./json5.mjs')),
 				e2eTest,
 			],
 			{

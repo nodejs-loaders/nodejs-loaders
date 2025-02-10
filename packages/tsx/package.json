@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./tsx.register.mjs",
-  "types": "./tsx.register.d.mts",
+  "main": "./tsx.mjs",
+  "types": "./tsx.d.mts",
   "keywords": [
     "customization hooks",
     "jsx",
