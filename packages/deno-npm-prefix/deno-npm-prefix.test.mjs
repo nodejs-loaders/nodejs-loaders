@@ -16,7 +16,7 @@ describe('deno-npm-prefix (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./deno-npm-prefix.register.mjs')),
+				fileURLToPath(import.meta.resolve('./deno-npm-prefix.mjs')),
 				e2eTest,
 			],
 			{
@@ -80,7 +80,7 @@ describe('deno-npm-prefix (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./deno-npm-prefix.register.mjs')),
+				fileURLToPath(import.meta.resolve('./deno-npm-prefix.mjs')),
 				e2eTest,
 			],
 			{

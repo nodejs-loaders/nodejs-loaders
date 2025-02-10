@@ -19,7 +19,7 @@ describe('alias (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./alias.register.mjs')),
+				fileURLToPath(import.meta.resolve('./alias.mjs')),
 				e2eTest,
 			],
 			{
@@ -81,7 +81,7 @@ describe('alias (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./alias.register.mjs')),
+				fileURLToPath(import.meta.resolve('./alias.mjs')),
 				e2eTest,
 			],
 			{

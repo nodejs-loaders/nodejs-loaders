@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./deno-npm-prefix.register.mjs",
-  "types": "./deno-npm-prefix.register.d.mts",
+  "main": "./deno-npm-prefix.mjs",
+  "types": "./deno-npm-prefix.d.mts",
   "keywords": [
     "customization hooks",
     "loader",

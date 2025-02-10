@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./yaml.register.mjs",
-  "types": "./yaml.register.d.mts",
+  "main": "./yaml.mjs",
+  "types": "./yaml.d.mts",
   "keywords": [
     "customization hooks",
     "loader",
