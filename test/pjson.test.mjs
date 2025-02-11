@@ -39,13 +39,13 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.ok(author);
 			assert.ok(engines.node);
 			assert.equal(license, 'ISC');
-			assert.equal(main, `./${loaderName}.register.mjs`);
+			assert.equal(main, `./${loaderName}.mjs`);
 			assert.partialDeepStrictEqual(maintainers, maintainersList);
 			assert.equal(repository.type, 'git');
 			assert.equal(repository.url, repoUrl);
 			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
-			assert.equal(types, `./${loaderName}.register.d.mts`);
+			assert.equal(types, `./${loaderName}.d.mts`);
 
 			if (!pjson.isNotLoader) {
 				assert.match(description, descriptionRgx);
