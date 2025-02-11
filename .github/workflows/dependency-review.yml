@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
 # Dependency Review Action
 #
 # This Action will scan dependency manifest files that change as part of a Pull Request,
