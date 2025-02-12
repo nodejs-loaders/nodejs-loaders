@@ -16,4 +16,4 @@ jobs:
     steps:
       - name: Check prefix
         run: |
-          node ./test/pull-request.mjs --title=${{ github.event.pull_request.title }}
+          node ./test/pull-request.mjs --title="${{ github.event.pull_request.title }}"
