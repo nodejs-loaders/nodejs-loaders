@@ -14,95 +14,86 @@ test('Pull Request checks', async (t) => {
 	const cases = [];
 	let i = 0;
 	for (const prefix of PREFIXES) {
-		cases[i++] = t.test(`should pass when ${prefix} is valid (1 scope)`, async () => {
-			const { code, stderr } = await spawnPromisified(
-				execPath,
-				[
-					prTestPath,
-					'--title',
-					`${prefix}(tsx): update …`,
-				],
-				{ encoding },
-			);
+		cases[i++] = t.test(
+			`should pass when ${prefix} is valid (1 scope)`,
+			async () => {
+				const { code, stderr } = await spawnPromisified(
+					execPath,
+					[prTestPath, '--title', `${prefix}(tsx): update …`],
+					{ encoding },
+				);
 
-			equal(stderr, '');
-			equal(code, 0);
-		});
+				equal(stderr, '');
+				equal(code, 0);
+			},
+		);
 
-		cases[i++] = t.test(`should pass when ${prefix} is valid (2 scopes)`, async () => {
-			const { code, stderr } = await spawnPromisified(
-				execPath,
-				[
-					prTestPath,
-					'--title',
-					`${prefix}(tsx,yml): update …`,
-				],
-				{ encoding },
-			);
+		cases[i++] = t.test(
+			`should pass when ${prefix} is valid (2 scopes)`,
+			async () => {
+				const { code, stderr } = await spawnPromisified(
+					execPath,
+					[prTestPath, '--title', `${prefix}(tsx,yml): update …`],
+					{ encoding },
+				);
 
-			equal(stderr, '');
-			equal(code, 0);
-		});
+				equal(stderr, '');
+				equal(code, 0);
+			},
+		);
 
-		cases[i++] = t.test(`should pass when ${prefix} is valid (N scopes)`, async () => {
-			const { code, stderr } = await spawnPromisified(
-				execPath,
-				[
-					prTestPath,
-					'--title',
-					`${prefix}(alias,tsx,yml): update …`,
-				],
-				{ encoding },
-			);
+		cases[i++] = t.test(
+			`should pass when ${prefix} is valid (N scopes)`,
+			async () => {
+				const { code, stderr } = await spawnPromisified(
+					execPath,
+					[prTestPath, '--title', `${prefix}(alias,tsx,yml): update …`],
+					{ encoding },
+				);
 
-			equal(stderr, '');
-			equal(code, 0);
-		});
+				equal(stderr, '');
+				equal(code, 0);
+			},
+		);
 
-		cases[i++] = t.test(`should fail when ${prefix} is missing scope`, async () => {
-			const { code, stderr } = await spawnPromisified(
-				execPath,
-				[
-					prTestPath,
-					'--title',
-					`${prefix}: update …`,
-				],
-				{ encoding },
-			);
+		cases[i++] = t.test(
+			`should fail when ${prefix} is missing scope`,
+			async () => {
+				const { code, stderr } = await spawnPromisified(
+					execPath,
+					[prTestPath, '--title', `${prefix}: update …`],
+					{ encoding },
+				);
 
-			match(stderr, /AssertionError/);
-			match(stderr, new RegExp(prefix));
-			match(stderr, /pull request title/i);
-			equal(code, 1);
-		});
+				match(stderr, /AssertionError/);
+				match(stderr, new RegExp(prefix));
+				match(stderr, /pull request title/i);
+				equal(code, 1);
+			},
+		);
 
-		cases[i++] = t.test(`should fail when ${prefix} is misformatted scope`, async () => {
-			const { code, stderr } = await spawnPromisified(
-				execPath,
-				[
-					prTestPath,
-					'--title',
-					`${prefix}(tsx) update …`,
-				],
-				{ encoding },
-			);
+		cases[i++] = t.test(
+			`should fail when ${prefix} is misformatted scope`,
+			async () => {
+				const { code, stderr } = await spawnPromisified(
+					execPath,
+					[prTestPath, '--title', `${prefix}(tsx) update …`],
+					{ encoding },
+				);
 
-			match(stderr, /AssertionError/);
-			match(stderr, new RegExp(prefix));
-			match(stderr, /pull request title/i);
-			equal(code, 1);
-		});
+				match(stderr, /AssertionError/);
+				match(stderr, new RegExp(prefix));
+				match(stderr, /pull request title/i);
+				equal(code, 1);
+			},
+		);
 	}
 
 	cases[i++] = t.test('should fail when prefix is unsupported', async () => {
 		const prefix = 'foo';
 		const { code, stderr } = await spawnPromisified(
 			execPath,
-			[
-				prTestPath,
-				'--title',
-				`${prefix}(tsx): update …`,
-			],
+			[prTestPath, '--title', `${prefix}(tsx): update …`],
 			{ encoding },
 		);
 
