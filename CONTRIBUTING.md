@@ -226,17 +226,17 @@ Changes should be atomic; do not combine multiple, discrete changes within a sin
 We use [squash merge](https://docs.github.com/en/enterprise-cloud@latest/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/about-pull-request-merges#merge-message-for-a-squash-merge) to create a single fresh commit based on PR title. The PR title should follow [Conventional Commit guidelines](https://www.conventionalcommits.org/en/v1.0.0/). Acceptable "types" are:
 
 * **doc**: purely documentation updates (semver patch)
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `doc(tsx): update …`, `doc(tsx,yml): update …`
 * **dep**: a dependency update (semver patch or major)
-  * "scope" is the dependency's name
+  * "scope" is the loader's name. ex `dep(tsx): update DEP_NAME`, `dep(tsx,yml): update DEP_NAME`
 * **fix**: correct a bug (semver patch)
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `fix(tsx): handle …`, `fix(tsx,yml): handle …`
 * **feat**: add a new feature to an existing loader or introduce a new loader (semver minor or major)
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `feat(tsx): support …`, `feat(tsx,yml): support …`
 * **setup**: adjust the repository setup, like CI workflows (no semver).
-  * "scope" is usually workflow or configuration item's name
+  * "scope" is usually workflow or configuration item's name. ex `setup(workflow): fix CI step`
 * **test**: add, delete, or update a test.
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `test(tsx): add e2e case for …`
 
 Before a pull request is merged, the following requirements should be met:
 
