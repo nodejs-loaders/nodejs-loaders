@@ -59,13 +59,12 @@ export { resolveTSX as resolve };
  * @argument {FileURL} url
  */
 async function loadTSX(url, ctx, nextLoad) {
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
+	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 	if (ctx.format !== 'jsx' && ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
 
 	const format = 'module';
 	const esbuildConfig = findEsbuildConfig(url, parentURLs.get(url));
 
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
 	const nextResult = await nextLoad(url, {
 		format,
 	});
