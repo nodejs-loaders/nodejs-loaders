@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { parseArgs } from 'node:util';
 
-import { PREFIXES, SCOPE_RGX } from './pr-prefixes.mjs';
+import { SUPPORTED_PREFIXES, SCOPE_RGX } from './pr-prefixes.mjs';
 
 const { title } = parseArgs({
 	options: {
@@ -19,6 +19,6 @@ const firstParen = title.indexOf('(');
 const prefix = title.slice(0, firstParen);
 
 assert.ok(
-	PREFIXES.includes(prefix),
-	`The pull request title prefix '${prefix}' is not in the supported list: '${PREFIXES.join("', '")}'`,
+	SUPPORTED_PREFIXES.includes(prefix),
+	`The pull request title prefix '${prefix}' is not in the supported list: '${SUPPORTED_PREFIXES.join("', '")}'`,
 );

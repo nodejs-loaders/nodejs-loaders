@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { spawnPromisified } from './spawn-promisified.mjs';
 
-import { PREFIXES } from './pr-prefixes.mjs';
+import { SUPPORTED_PREFIXES } from './pr-prefixes.mjs';
 
 test('Pull Request checks', async (t) => {
 	const encoding = 'utf-8';
@@ -13,7 +13,7 @@ test('Pull Request checks', async (t) => {
 
 	const cases = [];
 	let i = 0;
-	for (const prefix of PREFIXES) {
+	for (const prefix of SUPPORTED_PREFIXES) {
 		cases[i++] = t.test(
 			`should pass when ${prefix} is valid (1 scope)`,
 			async () => {
@@ -100,7 +100,7 @@ test('Pull Request checks', async (t) => {
 		match(stderr, /AssertionError/);
 		match(stderr, new RegExp(prefix));
 		match(stderr, /pull request title/i);
-		for (const p of PREFIXES) match(stderr, new RegExp(p));
+		for (const p of SUPPORTED_PREFIXES) match(stderr, new RegExp(p));
 		equal(code, 1);
 	});
 
