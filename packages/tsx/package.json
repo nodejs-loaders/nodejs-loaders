@@ -27,7 +27,7 @@
     "@nodejs-loaders/parse-filename": "1.0.0"
   },
   "peerDependencies": {
-    "esbuild": "~0.19.5"
+    "esbuild": ">=0.19.5 <=0.25.0"
   },
   "repository": {
     "type": "git",
