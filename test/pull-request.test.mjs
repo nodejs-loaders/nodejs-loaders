@@ -19,7 +19,7 @@ test('Pull Request checks', async (t) => {
 			async () => {
 				const { code, stderr } = await spawnPromisified(
 					execPath,
-					[prTestPath ],
+					[prTestPath],
 					{
 						encoding,
 						env: { PR_TITLE: `${prefix}(tsx): update …` },
@@ -106,14 +106,10 @@ test('Pull Request checks', async (t) => {
 
 	cases[i++] = t.test('should fail when prefix is unsupported', async () => {
 		const prefix = 'foo';
-		const { code, stderr } = await spawnPromisified(
-			execPath,
-			[prTestPath],
-			{
-				encoding,
-				env: { PR_TITLE: `${prefix}(tsx): update …` },
-			},
-		);
+		const { code, stderr } = await spawnPromisified(execPath, [prTestPath], {
+			encoding,
+			env: { PR_TITLE: `${prefix}(tsx): update …` },
+		});
 
 		match(stderr, /AssertionError/);
 		match(stderr, new RegExp(prefix));
