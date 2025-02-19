@@ -19,8 +19,11 @@ test('Pull Request checks', async (t) => {
 			async () => {
 				const { code, stderr } = await spawnPromisified(
 					execPath,
-					[prTestPath, '--title', `${prefix}(tsx): update …`],
-					{ encoding },
+					[prTestPath ],
+					{
+						encoding,
+						env: { PR_TITLE: `${prefix}(tsx): update …` },
+					},
 				);
 
 				equal(stderr, '');
@@ -33,8 +36,11 @@ test('Pull Request checks', async (t) => {
 			async () => {
 				const { code, stderr } = await spawnPromisified(
 					execPath,
-					[prTestPath, '--title', `${prefix}(tsx,yml): update …`],
-					{ encoding },
+					[prTestPath],
+					{
+						encoding,
+						env: { PR_TITLE: `${prefix}(tsx,yml): update …` },
+					},
 				);
 
 				equal(stderr, '');
@@ -47,8 +53,11 @@ test('Pull Request checks', async (t) => {
 			async () => {
 				const { code, stderr } = await spawnPromisified(
 					execPath,
-					[prTestPath, '--title', `${prefix}(alias,tsx,yml): update …`],
-					{ encoding },
+					[prTestPath],
+					{
+						encoding,
+						env: { PR_TITLE: `${prefix}(alias,tsx,yml): update …` },
+					},
 				);
 
 				equal(stderr, '');
@@ -61,8 +70,11 @@ test('Pull Request checks', async (t) => {
 			async () => {
 				const { code, stderr } = await spawnPromisified(
 					execPath,
-					[prTestPath, '--title', `${prefix}: update …`],
-					{ encoding },
+					[prTestPath],
+					{
+						encoding,
+						env: { PR_TITLE: `${prefix}: update …` },
+					},
 				);
 
 				match(stderr, /AssertionError/);
@@ -77,8 +89,11 @@ test('Pull Request checks', async (t) => {
 			async () => {
 				const { code, stderr } = await spawnPromisified(
 					execPath,
-					[prTestPath, '--title', `${prefix}(tsx) update …`],
-					{ encoding },
+					[prTestPath],
+					{
+						encoding,
+						env: { PR_TITLE: `${prefix}(tsx) update …` },
+					},
 				);
 
 				match(stderr, /AssertionError/);
@@ -93,8 +108,11 @@ test('Pull Request checks', async (t) => {
 		const prefix = 'foo';
 		const { code, stderr } = await spawnPromisified(
 			execPath,
-			[prTestPath, '--title', `${prefix}(tsx): update …`],
-			{ encoding },
+			[prTestPath],
+			{
+				encoding,
+				env: { PR_TITLE: `${prefix}(tsx): update …` },
+			},
 		);
 
 		match(stderr, /AssertionError/);
