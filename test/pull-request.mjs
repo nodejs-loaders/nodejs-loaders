@@ -1,22 +1,18 @@
 import assert from 'node:assert/strict';
-import { parseArgs } from 'node:util';
+import { env } from 'node:process';
 
 import { SUPPORTED_PREFIXES, SCOPE_RGX } from './pr-prefixes.mjs';
 
-const { title } = parseArgs({
-	options: {
-		title: { type: 'string' },
-	},
-}).values;
+const { PR_TITLE } = env;
 
 // biome-ignore format: avoid mangling
 const INVALID_PR_TITLE_ERR = '\
 The pull request title did not match the required format; see CONTRIBUTING.md for details.\
 ';
 
-assert.match(title, SCOPE_RGX, INVALID_PR_TITLE_ERR);
-const firstParen = title.indexOf('(');
-const prefix = title.slice(0, firstParen);
+assert.match(PR_TITLE, SCOPE_RGX, INVALID_PR_TITLE_ERR);
+const firstParen = PR_TITLE.indexOf('(');
+const prefix = PR_TITLE.slice(0, firstParen);
 
 assert.ok(
 	SUPPORTED_PREFIXES.includes(prefix),

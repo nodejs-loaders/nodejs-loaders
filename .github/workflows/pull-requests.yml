@@ -28,4 +28,6 @@ jobs:
             node-version-file: '.nvmrc'
 
       - name: Check prefix
-        run: node ./test/pull-request.mjs --title="${{ github.event.pull_request.title }}"
+        env:
+            PR_TITLE: ${{ github.event.pull_request.title }}
+        run: node ./test/pull-request.mjs
