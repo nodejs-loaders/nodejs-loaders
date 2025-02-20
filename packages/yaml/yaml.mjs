@@ -1,3 +1,4 @@
+/* @ts-self-types="./yaml.d.mts" */
 import { isMainThread } from 'node:worker_threads';
 import module from 'node:module';
 

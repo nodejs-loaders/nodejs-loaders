@@ -1,3 +1,4 @@
+/* @ts-self-types="./yaml.loader.d.mts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import { parse } from 'yaml';
 
@@ -10,7 +11,7 @@ async function resolveYaml(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+	const ext = getFilenameExt(/** @type {FileURL} */(nextResult.url));
 
 	if (ext === '.yaml' || ext === '.yml') {
 		return {

@@ -1,3 +1,4 @@
+/* @ts-self-types="./media.d.mts" */
 import { isMainThread } from 'node:worker_threads';
 import module from 'node:module';
 

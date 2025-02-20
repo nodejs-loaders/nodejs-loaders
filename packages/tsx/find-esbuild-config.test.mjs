@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
 import { before, describe, it } from 'node:test';
 
-const skip = +process.version.slice(1, 3) < 23;
 
-describe('finding an ESbuild config (e2e)', { skip }, () => {
+describe('finding an ESbuild config (e2e)', () => {
 	let defaults;
 	let findEsbuildConfig;
 

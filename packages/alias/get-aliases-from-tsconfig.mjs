@@ -1,3 +1,4 @@
+/* @ts-self-types="./get-aliases-from-tsconfig.d.mts" */
 import { readFileSync } from 'node:fs';
 import { findPackageJSON } from 'node:module';
 import path from 'node:path';

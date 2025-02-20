@@ -1,3 +1,4 @@
+/* @ts-self-types="./jsonc.loader.d.mts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import stripJsonComments from 'strip-json-comments';
 
@@ -8,7 +9,7 @@ import stripJsonComments from 'strip-json-comments';
  */
 async function resolveJSONC(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+	const ext = getFilenameExt(/** @type {FileURL} */(nextResult.url));
 
 	/**
 	 * On Node.js v20, v22, v23 the extension **and** the `importAttributes`

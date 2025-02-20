@@ -1,5 +1,5 @@
+/* @ts-self-types="./alias.loader.d.mts" */
 // oxlint-disable eslint/max-depth
-
 import { getAliases, meta } from './get-aliases-from-tsconfig.mjs';
 
 /** @typedef {import('type-fest').TsConfigJson} TsConfigJson */
@@ -63,8 +63,7 @@ export function resolveAliases(specifier, { aliases }, next) {
 				if (
 					!(specifier[0] === '#' && err.code === 'ERR_UNSUPPORTED_DIR_IMPORT') // [1]
 					&& err.code !== 'ERR_MODULE_NOT_FOUND'
-				)
-				{
+				) {
 					throw err;
 				}
 			}

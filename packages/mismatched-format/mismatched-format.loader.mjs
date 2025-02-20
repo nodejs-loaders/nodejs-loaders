@@ -1,3 +1,4 @@
+/* @ts-self-types="./mismatched-format.loader.d.mts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 import { containsCJS } from './contains-cjs.mjs';
