@@ -1,3 +1,4 @@
+/* @ts-self-types="./jsonc.loader.d.ts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import stripJsonComments from 'strip-json-comments';
 

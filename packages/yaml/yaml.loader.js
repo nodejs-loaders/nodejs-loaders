@@ -1,3 +1,4 @@
+/* @ts-self-types="./yaml.loader.d.ts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import { parse } from 'yaml';
 

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "version": "1.0.0",
+  "name": "@nodejs-loaders/json5",
+  "exports": "./json5.js",
+  "publish": {
+    "include": [
+      "./*.js",
+      "./*.d.ts",
+      "./*.d.ts.map"
+    ],
+    "exclude": [
+      "!./*.js",
+      "!./*.d.ts",
+      "!./*.d.ts.map"
+    ]
+  }
+}

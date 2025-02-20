@@ -1,3 +1,5 @@
+/* @ts-self-types="./contain-cjs.d.ts" */
+
 /**
  *
  * @param {import('node:module').ModuleSource} source

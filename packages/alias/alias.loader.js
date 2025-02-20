@@ -1,3 +1,4 @@
+/* @ts-self-types="./alias.loader.d.ts" */
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, URL } from 'node:url';

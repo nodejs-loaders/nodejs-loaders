@@ -1,3 +1,4 @@
+/* @ts-self-types="./parse-filename.d.ts" */
 import path from 'node:path';
 
 /**

@@ -1,3 +1,4 @@
+/* @ts-self-types="./tsx.d.ts" */
 import { isMainThread } from 'node:worker_threads';
 import module from 'node:module';
 

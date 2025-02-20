@@ -1,3 +1,4 @@
+/* @ts-self-types="./find-esbuild-config.d.ts" */
 import {
 	createRequire,
 	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71595

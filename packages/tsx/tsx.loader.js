@@ -1,3 +1,4 @@
+/* @ts-self-types="./tsx.loader.d.ts" */
 import path from 'node:path';
 import { cwd } from 'node:process';
 import { pathToFileURL } from 'node:url';

@@ -1,3 +1,4 @@
+/* @ts-self-types="./svgx.loader.d.ts" */
 import _camelCase from 'lodash.camelcase';
 import _upperFirst from 'lodash.upperfirst';
 

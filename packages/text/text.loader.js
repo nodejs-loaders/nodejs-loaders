@@ -1,3 +1,4 @@
+/* @ts-self-types="./text.loader.d.ts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 /**

@@ -1,3 +1,5 @@
+/* @ts-self-types="./deno-npm-prefix.loader.d.ts" */
+
 /**
  * @type {import('node:module').ResolveHook}
  */

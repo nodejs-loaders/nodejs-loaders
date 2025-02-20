@@ -1,3 +1,4 @@
+/* @ts-self-types="./json5.d.ts" */
 import { isMainThread } from 'node:worker_threads';
 import module from 'node:module';
 

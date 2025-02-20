@@ -1,3 +1,4 @@
+/* @ts-self-types="./media.loader.d.ts" */
 import process from 'node:process';
 
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
