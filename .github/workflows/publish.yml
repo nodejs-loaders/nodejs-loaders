@@ -36,7 +36,7 @@ jobs:
       - name: Publish $pkg_name $pkg_version to npm with provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance --workspace="packages/$pkg_name
+        run: npm publish --access public --provenance --workspace="packages/$pkg_name"
       - name: Publish $pkg_name $pkg_version to jsr
         run: |
           cd packages/$pkg_name
