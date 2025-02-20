@@ -84,7 +84,3 @@ jobs:
         with:
           parallel-finished: true
           carryforward: "run-1,run-2"
-# Todo(@AugustinMauroy): add dry run for npm & jsr
-# `npm publish --dry-run` try to publish root
-# so need to have a script that search for all workspaces and run `npm publish --dry-run` on each
-# maybe same thing for JSR
