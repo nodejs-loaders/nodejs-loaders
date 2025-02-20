@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./alias.mjs",
-  "types": "./alias.d.mts",
+  "main": "./alias.js",
+  "types": "./alias.d.ts",
   "keywords": [
     "aliases",
     "aliasing",

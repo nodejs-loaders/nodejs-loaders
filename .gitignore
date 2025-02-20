@@ -3,6 +3,6 @@ node_modules
 # OSX
 .DS_Store
 # Generated files
-*d.mts.map
-*d.mts
+*d.ts.map
+*d.ts
 coverage.lcov
