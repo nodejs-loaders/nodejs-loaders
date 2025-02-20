@@ -16,7 +16,7 @@ This loader facilitates TypeScript's [`paths`](https://www.typescriptlang.org/do
 
 ## A simple prefix
 
-This is commonly used to reference the project root; common prefixes are `@/` (or some variation like `@app/`) and `…/`: `import foo from '…/app/foo.mts;` → `${project_root}/src/app/foo.mts`.
+This is commonly used to reference the project root; common prefixes are `@/` (or some variation like `@app/`) and `…/`: `import foo from '…/app/foo.ts;` → `${project_root}/src/app/foo.ts`.
 
 > [!TIP]
 > Due to package namespacing (aka ["scopes"](https://docs.npmjs.com/about-scopes)) it may be best to avoid using the "at" symbol (`@`) since that could lead to confusion over what is a package and what is an alias (especially if you eventually add a package named with the alias you're using). You should similarly avoid the octothorpe/hash symbol (`#`) because that is used by Node.js's sub-path imports.
@@ -26,4 +26,4 @@ This is commonly used to reference the project root; common prefixes are `@/` (o
 
 ## A pointer
 
-This is a static specifier similar to a bare module specifier: `foo` → `${project_root}/src/app/foo.mts`. This may be useful when you have a commonly referenced file like config (which may conditionally not even live on the same filesystem): `import CONF from 'conf';` → `${project_root}/config.json`.
+This is a static specifier similar to a bare module specifier: `foo` → `${project_root}/src/app/foo.ts`. This may be useful when you have a commonly referenced file like config (which may conditionally not even live on the same filesystem): `import CONF from 'conf';` → `${project_root}/config.json`.

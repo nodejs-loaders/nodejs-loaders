@@ -1,0 +1,25 @@
+import { Suite, chartReport } from 'bench-node';
+import { execPath } from 'node:process';
+import { spawnSync } from 'node:child_process';
+
+const suite = new Suite({
+	reporter: chartReport,
+});
+
+//const e2eTest = import.meta.resolve('./fixtures/e2e.js');
+const e2eTest = './fixtures/e2e.js';
+
+suite.add('--loader', { repeatSuite: 2 }, () => {
+	spawnSync(execPath, ['--no-warnings', '--loader', './jsonc.js', e2eTest]);
+});
+
+suite.add('--import (register)', { repeatSuite: 2 }, () => {
+	spawnSync(execPath, [
+		'--no-warnings',
+		'--import',
+		'./fixtures/register.js',
+		e2eTest,
+	]);
+});
+
+suite.run();

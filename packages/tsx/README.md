@@ -31,7 +31,7 @@ If your project contains erroneous specifiers like above, use the [correct-ts-sp
 <summary>Supported file extensions</summary>
 
 * `.jsx`
-* `.mts`
+* `.ts`
 * `.ts`
 * `.tsx`
 </details>
