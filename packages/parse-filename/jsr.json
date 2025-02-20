@@ -12,7 +12,11 @@
     "exclude": [
       "!./*.js",
       "!./*.d.ts",
-      "!./*.d.ts.map"
+      "!./*.d.ts.map",
+      "./*.bench.js",
+      "./*.test.js",
+      "./*.spec.js",
+      "./fixtures/**/*"
     ]
   }
 }

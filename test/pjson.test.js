@@ -10,7 +10,15 @@ const nameRgx = /@nodejs-loaders\/[a-z\n]+/;
 const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
 const jsr_publish_expected_keys = {
 	include: ['./*.js', './*.d.ts', './*.d.ts.map'],
-	exclude: ['!./*.js', '!./*.d.ts', '!./*.d.ts.map'],
+	exclude: [
+		'!./*.js',
+		'!./*.d.ts',
+		'!./*.d.ts.map',
+		'./*.bench.js',
+		'./*.test.js',
+		'./*.spec.js',
+		'./fixtures/**/*',
+	],
 };
 const jsr_json_schema = 'https://jsr.io/schema/config-file.v1.json';
 
