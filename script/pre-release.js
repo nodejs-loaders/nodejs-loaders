@@ -1,3 +1,7 @@
+/**
+ * @example
+ * node script/pre-release.js --w=alias --bump=patch
+ */
 import fs from 'node:fs/promises';
 import { styleText, parseArgs } from 'node:util';
 import path from 'node:path';
