@@ -28,7 +28,7 @@ jobs:
       - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
       - run: echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV"
       - run: npm ci
-      - name: check integretiy between regestry and package.json
+      - name: check integrity between registry and package.json
         run: node --run pjson:check
       - name: Generate types
         run: node --run types:generate
