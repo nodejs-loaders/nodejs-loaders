@@ -32,6 +32,7 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 				repository,
 				type,
 				types,
+				version,
 			} = pjson;
 
 			assert.match(name, nameRgx);
@@ -46,6 +47,7 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
 			assert.equal(types, `./${loaderName}.d.mts`);
+			assert.equal(version, undefined);
 
 			if (!pjson.isNotLoader) {
 				assert.match(description, descriptionRgx);
