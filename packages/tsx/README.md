@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/tsx.svg)](https://www.npmjs.com/package/@nodejs-loaders/tsx)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/tsx)
+[![JSR](https://jsr.io/badges/@nodejs-loaders/tsx)](https://jsr.io/@nodejs-loaders/tsx)
 
 **Environment**: test
 

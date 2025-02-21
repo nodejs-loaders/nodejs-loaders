@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/mismatched-format.svg)](https://www.npmjs.com/package/nodejs-loaders/mismatched-format)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/mismatched-format)
+[![JSR](https://jsr.io/badges/@nodejs-loaders/mismatched-format)](https://jsr.io/@nodejs-loaders/mismatched-format)
 
 **Environments**: dev, test
 

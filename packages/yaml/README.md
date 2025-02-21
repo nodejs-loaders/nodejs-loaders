@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/yaml.svg)](https://www.npmjs.com/package/@nodejs-loaders/yaml)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/yaml)
+[![JSR](https://jsr.io/badges/@nodejs-loaders/yaml)](https://jsr.io/@nodejs-loaders/yaml)
 
 **Environment**: test, development
 
