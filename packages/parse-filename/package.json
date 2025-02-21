@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "0.0.0",
   "name": "@nodejs-loaders/parse-filename",
   "description": "@nodejs-loaders utilities to parse filenames",
   "type": "module",
