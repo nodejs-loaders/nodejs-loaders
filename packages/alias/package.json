@@ -1,4 +1,5 @@
 {
+  "version": "0.0.0",
   "name": "@nodejs-loaders/alias",
   "description": "Extend node to support TypeScript 'paths' via customization hooks.",
   "type": "module",

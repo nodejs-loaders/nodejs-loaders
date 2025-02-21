@@ -51,7 +51,7 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
 			assert.equal(types, `./${loaderName}.d.mts`);
-			assert.equal(version, undefined);
+			assert.equal(version, '0.0.0');
 
 			const directoryName = path.basename(path.dirname(resolvedPath));
 			assert.equal(directoryName, loaderName);

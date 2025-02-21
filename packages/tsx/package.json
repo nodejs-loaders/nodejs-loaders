@@ -1,4 +1,5 @@
 {
+  "version": "0.0.0",
   "name": "@nodejs-loaders/tsx",
   "description": "Extend node to support JSX & TSX via customization hooks.",
   "type": "module",
