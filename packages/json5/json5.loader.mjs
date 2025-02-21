@@ -1,12 +1,11 @@
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import JSON5 from 'json5';
 
-/**
- * @type {import('node:module').ResolveHook}
- */
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
+
 async function resolveJSON5(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
-	const ext = getFilenameExt(nextResult.url);
+	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
 
 	/**
 	 * On Node.js v20, v22, v23 the extension **and** the `importAttributes`

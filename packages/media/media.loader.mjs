@@ -2,6 +2,8 @@ import process from 'node:process';
 
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
+
 /**
  * @type {import('node:module').ResolveHook}
  */
@@ -10,7 +12,7 @@ async function resolveMedia(specifier, ctx, nextResolve) {
 
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	if (!exts.has(getFilenameExt(nextResult.url))) return nextResult;
+	if (!exts.has(getFilenameExt(/** @type {FileURL} */ (nextResult.url)))) return nextResult;
 
 	return {
 		...ctx,

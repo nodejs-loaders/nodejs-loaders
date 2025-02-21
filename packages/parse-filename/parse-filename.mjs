@@ -17,7 +17,7 @@ export function getFilenameExt(f) {
 
 /**
  * Remove query params and hashes from a file path or URL string.
- * @param {AbsoluteFilePath | ResolvedSpecifier} f
+ * @param {string} f
  */
 export function stripExtras(f) {
 	return f.split('?')[0].split('#')[0];
