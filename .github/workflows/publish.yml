@@ -16,6 +16,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
@@ -27,11 +28,20 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
+
       - run: npm ci
-      - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
-      - run: echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV"
+
+      - name: Parse release info
+        run: |
+          echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV";
+          echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV";
+
       - name: Generate types
         run: node --run types:generate
+
+      - name: Update version of $pkg_name in package.json
+        run: npm version $pkg_version --git-tag-version=false --workspace="packages/$pkg_name"
+
       - name: Publish $pkg_name $pkg_version with provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
