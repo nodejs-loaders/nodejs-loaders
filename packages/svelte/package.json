@@ -9,8 +9,8 @@
     "Jacob Smith"
   ],
   "license": "ISC",
-  "main": "./svelte.mjs",
-  "types": "./svelte.d.mts",
+  "main": "./svelte.js",
+  "types": "./svelte.d.ts",
   "keywords": [
     "customization hooks",
     "loader",

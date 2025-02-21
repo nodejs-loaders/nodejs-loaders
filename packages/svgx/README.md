@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/svgx.svg)](https://www.npmjs.com/package/nodejs-loaders/svgx)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/svgx)
+[![JSR](https://jsr.io/badges/@nodejs-loaders/svgx)](https://jsr.io/@nodejs-loaders/svgx)
 
 **Environment**: test
 
@@ -28,7 +29,7 @@ If your project contains erroneous specifiers like above, use the [correct-ts-sp
 <summary>Supported file extensions</summary>
 
 * `.jsx`
-* `.mts`
+* `.ts`
 * `.ts`
 * `.tsx`
 </details>

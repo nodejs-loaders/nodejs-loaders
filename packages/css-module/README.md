@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/media.svg)](https://www.npmjs.com/package/nodejs-loaders/css-module)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/css-module)
+[![JSR](https://jsr.io/badges/@nodejs-loaders/css-module)](https://jsr.io/@nodejs-loaders/css-module)
 
 **Environment**: test
 

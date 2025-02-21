@@ -35,8 +35,8 @@ jobs:
           version: latest
       - name: Run Biome
         run: biome ci .
-      - name: Validate `package.json`s
-        run: npm run pjson:check
+      - name: Validate `package.json`s and `jsr.json`s
+        run: node --run pjson:check
 
   test:
     runs-on: ubuntu-latest

@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/media.svg)](https://www.npmjs.com/package/@nodejs-loaders/jsonc)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/jsonc)
+[![JSR](https://jsr.io/badges/@nodejs-loaders/jsonc)](https://jsr.io/@nodejs-loaders/jsonc)
 
 **Environments**: dev, test
 
