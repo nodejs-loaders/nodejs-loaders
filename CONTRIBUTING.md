@@ -245,6 +245,17 @@ Before a pull request is merged, the following requirements should be met:
 - 24 hours after approval and no objections, the pull request can be merged.
 - All tests pass.
 
+## Releases
+
+This project follows [Semantic Versioning](https://semver.org/).
+
+Package version is set automatically during release based on the release tag. Release title and tag must be equal and must follow the template `v${SEMVER}@${LOADER_NAME}` (eg `v1.0.1@css-module`).
+
+* `SEMVER` is the release version (eg `1.0.1`)
+* `LOADER_NAME` matches
+  * the folder name containing the loader within [`./packages/`]('./packages) (eg `css-module`)
+  * the `"name"` in its `package.json` (eg `"@nodejs-loaders/css-module"`)
+
 ## [Developer's Certificate of Origin 1.1](https://developercertificate.org)
 
 ```
