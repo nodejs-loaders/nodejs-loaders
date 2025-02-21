@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { globSync } from 'node:fs';
+import path from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
@@ -13,12 +14,15 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 		globSync(
 			fileURLToPath(`${import.meta.resolve('../packages/')}*/package.json`),
 		).map((pjsonPath) =>
-			import(pjsonPath, { with: { type: 'json' } }).then((m) => m.default),
+			import(pjsonPath, { with: { type: 'json' } }).then((m) => ({
+				resolvedPath: pjsonPath,
+				pjson: m.default,
+			})),
 		),
 	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
 
-	for (const pjson of pjsons) {
+	for (const { resolvedPath, pjson } of pjsons) {
 		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
 			const {
 				author,
@@ -48,6 +52,9 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.equal(type, 'module');
 			assert.equal(types, `./${loaderName}.d.mts`);
 			assert.equal(version, undefined);
+
+			const directoryName = path.basename(path.dirname(resolvedPath));
+			assert.equal(directoryName, loaderName);
 
 			if (!pjson.isNotLoader) {
 				assert.match(description, descriptionRgx);
