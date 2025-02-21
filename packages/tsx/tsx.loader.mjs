@@ -7,9 +7,7 @@ import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 import { findEsbuildConfig } from './find-esbuild-config.mjs';
 
-/**
- * @typedef {import('./find-esbuild-config.mjs').FileURL} FileURL
- */
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
  * The load hook needs to know the parent URL to find the esbuild config.
@@ -27,7 +25,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	const ext = getFilenameExt(nextResult.url);
+	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
 
 	parentURLs.set(
 		// biome-ignore format: https://github.com/biomejs/biome/issues/4799

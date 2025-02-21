@@ -1,9 +1,14 @@
 import path from 'node:path';
 
 /**
+ * @typedef {import('../types.d.ts').AbsoluteFilePath} AbsoluteFilePath
+ * @typedef {import('../types.d.ts').ResolvedSpecifier} ResolvedSpecifier
+ */
+
+/**
  * Some loaders may append query parameters or anchors (URLs allow that). That will dupe
  * path.extname, String::endsWith, etc.
- * @param {string} f
+ * @param {AbsoluteFilePath | ResolvedSpecifier} f
  * @returns {string}
  */
 export function getFilenameExt(f) {
@@ -11,6 +16,7 @@ export function getFilenameExt(f) {
 }
 
 /**
+ * Remove query params and hashes from a file path or URL string.
  * @param {string} f
  */
 export function stripExtras(f) {
@@ -18,13 +24,13 @@ export function stripExtras(f) {
 }
 
 /**
- * @param {`/${string}` | URL['href']} resolvedUrl
+ * @param {AbsoluteFilePath | ResolvedSpecifier} resolvedLocus
  */
-export function getFilenameParts(resolvedUrl) {
-	const pathname = URL.canParse(resolvedUrl)
+export function getFilenameParts(resolvedLocus) {
+	const pathname = URL.canParse(resolvedLocus)
 		? // biome-ignore format: we want to keep the parentheses
-			(new URL(resolvedUrl)).pathname
-		: resolvedUrl;
+			/** @type {AbsoluteFilePath} */ ((new URL(resolvedLocus)).pathname)
+		: resolvedLocus;
 
 	const ext = getFilenameExt(pathname);
 	const base = path.basename(pathname, ext);
