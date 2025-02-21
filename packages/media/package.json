@@ -1,5 +1,4 @@
 {
-  "version": "1.0.1",
   "name": "@nodejs-loaders/media",
   "description": "Extend node to support media imports via customization hooks.",
   "type": "module",

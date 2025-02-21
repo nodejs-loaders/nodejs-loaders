@@ -1,5 +1,4 @@
 {
-  "version": "1.0.1",
   "name": "@nodejs-loaders/svgx",
   "description": "Extend node to support SVG as JSX via customization hooks.",
   "type": "module",

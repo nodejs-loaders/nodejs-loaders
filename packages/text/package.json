@@ -1,5 +1,4 @@
 {
-  "version": "1.0.1",
   "name": "@nodejs-loaders/text",
   "description": "Extend node to support plain-text files via customization hooks.",
   "type": "module",

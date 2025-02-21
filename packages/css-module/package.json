@@ -1,5 +1,4 @@
 {
-  "version": "1.0.1",
   "name": "@nodejs-loaders/css-module",
   "description": "Extend node to support css modules via customization hooks.",
   "type": "module",

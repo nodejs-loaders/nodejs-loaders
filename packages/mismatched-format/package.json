@@ -1,5 +1,4 @@
 {
-  "version": "1.0.1",
   "name": "@nodejs-loaders/mismatched-format",
   "description": "Extend node to support misconfigured module formats via customization hooks.",
   "type": "module",
