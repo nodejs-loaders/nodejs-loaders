@@ -7,9 +7,7 @@ import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 import { findEsbuildConfig } from './find-esbuild-config.mjs';
 
-/**
- * @typedef {import('./find-esbuild-config.mjs').FileURL} FileURL
- */
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
  * The load hook needs to know the parent URL to find the esbuild config.

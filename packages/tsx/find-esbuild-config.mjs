@@ -7,7 +7,7 @@ import { emitWarning } from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 /** @typedef {import('esbuild').TransformOptions} ESBuildOptions */
-/** @typedef {`file://${string}`} FileURL */
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
  * This config must contain options that are compatible with esbuild's `transform` API.
