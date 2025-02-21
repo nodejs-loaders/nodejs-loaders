@@ -3,11 +3,14 @@ import _upperFirst from 'lodash.upperfirst';
 
 import { getFilenameParts } from '@nodejs-loaders/parse-filename';
 
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
+
 const nonWords = /[\W$]/;
 
 /**
  * Read an SVG file (which is text) and build a react component that returns the SVG.
  * @type {import('node:module').LoadHook}
+ * @param {FileURL} url
  */
 async function loadSVGX(url, ctx, next) {
 	const { ext, ...others } = getFilenameParts(url);
