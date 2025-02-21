@@ -12,7 +12,9 @@ async function resolveMedia(specifier, ctx, nextResolve) {
 
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	if (!exts.has(getFilenameExt(/** @type {FileURL} */ (nextResult.url)))) return nextResult;
+	if (!exts.has(getFilenameExt(/** @type {FileURL} */ (nextResult.url)))) {
+		return nextResult;
+	}
 
 	return {
 		...ctx,
