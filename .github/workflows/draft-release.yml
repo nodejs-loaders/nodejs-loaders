@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Draft release
+
+on:
+  workflow_dispatch:
+    inputs:
+      pkg_name:
+        description: 'Package name'
+        required: true
+        type: string
+      version:
+        description: 'Version name'
+        required: true
+        # default: 'minor'
+        type: choice
+        options:
+          - 'patch'
+          - 'minor'
+          - 'major'
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@cb605e52c26070c328afc4562f0b4ada7618a84e # v2.10.4
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Get latest release info
+        id: latest_release
+        run: |
+          # 'v1.2.0@tsx'
+          echo "tag=git describe --tags --abbrev=0 --match *${{ github.event.inputs.pkg_name }}*" >> "$GITHUB_OUTPUT";
+          # 'v1.2.0'
+          echo "version=${tag%@*}" >> "$GITHUB_OUTPUT";
+          # '1.2.0'
+          echo "semver=${version##*v}" >> "$GITHUB_OUTPUT";
+
+      - name: Determine new release info
+        id: release_info
+        env:
+          LAST_VERSION: ${{ steps.latest_release.outputs.semver }}
+          VERSION_TYPE: ${{ github.event.inputs.version }}
+        run: |
+          npm i semver
+          echo "version=npx semver ${{ env.LAST_VERSION }} -i ${{env.VERSION_TYPE}}" >> "$GITHUB_OUTPUT";
+
+    #   - name: Get relevant changes
+    #     run: git log --pretty=format:"%s by %cn in " HEAD...v1.0.2@tsx
+
+      - name: Open pull request
+        run: |
+          gh release create \
+            --generate-notes
+            --title "v${{ steps.release_info.outputs.version }}@${{ github.event.inputs.pkg_name }}"
