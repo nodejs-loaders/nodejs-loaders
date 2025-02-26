@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.0",
   "name": "@nodejs-loaders/jsonc",
   "description": "Extend node to support JSONC via customization hooks.",
   "type": "module",
