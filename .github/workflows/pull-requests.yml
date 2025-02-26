@@ -5,6 +5,11 @@ name: PR Checks
 on:
   pull_request:
     branches: ["main"]
+    types:
+      - edited
+      - opened
+      - reopened
+      - synchronize
 
 permissions:
   pull-requests: read
