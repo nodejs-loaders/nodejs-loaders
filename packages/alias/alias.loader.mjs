@@ -2,6 +2,8 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL, URL } from 'node:url';
 
+import JSON5 from 'json5';
+
 const projectRoot = pathToFileURL(`${process.cwd()}/`);
 
 const aliases = await readConfigFile('tsconfig.json');
@@ -43,7 +45,7 @@ export function readConfigFile(filename) {
 	return (
 		readFile(filepath)
 			.then((contents) => contents.toString())
-			.then((contents) => JSON.parse(contents))
+			.then((contents) => JSON5.parse(contents))
 			// Get the `compilerOptions.paths` object from the parsed JSON
 			.then((contents) => contents?.compilerOptions?.paths)
 			.then(buildAliasMaps)

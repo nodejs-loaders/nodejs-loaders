@@ -29,5 +29,8 @@
     "type": "git",
     "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",
     "directory": "packages/alias"
+  },
+  "dependencies": {
+    "json5": "^2.2.3"
   }
 }
