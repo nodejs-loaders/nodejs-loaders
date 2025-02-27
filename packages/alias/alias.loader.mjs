@@ -15,7 +15,7 @@ if (!aliases)
 	);
 
 /**
- * @type {import('node:module').LoadHook}
+ * @type {import('node:module').ResolveHook}
  */
 function resolveAlias(specifier, ctx, next) {
 	return (aliases ? resolveAliases : next)(specifier, ctx, next);
@@ -23,7 +23,7 @@ function resolveAlias(specifier, ctx, next) {
 export { resolveAlias as resolve };
 
 /**
- * @type {import('node:module').LoadHook}
+ * @type {import('node:module').ResolveHook}
  */
 export function resolveAliases(specifier, ctx, next) {
 	// biome-ignore format: https://github.com/biomejs/biome/issues/4799
