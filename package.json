@@ -34,6 +34,6 @@
     "bench-node": "^0.5.3"
   },
   "optionalDependencies": {
-    "typescript": "^5.7.2"
+    "typescript": "^5.8.2"
   }
 }
