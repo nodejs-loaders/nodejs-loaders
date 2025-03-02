@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/nodejs-loaders/nodejs-loaders/refs/heads/main/logo.svg" height="100" width="100" alt="@node.js loaders logo" />
 
-[![npm version](https://img.shields.io/npm/v/@nodejs-loaders/mismatched-format.svg)](https://www.npmjs.com/package/nodejs-loaders/mismatched-format)
+[![npm version](https://img.shields.io/npm/v/@nodejs-loaders/mismatched-format.svg)](https://www.npmjs.com/package/@nodejs-loaders/mismatched-format)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/mismatched-format)
 
 **Environments**: dev, test
