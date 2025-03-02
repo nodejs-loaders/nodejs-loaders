@@ -1,6 +1,5 @@
 import {
 	createRequire,
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71595
 	findPackageJSON,
 } from 'node:module';
 import { emitWarning } from 'node:process';
