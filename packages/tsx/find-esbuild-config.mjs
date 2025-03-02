@@ -1,7 +1,4 @@
-import {
-	createRequire,
-	findPackageJSON,
-} from 'node:module';
+import { createRequire, findPackageJSON } from 'node:module';
 import { emitWarning } from 'node:process';
 import { fileURLToPath } from 'node:url';
 
