@@ -39,6 +39,33 @@ Images:
 * `.webp`
 </details>
 
+## Extending supported extensions
+
+Media loader accepts additions and deletions to its default list of file extenions via `module.register`:
+
+```console
+$ node --import ./register.mts ./main.tsx
+```
+
+```js
+// ./register.mts
+
+import module from 'node:module';
+
+module.register('@nodejs-loaders/media', import.meta.url, {
+	data: {
+		additions: ['.ext'],
+		deletions: ['.ico'],
+	},
+});
+```
+
+```jsx
+// main.tsx
+
+import somePdf from './some.pdf'; // somePdf = '[…]/some.pdf'
+```
+
 ## Alternatives
 
 * [`esm-loader-images`](https://github.com/brev/esm-loaders/tree/main/packages/esm-loader-images#readme) - This alternative loader just supports images.

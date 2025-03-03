@@ -10,15 +10,12 @@ import { exts, load, resolve } from './media.loader.mjs';
 describe('media loader', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should ignore unrecognised files', async () => {
-			const result = await resolve(
-				'../../fixtures/fixture.ext',
-				{},
-				nextResolve,
-			);
+			const specifier = '../../fixtures/fixture.ext';
+			const result = await resolve(specifier, {}, nextResolve);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
-				url: '../../fixtures/fixture.ext',
+				url: specifier,
 			});
 		});
 
@@ -35,8 +32,9 @@ describe('media loader', { concurrency: true }, () => {
 		});
 
 		it('should handle specifiers with appending data', async () => {
-			for (const ext of exts)
+			for (const ext of exts) {
 				await assertSuffixedSpecifiers(resolve, `./fixture.${ext}`, 'media');
+			}
 		});
 	});
 

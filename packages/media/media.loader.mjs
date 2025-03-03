@@ -42,6 +42,18 @@ async function loadMedia(url, ctx, nextLoad) {
 }
 export { loadMedia as load };
 
+/**
+ * @type {import('node:module').InitializeHook}
+ * @param {object} [config={}]
+ * @param {string[]} [config.additions] File extensions to add to the default list.
+ * @param {string[]} [config.deletions] File extensions to remove from the default list.
+ */
+function initialiseMedia({ additions, deletions } = {}) {
+	if (additions?.length) for (const a of additions) exts.add(a);
+	if (deletions?.length) for (const r of deletions) exts.delete(r);
+}
+export { initialiseMedia as initialize };
+
 const cwd = process.cwd();
 
 export const exts = new Set([
@@ -49,7 +61,6 @@ export const exts = new Set([
 	 * A/V
 	 */
 	'.av1',
-	'.mp3',
 	'.mp3',
 	'.mp4',
 	'.ogg',
