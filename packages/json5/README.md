@@ -5,6 +5,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/json5.svg)](https://www.npmjs.com/package/@nodejs-loaders/json5)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/json5)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/json5.svg)](https://nodejs.org/download)
 
 **Environments**: dev, test
 

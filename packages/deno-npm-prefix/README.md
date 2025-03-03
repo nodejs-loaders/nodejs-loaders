@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/deno-npm-prefix.svg)](https://www.npmjs.com/package/@nodejs-loaders/deno-npm-prefix)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/deno-npm-prefix)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/deno-npm-prefix.svg)](https://nodejs.org/download)
 
 **Environments**: dev, test
 
