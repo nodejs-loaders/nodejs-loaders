@@ -39,6 +39,27 @@ Images:
 * `.webp`
 </details>
 
+## Usage
+
+Simple usage:
+
+```ts
+import { register } from 'node:module';
+
+register('@nodejs-loaders/media', import.meta.url);
+```
+
+Customize extensions:
+
+```ts
+import { register } from 'node:module';
+import { exts } from '@nodejs-loaders/media/media.loader.mjs';
+
+exts.add('.abc');
+exts.add('.xyz');
+register('@nodejs-loaders/media', import.meta.url);
+```
+
 ## Alternatives
 
 * [`esm-loader-images`](https://github.com/brev/esm-loaders/tree/main/packages/esm-loader-images#readme) - This alternative loader just supports images.
