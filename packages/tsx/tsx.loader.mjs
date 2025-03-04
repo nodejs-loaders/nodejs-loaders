@@ -44,7 +44,6 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	if (ext === '.mts' || ext === '.ts' || ext === '.tsx') {
 		return {
 			...nextResult,
-
 			format: 'tsx',
 		};
 	}

@@ -15,7 +15,6 @@ async function resolveYaml(specifier, ctx, nextResolve) {
 	if (ext === '.yaml' || ext === '.yml')
 		return {
 			...nextResult,
-
 			format: 'yaml',
 		};
 

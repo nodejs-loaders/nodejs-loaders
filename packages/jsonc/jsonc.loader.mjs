@@ -18,7 +18,6 @@ async function resolveJSONC(specifier, ctx, nextResolve) {
 	if (ext === '.jsonc' && ctx.importAttributes?.type === 'jsonc') {
 		return {
 			...nextResult,
-
 			format: 'jsonc',
 		};
 	}

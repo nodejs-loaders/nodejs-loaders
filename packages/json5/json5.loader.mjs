@@ -15,7 +15,6 @@ async function resolveJSON5(specifier, ctx, nextResolve) {
 	if (ext === '.json5' && ctx.importAttributes?.type === 'json5') {
 		return {
 			...nextResult,
-
 			format: 'json5',
 		};
 	}
