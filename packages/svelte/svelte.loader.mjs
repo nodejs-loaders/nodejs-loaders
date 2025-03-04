@@ -11,7 +11,7 @@ async function resolveSvelte(specifier, ctx, nextResolve) {
 
 	return {
 		...ctx,
-		// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
+
 		format: 'svelte',
 		url: nextResult.url,
 	};
@@ -24,7 +24,6 @@ export { resolveSvelte as resolve };
 async function loadSvelte(url, ctx, nextLoad) {
 	const nextResult = await nextLoad(url, ctx);
 
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 	if (ctx.format !== 'svelte') return nextResult;
 
 	const rawSource = nextResult.source.toString();

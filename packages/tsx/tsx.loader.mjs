@@ -37,7 +37,6 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	if (ext === '.jsx') {
 		return {
 			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493,
 			format: 'jsx',
 		};
 	}
@@ -45,7 +44,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	if (ext === '.mts' || ext === '.ts' || ext === '.tsx') {
 		return {
 			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
+
 			format: 'tsx',
 		};
 	}
@@ -59,7 +58,6 @@ export { resolveTSX as resolve };
  * @argument {FileURL} url
  */
 async function loadTSX(url, ctx, nextLoad) {
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 	if (ctx.format !== 'jsx' && ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
 
 	const format = 'module';
