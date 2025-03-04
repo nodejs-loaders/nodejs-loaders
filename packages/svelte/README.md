@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/svelte.svg)](https://www.npmjs.com/package/@nodejs-loaders/svelte)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/svelte)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/svelte.svg)](https://nodejs.org/download)
 
 **Environments**: dev, test
 

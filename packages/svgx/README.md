@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/svgx.svg)](https://www.npmjs.com/package/@nodejs-loaders/svgx)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/svgx)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/svgx.svg)](https://nodejs.org/download)
 
 **Environment**: test
 

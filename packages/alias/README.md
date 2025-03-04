@@ -4,6 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/alias.svg)](https://www.npmjs.com/package/@nodejs-loaders/alias)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/alias)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/alias.svg)](https://nodejs.org/download)
 
 **Environments**: dev, test
 
