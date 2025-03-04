@@ -3,6 +3,9 @@ import JSON5 from 'json5';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
 
+/**
+ * @type {import('node:module').ResolveHook}
+ */
 async function resolveJSON5(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
