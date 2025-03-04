@@ -18,7 +18,6 @@ async function resolveJSONC(specifier, ctx, nextResolve) {
 	if (ext === '.jsonc' && ctx.importAttributes?.type === 'jsonc') {
 		return {
 			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 			format: 'jsonc',
 		};
 	}
@@ -33,7 +32,6 @@ export { resolveJSONC as resolve };
 async function loadJSONC(url, ctx, nextLoad) {
 	const nextResult = await nextLoad(url, ctx);
 
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 	if (ctx.format !== 'jsonc') return nextResult;
 
 	const rawSource = '' + nextResult.source; // byte array → string

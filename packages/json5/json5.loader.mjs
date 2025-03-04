@@ -15,7 +15,6 @@ async function resolveJSON5(specifier, ctx, nextResolve) {
 	if (ext === '.json5' && ctx.importAttributes?.type === 'json5') {
 		return {
 			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 			format: 'json5',
 		};
 	}
@@ -30,7 +29,6 @@ export { resolveJSON5 as resolve };
 async function loadJSON5(url, ctx, nextLoad) {
 	const nextResult = await nextLoad(url, ctx);
 
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 	if (ctx.format !== 'json5') return nextResult;
 
 	const data = JSON5.parse(String(nextResult.source));
