@@ -28,10 +28,13 @@ if (w) {
 	w = w.replace('packages/', '');
 }
 
-const files = globSync(`packages/${w}**/**.bench.{js,mjs}`);
+const glob = `packages/${w}**/**.bench.{js,mjs}`;
+const files = globSync(glob);
 
 if (files.length === 0) {
-	throw new Error(`${styleText(['red'], '✕')} No benchmarks found`);
+	throw new Error(
+		`${styleText(['red'], '✕')} No benchmarks found\nFor blobs: ${glob}`,
+	);
 }
 
 console.log(`${styleText(['green'], '✓')} Found ${files.length} benchmarks`);
