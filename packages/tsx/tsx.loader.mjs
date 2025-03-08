@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { cwd } from 'node:process';
+import { cwd, setSourceMapsEnabled, sourceMapsEnabled } from 'node:process';
 import { pathToFileURL } from 'node:url';
 
 import { transform } from 'esbuild';
