@@ -63,7 +63,7 @@ module.register('@nodejs-loaders/media', import.meta.url, {
 ```jsx
 // main.tsx
 
-import somePdf from './some.pdf'; // somePdf = '[…]/some.pdf'
+import someFile from './some.ext'; // someFile = '[…]/some.ext'
 ```
 
 ## Alternatives
