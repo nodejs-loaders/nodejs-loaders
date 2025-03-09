@@ -50,10 +50,14 @@ export function findEsbuildConfig(target, parentURL = target) {
 const PJSON_FNAME = 'package.json';
 const CONFIG_FNAME = 'esbuild.config.mjs';
 
+/**
+ * @type {ESBuildOptions}
+ */
 export const defaults = {
 	jsx: 'automatic',
 	jsxDev: true,
 	jsxFactory: 'React.createElement',
 	loader: 'tsx',
 	minify: true,
+	sourcemap: true,
 };

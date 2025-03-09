@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { cwd } from 'node:process';
+import { cwd, setSourceMapsEnabled, sourceMapsEnabled } from 'node:process';
 import { pathToFileURL } from 'node:url';
 
 import { transform } from 'esbuild';
@@ -71,10 +71,10 @@ async function loadTSX(url, ctx, nextLoad) {
 		rawSource = `import * as React from 'react';\n${rawSource}`;
 	}
 
-	const { code: source, warnings } = await transform(
-		rawSource,
-		esbuildConfig,
-	).catch(({ errors }) => {
+	const { code: source, warnings } = await transform(rawSource, {
+		sourcefile: url,
+		...esbuildConfig,
+	}).catch(({ errors }) => {
 		for (const {
 			location: { column, line, lineText },
 			text,
