@@ -6,6 +6,18 @@
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/media)
 [![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/media.svg)](https://nodejs.org/download)
 
+## Usage
+
+```console
+$ npm i -D @nodejs-loaders/media
+```
+
+```console
+$ node --import @nodejs-loaders/media main.js
+```
+
+See `README.md` in the repository's root for more details.
+
 **Environment**: test
 
 This loader returns the specifier (truncated from project root / current working directory) as the default export:
