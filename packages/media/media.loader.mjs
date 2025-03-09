@@ -54,6 +54,11 @@ export const exts = new Set([
 	'.ogg',
 	'.webm',
 	/**
+	 * documents
+	 */
+	'.epub',
+	'.pdf',
+	/**
 	 * images
 	 */
 	'.avif',

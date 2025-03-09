@@ -29,6 +29,10 @@ Audio/Video:
 * `.ogg`
 * `.webm`
 
+Documents:
+* `.epub`
+* `.pdf`
+
 Images:
 
 * `.avif`
