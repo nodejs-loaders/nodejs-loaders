@@ -112,7 +112,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			const result = await load(fileUrl, { format: 'jsx' }, nextLoad);
 
 			assert.equal(result.format, 'module');
-			assert.equal(result.source, transpiled.replaceAll("<stdin>", fileUrl));
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
 		});
 
 		it('should transpile TSX', async () => {
@@ -120,7 +120,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			const result = await load(fileUrl, { format: 'tsx' }, nextLoad);
 
 			assert.equal(result.format, 'module');
-			assert.equal(result.source, transpiled.replaceAll("<stdin>", fileUrl));
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
 		});
 
 		it('should log transpile errors', async () => {
