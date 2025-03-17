@@ -41,29 +41,41 @@ Images:
 
 ## Extending supported extensions
 
-Media loader accepts additions and deletions to its default list of file extenions via `module.register`:
+Media loader's default list of file extenions can be modified via `module.register`; either with addition(s) and/or deletion(s) OR replacements:
 
 ```console
-$ node --import ./register.mts ./main.tsx
+$ node ./example.tsx
 ```
 
 ```js
-// ./register.mts
+// ./example.mts
 
 import module from 'node:module';
 
 module.register('@nodejs-loaders/media', import.meta.url, {
 	data: {
-		additions: ['.ext'],
-		deletions: ['.ico'],
+		additions: ['.ext'], // This will add .ext to the default list.
+		deletions: ['.ico'], // This will remove .ico from the default list.
 	},
 });
+
+const someFileA = await import('./some.ext'); // someFile = '[…]/some.ext'
+const someFileB = await import('./some.ico'); // 💥
 ```
 
-```jsx
-// main.tsx
+OR
 
-import someFile from './some.ext'; // someFile = '[…]/some.ext'
+```js
+// ./example.mts
+
+import module from 'node:module';
+
+module.register('@nodejs-loaders/media', import.meta.url, {
+	data: ['.ext'], // ⚠️ This will REPLACE the entire list with ONLY the .ext file extension.
+});
+
+const someFileA = await import('./some.ext'); // someFile = '[…]/some.ext'
+const someFileB = await import('./some.ico'); // 💥
 ```
 
 ## Alternatives

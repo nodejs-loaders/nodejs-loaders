@@ -2,6 +2,10 @@ exports[`media (e2e) > should accept additions via \`module.register\` 1`] = `
 "file://[…]/fixture.ext\\n"
 `;
 
+exports[`media (e2e) > should accept replacements via \`module.register\` 1`] = `
+"file://[…]/fixture.ext\\n"
+`;
+
 exports[`media (e2e) > should work with \`--import\` 1`] = `
 "file://[…]/fixture.ico\\n"
 `;

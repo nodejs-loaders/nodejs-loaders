@@ -94,6 +94,46 @@ describe('media (e2e)', () => {
 		assert.equal(code, 1);
 	});
 
+	it('should accept replacements via `module.register`', async (t) => {
+		await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				fileURLToPath(import.meta.resolve('./fixtures/register-replacement.mjs')),
+				e2eTest.replace('e2e.mjs', 'e2e-added.mjs'),
+			],
+			{
+				cwd,
+				encoding,
+				env: { NO_COLOR: true },
+			},
+		).then(({ code, stderr, stdout }) => {
+			assert.equal(stderr, '');
+			t.assert.snapshot(stdout);
+			assert.equal(code, 0);
+		});
+
+		await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				fileURLToPath(import.meta.resolve('./fixtures/register-replacement.mjs')),
+				e2eTest.replace('e2e.mjs', 'e2e-deleted.mjs'),
+			],
+			{
+				cwd,
+				encoding,
+				env: { NO_COLOR: true },
+			},
+		).then(({ code, stderr }) => {
+			assert.match(stderr, /ERR_UNKNOWN_FILE_EXTENSION/);
+			assert.match(stderr, /".mp3"/);
+			assert.equal(code, 1);
+		});
+	});
+
 	it('should work with `--import`', async (t) => {
 		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,

@@ -43,16 +43,39 @@ async function loadMedia(url, ctx, nextLoad) {
 export { loadMedia as load };
 
 /**
- * @type {import('node:module').InitializeHook}
- * @param {object} [config={}]
- * @param {string[]} [config.additions] File extensions to add to the default list.
- * @param {string[]} [config.deletions] File extensions to remove from the default list.
+ * @typedef {Array<string>|Set<string>} FileExtensionsList
+ *
+ * @typedef {object} MediaExtensionAddRemoveConfig
+ * @prop {FileExtensionsList} MediaExtensionAddRemoveConfig.additions A list of file extensions to add to the default list.
+ * @prop {FileExtensionsList} MediaExtensionAddRemoveConfig.deletions A list of file extensions to remove from the default list.
+ *
+ * @typedef {FileExtensionsList} MediaExtensionReplacementConfig A list of file extensions to REPLACE the default list.
  */
-function initialiseMedia({ additions, deletions } = {}) {
-	if (additions?.length) for (const a of additions) exts.add(a);
-	if (deletions?.length) for (const r of deletions) exts.delete(r);
+/**
+ * @type {import('node:module').InitializeHook}
+ * @param {MediaExtensionAddRemoveConfig|MediaExtensionReplacementConfig} config
+ */
+function initialiseMedia(config) {
+	if (config == null) return;
+
+	if (isList(config)) {
+		exts.clear();
+		for (const r of /** @type {Iterable} */ (config)) exts.add(r);
+	}
+
+	if ('additions' in config && isList(config.additions)) for (const a of config.additions) exts.add(a);
+	if ('deletions' in config && isList(config.deletions)) for (const d of config.deletions) exts.delete(d);
 }
 export { initialiseMedia as initialize };
+
+/**
+ * @param {unknown} suspect
+ * @returns {boolean}
+ */
+const isList = (suspect) => (
+	   typeof suspect[Symbol.iterator] === 'function'
+	&& (Array.isArray(suspect) || suspect instanceof Set)
+);
 
 const cwd = process.cwd();
 
