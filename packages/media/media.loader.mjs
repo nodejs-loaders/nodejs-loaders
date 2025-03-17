@@ -63,10 +63,12 @@ function initialiseMedia(config) {
 		for (const r of /** @type {Iterable} */ (config)) exts.add(r);
 	}
 
-	if ('additions' in config && isList(config.additions))
+	if ('additions' in config && isList(config.additions)) {
 		for (const a of config.additions) exts.add(a);
-	if ('deletions' in config && isList(config.deletions))
+  }
+	if ('deletions' in config && isList(config.deletions)) {
 		for (const d of config.deletions) exts.delete(d);
+  }
 }
 export { initialiseMedia as initialize };
 
