@@ -44,7 +44,7 @@ Images:
 Media loader's default list of file extenions can be modified via `module.register`; either with addition(s) and/or deletion(s) OR replacements:
 
 ```console
-$ node ./example.tsx
+$ node ./example.mts
 ```
 
 ```js
