@@ -65,10 +65,10 @@ function initialiseMedia(config) {
 
 	if ('additions' in config && isList(config.additions)) {
 		for (const a of config.additions) exts.add(a);
-  }
+	}
 	if ('deletions' in config && isList(config.deletions)) {
 		for (const d of config.deletions) exts.delete(d);
-  }
+	}
 }
 export { initialiseMedia as initialize };
 
