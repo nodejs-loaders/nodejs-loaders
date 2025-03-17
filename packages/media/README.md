@@ -52,6 +52,45 @@ Images:
 * `.webp`
 </details>
 
+## Extending supported extensions
+
+Media loader's default list of file extenions can be modified via `module.register`; either with addition(s) and/or deletion(s) OR replacements:
+
+```console
+$ node ./example.mts
+```
+
+```js
+// ./example.mts
+
+import module from 'node:module';
+
+module.register('@nodejs-loaders/media', import.meta.url, {
+	data: {
+		additions: ['.ext'], // This will add .ext to the default list.
+		deletions: ['.ico'], // This will remove .ico from the default list.
+	},
+});
+
+const someFileA = await import('./some.ext'); // someFile = '[…]/some.ext'
+const someFileB = await import('./some.ico'); // 💥
+```
+
+OR
+
+```js
+// ./example.mts
+
+import module from 'node:module';
+
+module.register('@nodejs-loaders/media', import.meta.url, {
+	data: ['.ext'], // ⚠️ This will REPLACE the entire list with ONLY the .ext file extension.
+});
+
+const someFileA = await import('./some.ext'); // someFile = '[…]/some.ext'
+const someFileB = await import('./some.ico'); // 💥
+```
+
 ## Alternatives
 
 * [`esm-loader-images`](https://github.com/brev/esm-loaders/tree/main/packages/esm-loader-images#readme) - This alternative loader just supports images.
