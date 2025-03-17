@@ -100,7 +100,9 @@ describe('media (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register-replacement.mjs')),
+				fileURLToPath(
+					import.meta.resolve('./fixtures/register-replacement.mjs'),
+				),
 				e2eTest.replace('e2e.mjs', 'e2e-added.mjs'),
 			],
 			{
@@ -119,7 +121,9 @@ describe('media (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register-replacement.mjs')),
+				fileURLToPath(
+					import.meta.resolve('./fixtures/register-replacement.mjs'),
+				),
 				e2eTest.replace('e2e.mjs', 'e2e-deleted.mjs'),
 			],
 			{

@@ -63,8 +63,10 @@ function initialiseMedia(config) {
 		for (const r of /** @type {Iterable} */ (config)) exts.add(r);
 	}
 
-	if ('additions' in config && isList(config.additions)) for (const a of config.additions) exts.add(a);
-	if ('deletions' in config && isList(config.deletions)) for (const d of config.deletions) exts.delete(d);
+	if ('additions' in config && isList(config.additions))
+		for (const a of config.additions) exts.add(a);
+	if ('deletions' in config && isList(config.deletions))
+		for (const d of config.deletions) exts.delete(d);
 }
 export { initialiseMedia as initialize };
 
@@ -72,10 +74,9 @@ export { initialiseMedia as initialize };
  * @param {unknown} suspect
  * @returns {boolean}
  */
-const isList = (suspect) => (
-	   typeof suspect[Symbol.iterator] === 'function'
-	&& (Array.isArray(suspect) || suspect instanceof Set)
-);
+const isList = (suspect) =>
+	typeof suspect[Symbol.iterator] === 'function' &&
+	(Array.isArray(suspect) || suspect instanceof Set);
 
 const cwd = process.cwd();
 
