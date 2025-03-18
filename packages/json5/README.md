@@ -7,6 +7,18 @@
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/json5)
 [![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/json5.svg)](https://nodejs.org/download)
 
+## Usage
+
+```console
+$ npm i -D @nodejs-loaders/json5
+```
+
+```console
+$ node --import @nodejs-loaders/json5 main.js
+```
+
+See `README.md` in the repository's root for more details.
+
 **Environments**: dev, test
 
 **Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)

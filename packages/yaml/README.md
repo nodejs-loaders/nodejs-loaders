@@ -6,6 +6,18 @@
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/yaml)
 [![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/yaml.svg)](https://nodejs.org/download)
 
+## Usage
+
+```console
+$ npm i -D @nodejs-loaders/yaml
+```
+
+```console
+$ node --import @nodejs-loaders/yaml main.js
+```
+
+See `README.md` in the repository's root for more details.
+
 **Environment**: test, development
 
 **Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
