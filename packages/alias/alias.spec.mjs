@@ -36,7 +36,7 @@ describe('alias', () => {
 
 		before(async () => {
 			mock_readFile.mockImplementation(async function mock_readFile(p) {
-				if (p.includes('/tsconfig.json'))
+				if (p.pathname.includes('/tsconfig.json'))
 					return JSON.stringify({
 						compilerOptions: { paths: aliases },
 					});

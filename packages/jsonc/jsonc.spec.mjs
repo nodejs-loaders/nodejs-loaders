@@ -107,7 +107,7 @@ describe('JSONC loader', { concurrency: true }, () => {
 			].join('');
 
 			assert.equal(result.format, 'json');
-			assert.equal(result.source, expected);
+			assert.equal(result.source.replaceAll('\r\n', '\n'), expected);
 		});
 	});
 });
