@@ -54,7 +54,7 @@ export { resolveTSX as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
- * @argument {FileURL} url
+ * @param {FileURL} url The fully resolved url.
  */
 async function loadTSX(url, ctx, nextLoad) {
 	if (ctx.format !== 'jsx' && ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
@@ -79,7 +79,7 @@ async function loadTSX(url, ctx, nextLoad) {
 			location: { column, line, lineText },
 			text,
 		} of errors) {
-			console.error(
+			console.error( // oxlint-disable-line no-console
 				`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`,
 			);
 		}
@@ -90,7 +90,7 @@ async function loadTSX(url, ctx, nextLoad) {
 		};
 	});
 
-	if (warnings?.length) console.warn(...warnings);
+	if (warnings?.length) console.warn(...warnings); // oxlint-disable-line no-console
 
 	return {
 		format,

@@ -1,0 +1,60 @@
+{
+	"ignorePatterns": [
+		"**/fixtures/**",
+		"**/fixture.*",
+		"**/*.snap.cjs",
+	],
+	"categories": {
+		"correctness": "error",
+		"perf": "error",
+		"pedantic": "error",
+		"suspicious": "warn",
+	},
+	"plugins": [
+		"import",
+		"jsdoc",
+		"jsx-a11y",
+		"node",
+		"oxc",
+		"react-perf",
+		"react",
+		"recommended",
+		"typescript",
+		"unicorn",
+	],
+	"rules": {
+		"eslint/no-case-declarations": "off",
+		"eslint/no-constructor-return": "off",
+		"eslint/require-await": "off",
+		"import/max-dependencies": "off",
+		"eslint/max-depth": ["error", 3],
+		"eslint/max-lines-per-function": "off",
+		"eslint/max-nested-callbacks": ["error", 3],
+		"jsdoc/check-property-names": "off", // https://github.com/oxc-project/oxc/issues/10252
+		"jsdoc/require-param": "off", // https://github.com/oxc-project/oxc/issues/10252
+		"jsdoc/require-returns": "off",
+		"jsdoc/require-returns-description": "off",
+		"jsdoc/require-returns-type": "off",
+		"no-console": "error",
+		"no-import-type-side-effects": "error",
+		"typescript/ban-types": "off",
+		"unicorn/explicit-length-check": "off",
+		"unicorn/no-typeof-undefined": "off",
+	},
+	"overrides": [
+		{
+			"files": [
+				"*.spec.mjs",
+				"*.spec.jsx",
+				"*.test.mjs",
+				"*.test.jsx",
+			],
+			"rules": {
+				"max-depth": "off",
+				"max-lines-per-function": "off",
+				"max-nested-callbacks": "off",
+				"no-throw-literal": "off",
+			},
+		},
+	],
+}

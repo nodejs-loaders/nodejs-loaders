@@ -8,7 +8,7 @@ import { containsCJS } from './contains-cjs.mjs';
  * This loader attempts to detect and override misconfigured packages, such as those that declare
  * themselves as ESM but are actually CJS, and vice versa.
  * @type {import('node:module').LoadHook}
- * @param {FileURL} url
+ * @param {FileURL} url The fully resolved url.
  */
 async function loadMismatchedFormat(url, ctx, next) {
 	if (!exts.has(getFilenameExt(url))) return next(url);

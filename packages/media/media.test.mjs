@@ -73,7 +73,7 @@ describe('media (e2e)', () => {
 		assert.equal(code, 0);
 	});
 
-	it('should accept deletions via `module.register`', async (t) => {
+	it('should accept deletions via `module.register`', async () => {
 		const { code, stderr } = await spawnPromisified(
 			execPath,
 			[

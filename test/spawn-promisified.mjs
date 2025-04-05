@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process';
 
 /**
  *
- * @param {...Parameters<typeof spawn>} args
+ * @param {...Parameters<typeof spawn>} args Arguments to pass to `child_process.spawn`.
  * @returns {Promise<{
 		code: number | null;
 		signal: NodeJS.Signals | null;

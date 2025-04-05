@@ -13,8 +13,8 @@ import { fileURLToPath } from 'node:url';
 export const configs = new Map();
 
 /**
- * @param {FileURL} target
- * @param {FileURL} parentURL
+ * @param {FileURL} target Where to start.
+ * @param {FileURL} parentURL Relative to where.
  */
 export function findEsbuildConfig(target, parentURL = target) {
 	if (configs.has(target)) return configs.get(target);
@@ -26,7 +26,7 @@ export function findEsbuildConfig(target, parentURL = target) {
 
 	/** @type {ESBuildOptions} */
 	let esbuildConfig;
-	if (esBuildConfigLocus != null) {
+	if (esBuildConfigLocus != null) { // oxlint-disable-line eslint/eqeqeq
 		const req = createRequire(fileURLToPath(parentURL));
 		try {
 			esbuildConfig = req(esBuildConfigLocus)?.default;
@@ -35,7 +35,7 @@ export function findEsbuildConfig(target, parentURL = target) {
 		}
 	}
 
-	if (esbuildConfig == null) {
+	if (esbuildConfig == null) { // oxlint-disable-line eslint/eqeqeq
 		emitWarning(
 			`No esbuild config found for "${target}" relative to "${parentURL}"; using defaults.`,
 		);

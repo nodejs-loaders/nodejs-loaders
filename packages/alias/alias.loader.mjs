@@ -6,10 +6,12 @@ import JSON5 from 'json5';
 
 const projectRoot = pathToFileURL(`${process.cwd()}/`);
 
+/** @typedef {import('type-fest').TsConfigJson} TsConfigJson */
+
 const aliases = await readConfigFile('tsconfig.json');
 
 if (!aliases)
-	console.warn(
+	console.warn( // oxlint-disable-line no-console
 		'Alias loader was registered but no "paths" were found in tsconfig.json',
 		'This loader will behave as a noop (but you should probably remove it if you aren’t using it).',
 	);
@@ -26,7 +28,6 @@ export { resolveAlias as resolve };
  * @type {import('node:module').ResolveHook}
  */
 export function resolveAliases(specifier, ctx, next) {
-	// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 	for (const [key, dest] of /** @type {AliasMap} */ (aliases)) {
 		if (specifier === key) {
 			return next(dest, ctx);
@@ -45,7 +46,7 @@ export function readConfigFile(filename) {
 	return (
 		readFile(filepath)
 			.then((contents) => contents.toString())
-			.then((contents) => JSON5.parse(contents))
+			.then((contents) => /** @type {TsConfigJson} */ (JSON5.parse(contents)))
 			// Get the `compilerOptions.paths` object from the parsed JSON
 			.then((contents) => contents?.compilerOptions?.paths)
 			.then(buildAliasMaps)
@@ -56,17 +57,19 @@ export function readConfigFile(filename) {
 }
 
 /**
- * @typedef {Map<string, string>} AliasMap
+ * @typedef {Map<string, string>} AliasMap A map of resolved aliases.
  */
 
-function buildAliasMaps(config) {
-	if (!config) return;
+/**
+ * @param {TsConfigJson['compilerOptions']['paths']} [tspaths] The value of "paths" if it exists
+ */
+function buildAliasMaps(tspaths) {
+	if (!tspaths) return;
 
-	// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 	const aliases = /** @type {AliasMap} */ (new Map());
 
-	for (const rawKey of Object.keys(config)) {
-		const alias = config[rawKey][0];
+	for (const rawKey of Object.keys(tspaths)) {
+		const alias = tspaths[rawKey][0];
 		const isPrefix = rawKey.endsWith('*');
 
 		const key = isPrefix ? rawKey.slice(0, -1) /* strip '*' */ : rawKey;

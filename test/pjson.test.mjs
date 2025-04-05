@@ -18,8 +18,9 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
 
-	for (const pjson of pjsons) {
-		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
+	const tests = [];
+	for (const [i, pjson] of pjsons.entries()) {
+		tests[i] = t.test(`validate 'package.json' of ${pjson.name}`, async () => {
 			const {
 				author,
 				description,
@@ -53,4 +54,6 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			}
 		});
 	}
+
+	await Promise.all(tests);
 });

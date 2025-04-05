@@ -18,7 +18,6 @@ async function resolveMedia(specifier, ctx, nextResolve) {
 
 	return {
 		...ctx,
-
 		format: 'media',
 		url: nextResult.url,
 	};
@@ -52,10 +51,10 @@ export { loadMedia as load };
  */
 /**
  * @type {import('node:module').InitializeHook}
- * @param {MediaExtensionAddRemoveConfig|MediaExtensionReplacementConfig} config
+ * @param {MediaExtensionAddRemoveConfig|MediaExtensionReplacementConfig} config Data to configure media loader file extensions.
  */
 function initialiseMedia(config) {
-	if (config == null) return;
+	if (config == null) return; // oxlint-disable-line eslint/eqeqeq
 
 	if (isList(config)) {
 		exts.clear();
@@ -72,7 +71,7 @@ function initialiseMedia(config) {
 export { initialiseMedia as initialize };
 
 /**
- * @param {unknown} suspect
+ * @param {unknown} suspect The item to check.
  * @returns {boolean}
  */
 const isList = (suspect) =>

@@ -1,6 +1,8 @@
+// oxlint-disable no-console
+
 /**
- * @fileoverview This script is used to run all the benchmarks in the project.
- * @link https://github.com/RafaelGSS/bench-node
+ * This script is used to run all the benchmarks in the project.
+ * @see https://github.com/RafaelGSS/bench-node
  */
 import { spawnSync } from 'node:child_process';
 import { styleText, parseArgs } from 'node:util';

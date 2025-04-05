@@ -31,7 +31,7 @@ describe('deno-npm-prefix (e2e)', () => {
 		assert.equal(code, 0);
 	});
 
-	it('should work with `module.register`', async (t) => {
+	it('should work with `module.register`', async () => {
 		const { code, stdout, stderr } = await spawnPromisified(
 			execPath,
 			[
