@@ -13,8 +13,8 @@ import { fileURLToPath } from 'node:url';
 export const configs = new Map();
 
 /**
- * @param {FileURL} target
- * @param {FileURL} parentURL
+ * @param {FileURL} target Where to start.
+ * @param {FileURL} parentURL Relative to where.
  */
 export function findEsbuildConfig(target, parentURL = target) {
 	if (configs.has(target)) return configs.get(target);
