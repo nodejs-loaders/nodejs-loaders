@@ -39,7 +39,7 @@ export function resolveAliases(specifier, ctx, next) {
 }
 
 export function readConfigFile(filename) {
-	const filepath = new URL(filename, projectRoot);
+	const filepath = new URL(filename, projectRoot); // URL for cross-compatibility with Windows
 
 	return (
 		readFile(filepath)
