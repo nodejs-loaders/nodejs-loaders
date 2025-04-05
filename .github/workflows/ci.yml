@@ -48,7 +48,7 @@ jobs:
       - name: Validate `package.json`s
         run: npm run pjson:check
 
-test:
+  test:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -87,7 +87,7 @@ test:
             format: lcov
             parallel: true
 
-finish:
+  finish:
     needs: test
     if: ${{ success() }}
     runs-on: ubuntu-latest
