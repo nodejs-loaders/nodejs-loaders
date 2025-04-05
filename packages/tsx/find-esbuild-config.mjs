@@ -26,7 +26,7 @@ export function findEsbuildConfig(target, parentURL = target) {
 
 	/** @type {ESBuildOptions} */
 	let esbuildConfig;
-	if (esBuildConfigLocus != null) { // oxlint-disable-line eslint/eqeqeq
+	if (esBuildConfigLocus != null) {
 		const req = createRequire(fileURLToPath(parentURL));
 		try {
 			esbuildConfig = req(esBuildConfigLocus)?.default;
@@ -35,7 +35,7 @@ export function findEsbuildConfig(target, parentURL = target) {
 		}
 	}
 
-	if (esbuildConfig == null) { // oxlint-disable-line eslint/eqeqeq
+	if (esbuildConfig == null) {
 		emitWarning(
 			`No esbuild config found for "${target}" relative to "${parentURL}"; using defaults.`,
 		);

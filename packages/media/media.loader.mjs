@@ -54,7 +54,7 @@ export { loadMedia as load };
  * @param {MediaExtensionAddRemoveConfig|MediaExtensionReplacementConfig} config Data to configure media loader file extensions.
  */
 function initialiseMedia(config) {
-	if (config == null) return; // oxlint-disable-line eslint/eqeqeq
+	if (config == null) return;
 
 	if (isList(config)) {
 		exts.clear();

@@ -23,6 +23,7 @@
 		"unicorn",
 	],
 	"rules": {
+		"eslint/eqeqeq": ["error", "always", {"null": "ignore"}],
 		"eslint/no-case-declarations": "off",
 		"eslint/no-constructor-return": "off",
 		"eslint/require-await": "off",
