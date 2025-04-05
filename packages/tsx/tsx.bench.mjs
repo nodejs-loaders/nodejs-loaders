@@ -16,7 +16,7 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--loader',
-			fileURLToPath(import.meta.resolve('./tsx.loader.mjs')),
+			import.meta.resolve('./tsx.loader.mjs'),
 			e2eTest,
 		],
 		{
@@ -35,7 +35,7 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--import',
-			fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+			import.meta.resolve('./fixtures/register.mjs'),
 			e2eTest,
 		],
 		{

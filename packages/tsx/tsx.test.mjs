@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { execPath } from 'node:process';
 import { describe, it } from 'node:test';
-import { fileURLToPath } from 'node:url';
 
 import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
@@ -20,7 +19,7 @@ describe('JSX & TypeScript loader (e2e)', { skip }, () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./tsx.mjs')),
+				import.meta.resolve('./tsx.mjs'),
 				path.join(cwd, 'main.tsx'),
 			],
 			{

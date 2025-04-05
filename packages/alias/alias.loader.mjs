@@ -1,5 +1,4 @@
 import { readFile } from 'node:fs/promises';
-import path from 'node:path';
 import { pathToFileURL, URL } from 'node:url';
 
 import JSON5 from 'json5';
@@ -40,7 +39,7 @@ export function resolveAliases(specifier, ctx, next) {
 }
 
 export function readConfigFile(filename) {
-	const filepath = path.join(projectRoot.pathname, filename);
+	const filepath = new URL(filename, projectRoot); // URL for cross-compatibility with Windows
 
 	return (
 		readFile(filepath)

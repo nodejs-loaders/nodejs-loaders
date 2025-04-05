@@ -21,7 +21,7 @@ describe('jsonc (e2e)', () => {
 				[
 					'--no-warnings',
 					'--loader',
-					fileURLToPath(import.meta.resolve('./jsonc.mjs')),
+					import.meta.resolve('./jsonc.mjs'),
 					e2eTest,
 				],
 				{
@@ -42,7 +42,7 @@ describe('jsonc (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+					import.meta.resolve('./fixtures/register.mjs'),
 					e2eTest,
 				],
 				{
@@ -63,7 +63,7 @@ describe('jsonc (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./jsonc.mjs')),
+					import.meta.resolve('./jsonc.mjs'),
 					e2eTest,
 				],
 				{
@@ -91,7 +91,7 @@ describe('jsonc (e2e)', () => {
 				[
 					'--no-warnings',
 					'--loader',
-					fileURLToPath(import.meta.resolve('./jsonc.mjs')),
+					import.meta.resolve('./jsonc.mjs'),
 					e2eTest,
 				],
 				{
@@ -112,7 +112,7 @@ describe('jsonc (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+					import.meta.resolve('./fixtures/register.mjs'),
 					e2eTest,
 				],
 				{
@@ -133,7 +133,7 @@ describe('jsonc (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./jsonc.mjs')),
+					import.meta.resolve('./jsonc.mjs'),
 					e2eTest,
 				],
 				{

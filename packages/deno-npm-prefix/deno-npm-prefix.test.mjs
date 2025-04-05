@@ -16,7 +16,7 @@ describe('deno-npm-prefix (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./deno-npm-prefix.mjs')),
+				import.meta.resolve('./deno-npm-prefix.mjs'),
 				e2eTest,
 			],
 			{
@@ -37,7 +37,7 @@ describe('deno-npm-prefix (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				import.meta.resolve('./fixtures/register.mjs'),
 				e2eTest,
 			],
 			{
@@ -59,7 +59,7 @@ describe('deno-npm-prefix (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./fixtures/register-hooks.mjs')),
+					import.meta.resolve('./fixtures/register-hooks.mjs'),
 					e2eTest,
 				],
 				{
@@ -80,7 +80,7 @@ describe('deno-npm-prefix (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./deno-npm-prefix.mjs')),
+				import.meta.resolve('./deno-npm-prefix.mjs'),
 				e2eTest,
 			],
 			{

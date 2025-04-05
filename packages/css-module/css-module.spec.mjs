@@ -62,7 +62,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			);
 
 			assert.equal(result.format, 'commonjs');
-			assert.equal(result.source, `export = 'foo';\n`);
+			assert.equal(result.source.trim(), `export = 'foo';`);
 		});
 
 		it('should handle files with nested and non-nested comments', async () => {
