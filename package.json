@@ -30,7 +30,6 @@
     "./packages/*"
   ],
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.13.15",
     "bench-node": "^0.5.4",
     "oxlint": "^0.16.4",

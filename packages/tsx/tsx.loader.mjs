@@ -28,9 +28,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
 
 	parentURLs.set(
-		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 		/** @type {FileURL} */ (nextResult.url),
-		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 

@@ -5,7 +5,6 @@ import { SUPPORTED_PREFIXES, SCOPE_RGX } from './pr-prefixes.mjs';
 
 const { PR_TITLE } = env;
 
-// biome-ignore format: avoid mangling
 const INVALID_PR_TITLE_ERR = '\
 The pull request title did not match the required format; see CONTRIBUTING.md for details.\
 ';
