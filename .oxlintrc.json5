@@ -33,7 +33,6 @@
 		"eslint/max-lines-per-function": "off",
 		"eslint/max-nested-callbacks": ["error", 3],
 		"jsdoc/check-property-names": "off", // https://github.com/oxc-project/oxc/issues/10252
-		"jsdoc/require-param": "off", // https://github.com/oxc-project/oxc/issues/10252
 		"jsdoc/require-returns": "off",
 		"jsdoc/require-returns-description": "off",
 		"jsdoc/require-returns-type": "off",
@@ -59,4 +58,11 @@
 			},
 		},
 	],
+	"settings": {
+		"jsdoc": {
+			"tagNamePreference": {
+				"property": "prop"
+			}
+		}
+	}
 }
