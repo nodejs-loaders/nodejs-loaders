@@ -26,9 +26,6 @@
 	],
 	"rules": {
 		"eslint/eqeqeq": ["error", "always", { "null": "ignore" }],
-		"eslint/no-case-declarations": "off",
-		"eslint/no-constructor-return": "off",
-		"eslint/require-await": "off",
 		"eslint/curly": ["error", "multi-line"],
 		"eslint/func-style": "off",
 		"eslint/init-declarations": "off",
@@ -36,6 +33,9 @@
 		"eslint/max-lines-per-function": "off",
 		"eslint/max-nested-callbacks": ["error", 3],
 		"eslint/max-params": ["error", 4],
+		"eslint/no-case-declarations": "off",
+		"eslint/no-console": "error",
+		"eslint/no-constructor-return": "off",
 		"eslint/no-magic-numbers": ["error", {
 			"ignore": [0, -1],
 			"ignoreArrayIndexes": true,
@@ -45,18 +45,17 @@
 		"eslint/no-ternary": "off",
 		"eslint/prefer-promise-reject-errors": "off",
 		"eslint/prefer-object-spread": "off",
-		"eslint/sort-imports": "off",
-		"eslint/yoda": ["error", "never"],
-		"jsdoc/check-property-names": "off", // https://github.com/oxc-project/oxc/issues/10252
-		"jsdoc/require-returns": "off",
-		"jsdoc/require-returns-description": "off",
-		"jsdoc/require-returns-type": "off",
-		"eslint/no-console": "error",
+		"eslint/require-await": "off",
 		"eslint/sort-keys": ["error", "asc", {
 			"caseSensitive": true,
 			"natural": true,
 		}],
-		"no-import-type-side-effects": "error",
+		"eslint/sort-imports": "off",
+		"eslint/yoda": ["error", "never"],
+		"jsdoc/check-property-names": "off", // https://github.com/oxc-project/oxc/issues/10252
+		"jsdoc/require-returns-description": "off",
+		"jsdoc/require-returns-type": "off",
+		"jsdoc/require-returns": "off",
 		"import/exports-last": "off",
 		"import/max-dependencies": "off",
 		"import/order": ["error", {
@@ -76,12 +75,13 @@
 		   },
 		}],
 		"typescript/ban-types": "off",
+		"typescript/no-import-type-side-effects": "error",
 		"unicorn/catch-error-name": "off",
 		"unicorn/explicit-length-check": "off",
-		"unicorn/no-typeof-undefined": "off",
 		"unicorn/filename-case": ["error", { "ignore": "^node:" }],
 		"unicorn/no-await-expression-member": "off",
 		"unicorn/no-null": "off",
+		"unicorn/no-typeof-undefined": "off",
 	},
 	"overrides": [
 		{
