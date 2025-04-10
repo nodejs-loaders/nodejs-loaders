@@ -75,7 +75,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			assert.equal(result.format, 'json');
 			assert.deepEqual(
 				result.source,
-				JSON.stringify({ // oxlint-disable line sort-keys
+				JSON.stringify({ // oxlint-disable-line sort-keys
 					Foo: 'Foo',
 					Bar: 'Bar',
 					Qux: 'Qux',
