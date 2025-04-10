@@ -9,7 +9,7 @@ import { message } from './fixtures/message.mjs';
 
 describe('alias (e2e)', () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
-	const encoding = 'utf-8';
+	const encoding = 'utf8';
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 	const msgRgx = new RegExp(message);
 

@@ -12,11 +12,12 @@ async function resolveYaml(specifier, ctx, nextResolve) {
 	// something to contribute to the resolution.
 	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
 
-	if (ext === '.yaml' || ext === '.yml')
+	if (ext === '.yaml' || ext === '.yml') {
 		return {
 			...nextResult,
 			format: 'yaml',
 		};
+	}
 
 	return nextResult;
 }

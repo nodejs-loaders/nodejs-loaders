@@ -36,10 +36,11 @@ describe('alias', () => {
 
 		before(async () => {
 			mock_readFile.mockImplementation(async function mock_readFile(p) {
-				if (p.includes('/tsconfig.json'))
+				if (p.includes('/tsconfig.json')) {
 					return JSON.stringify({
 						compilerOptions: { paths: aliases },
 					});
+				}
 				throw new ENOENT(); // For any other file access, throw ENOENT
 			});
 

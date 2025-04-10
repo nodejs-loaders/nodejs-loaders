@@ -76,8 +76,8 @@ describe('css-module loader', { concurrency: true }, () => {
 			assert.deepEqual(
 				result.source,
 				JSON.stringify({
-					Foo: 'Foo',
 					Bar: 'Bar',
+					Foo: 'Foo',
 					Qux: 'Qux',
 					Zed: 'Zed',
 					img: 'img',

@@ -7,7 +7,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
 describe('svelte (e2e)', () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
-	const encoding = 'utf-8';
+	const encoding = 'utf8';
 	const env = {
 		NODE_ENV: 'development',
 	};

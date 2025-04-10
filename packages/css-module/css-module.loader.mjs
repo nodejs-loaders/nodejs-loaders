@@ -45,8 +45,7 @@ function parseCssToObject(rawSource) {
 	const postcssResult = parse(rawSource).toJSON();
 
 	// @ts-ignore - postcss didn't have types for toJSON
-	for (const rule of postcssResult.nodes)
-		parseCssToObjectRecursive(rule, output);
+	for (const rule of postcssResult.nodes) parseCssToObjectRecursive(rule, output);
 
 	return Object.fromEntries(output);
 }
@@ -59,8 +58,7 @@ function parseCssToObjectRecursive(node, output) {
 		for (const classname of classnames) output.set(classname, classname);
 	}
 
-	if (node.nodes)
-		for (const child of node.nodes) parseCssToObjectRecursive(child, output);
+	if (node.nodes) for (const child of node.nodes) parseCssToObjectRecursive(child, output);
 }
 
 /**

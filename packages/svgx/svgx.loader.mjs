@@ -28,11 +28,7 @@ async function loadSVGX(url, ctx, next) {
 	}
 
 	const base = pascalCase(others.base);
-	const svg = (
-		await next(url, {
-			format: 'jsx',
-		})
-	).source;
+	const svg = (await next(url, { format: 'jsx' })).source;
 	const source = `export default function ${base}() { return (\n${svg}); }`;
 
 	return {

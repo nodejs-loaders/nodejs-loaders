@@ -12,8 +12,8 @@ export async function assertSuffixedSpecifiers(
 	for (const [i, suffix] of suffixes.entries()) {
 		const specifier = `${baseSpecifier}${suffix}`;
 		resolved[i] = resolve(specifier, ctx, nextResolve).then((result) => ({
-			url: specifier,
 			result,
+			url: specifier,
 		}));
 	}
 	resolved = await Promise.all(resolved);

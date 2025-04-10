@@ -10,11 +10,12 @@ const projectRoot = pathToFileURL(`${process.cwd()}/`);
 
 const aliases = await readConfigFile('tsconfig.json');
 
-if (!aliases)
+if (!aliases) {
 	console.warn( // oxlint-disable-line no-console
 		'Alias loader was registered but no "paths" were found in tsconfig.json',
 		'This loader will behave as a noop (but you should probably remove it if you aren’t using it).',
 	);
+}
 
 /**
  * @type {import('node:module').ResolveHook}
@@ -74,10 +75,9 @@ function buildAliasMaps(tspaths) {
 
 		const key = isPrefix ? rawKey.slice(0, -1) /* strip '*' */ : rawKey;
 		const baseDest = isPrefix ? alias.slice(0, -1) /* strip '*' */ : alias;
-		const dest =
-			baseDest[0] === '/' || URL.canParse(baseDest)
-				? baseDest
-				: new URL(baseDest, projectRoot).href;
+		const dest = (baseDest[0] === '/' || URL.canParse(baseDest))
+			? baseDest
+			: new URL(baseDest, projectRoot).href;
 
 		aliases.set(key, dest);
 	}

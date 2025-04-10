@@ -38,8 +38,8 @@ async function loadText(url, ctx, nextLoad) {
 export { loadText as load };
 
 export const exts = {
-	'.graphql': 'graphql',
 	'.gql': 'graphql',
+	'.graphql': 'graphql',
 	'.md': 'markdown',
 	'.txt': 'text',
 };

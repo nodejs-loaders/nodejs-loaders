@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
-const encoding = 'utf-8';
+const encoding = 'utf8';
 const env = { NO_COLOR: true };
 
 describe('jsonc (e2e)', () => {
