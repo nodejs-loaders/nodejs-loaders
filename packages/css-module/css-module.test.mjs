@@ -16,7 +16,7 @@ describe('css-module (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./css-module.mjs')),
+				import.meta.resolve('./css-module.mjs'),
 				e2eTest,
 			],
 			{
@@ -37,7 +37,7 @@ describe('css-module (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				import.meta.resolve('./fixtures/register.mjs'),
 				e2eTest,
 			],
 			{
@@ -58,7 +58,7 @@ describe('css-module (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./css-module.mjs')),
+				import.meta.resolve('./css-module.mjs'),
 				e2eTest,
 			],
 			{

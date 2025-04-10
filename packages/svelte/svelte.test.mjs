@@ -19,7 +19,7 @@ describe('svelte (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./svelte.mjs')),
+				import.meta.resolve('./svelte.mjs'),
 				e2eTest,
 			],
 			{
@@ -40,7 +40,7 @@ describe('svelte (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				import.meta.resolve('./fixtures/register.mjs'),
 				e2eTest,
 			],
 			{
@@ -61,7 +61,7 @@ describe('svelte (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./svelte.mjs')),
+				import.meta.resolve('./svelte.mjs'),
 				e2eTest,
 			],
 			{

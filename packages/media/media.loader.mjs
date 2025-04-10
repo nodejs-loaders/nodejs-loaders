@@ -1,6 +1,7 @@
 import process from 'node:process';
 
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
+import { pathToFileURL } from 'node:url';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
 
@@ -78,7 +79,7 @@ const isList = (suspect) =>
 	typeof suspect[Symbol.iterator] === 'function' &&
 	(Array.isArray(suspect) || suspect instanceof Set);
 
-const cwd = process.cwd();
+const cwd = pathToFileURL(process.cwd()).pathname;
 
 export const exts = new Set([
 	/**

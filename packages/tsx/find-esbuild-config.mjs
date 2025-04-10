@@ -1,6 +1,5 @@
 import { createRequire, findPackageJSON } from 'node:module';
 import { emitWarning } from 'node:process';
-import { fileURLToPath } from 'node:url';
 
 /** @typedef {import('esbuild').TransformOptions} ESBuildOptions */
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
@@ -27,7 +26,7 @@ export function findEsbuildConfig(target, parentURL = target) {
 	/** @type {ESBuildOptions} */
 	let esbuildConfig;
 	if (esBuildConfigLocus != null) {
-		const req = createRequire(fileURLToPath(parentURL));
+		const req = createRequire(parentURL);
 		try {
 			esbuildConfig = req(esBuildConfigLocus)?.default;
 		} catch (err) {

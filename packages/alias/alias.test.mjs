@@ -19,7 +19,7 @@ describe('alias (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./alias.mjs')),
+				import.meta.resolve('./alias.mjs'),
 				e2eTest,
 			],
 			{
@@ -39,7 +39,7 @@ describe('alias (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				import.meta.resolve('./fixtures/register.mjs'),
 				e2eTest,
 			],
 			{
@@ -60,7 +60,7 @@ describe('alias (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./fixtures/register-hooks.mjs')),
+					import.meta.resolve('./fixtures/register-hooks.mjs'),
 					e2eTest,
 				],
 				{
@@ -81,7 +81,7 @@ describe('alias (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./alias.mjs')),
+				import.meta.resolve('./alias.mjs'),
 				e2eTest,
 			],
 			{
