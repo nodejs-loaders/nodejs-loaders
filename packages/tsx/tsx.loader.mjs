@@ -77,7 +77,8 @@ async function loadTSX(url, ctx, nextLoad) {
 			location: { column, line, lineText },
 			text,
 		} of errors) {
-			console.error( // oxlint-disable-line no-console
+			// oxlint-disable-next-line no-console
+			console.error(
 				`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`,
 			);
 		}
@@ -88,7 +89,8 @@ async function loadTSX(url, ctx, nextLoad) {
 		};
 	});
 
-	if (warnings?.length) console.warn(...warnings); // oxlint-disable-line no-console
+	// oxlint-disable-next-line no-console
+	if (warnings?.length) console.warn(...warnings);
 
 	return {
 		format,

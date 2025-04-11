@@ -3,7 +3,8 @@
  */
 function resolveNpmPrefix(specifier, ctx, nextResolve) {
 	const cleanSpecifier = specifier.startsWith('npm:')
-		? specifier.slice(4) // oxlint-disable-line no-magic-numbers
+		// oxlint-disable-next-line no-magic-numbers
+		? specifier.slice(4)
 		: specifier;
 
 	return nextResolve(cleanSpecifier, ctx);

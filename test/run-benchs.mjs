@@ -8,7 +8,8 @@ import { spawnSync } from 'node:child_process';
 import { styleText, parseArgs } from 'node:util';
 
 let { workspace: w } = parseArgs({
-	args: process.argv.slice(2), // oxlint-disable-line no-magic-numbers
+	// oxlint-disable-next-line no-magic-numbers
+	args: process.argv.slice(2),
 	options: {
 		workspace: {
 			default: '',
