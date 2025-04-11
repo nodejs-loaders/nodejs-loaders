@@ -16,7 +16,7 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 		['--no-warnings', '--loader', import.meta.resolve('./svelte.mjs'), e2eTest],
 		{
 			cwd,
-			encoding: 'utf-8',
+			encoding: 'utf8',
 			env: {
 				NODE_ENV: 'development',
 			},
@@ -35,7 +35,7 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		],
 		{
 			cwd,
-			encoding: 'utf-8',
+			encoding: 'utf8',
 			env: {
 				NODE_ENV: 'development',
 			},

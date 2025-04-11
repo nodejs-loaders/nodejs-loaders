@@ -7,7 +7,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
 describe('media (e2e)', () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
-	const encoding = 'utf-8';
+	const encoding = 'utf8';
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
 	it('should work with `--loader`', async (t) => {
@@ -73,7 +73,7 @@ describe('media (e2e)', () => {
 		assert.equal(code, 0);
 	});
 
-	it('should accept deletions via `module.register`', async (t) => {
+	it('should accept deletions via `module.register`', async () => {
 		const { code, stderr } = await spawnPromisified(
 			execPath,
 			[

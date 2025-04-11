@@ -1,11 +1,10 @@
 import assert from 'node:assert/strict';
 import { env } from 'node:process';
 
-import { SUPPORTED_PREFIXES, SCOPE_RGX } from './pr-prefixes.mjs';
+import { SCOPE_RGX, SUPPORTED_PREFIXES } from './pr-prefixes.mjs';
 
 const { PR_TITLE } = env;
 
-// biome-ignore format: avoid mangling
 const INVALID_PR_TITLE_ERR = '\
 The pull request title did not match the required format; see CONTRIBUTING.md for details.\
 ';

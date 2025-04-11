@@ -6,7 +6,7 @@ describe('deno-npm-prefix', () => {
 	describe('resolve', () => {
 		it('should remove "npm:" prefix from specifier', async () => {
 			const specifier = 'npm:lodash';
-			const nextResolve = (cleanSpecifier, ctx) => {
+			const nextResolve = (cleanSpecifier, _ctx) => {
 				assert.strictEqual(cleanSpecifier, 'lodash');
 				return Promise.resolve({ url: `node_modules/${cleanSpecifier}` });
 			};
@@ -17,7 +17,7 @@ describe('deno-npm-prefix', () => {
 
 		it('should pass through specifier without "npm:" prefix', async () => {
 			const specifier = 'lodash';
-			const nextResolve = (cleanSpecifier, ctx) => {
+			const nextResolve = (cleanSpecifier, _ctx) => {
 				assert.strictEqual(cleanSpecifier, 'lodash');
 				return Promise.resolve({ url: `node_modules/${cleanSpecifier}` });
 			};
@@ -28,7 +28,7 @@ describe('deno-npm-prefix', () => {
 
 		it('should handle empty specifier', async () => {
 			const specifier = '';
-			const nextResolve = (cleanSpecifier, ctx) => {
+			const nextResolve = (cleanSpecifier, _ctx) => {
 				assert.strictEqual(cleanSpecifier, '');
 				return Promise.resolve({ url: '' });
 			};

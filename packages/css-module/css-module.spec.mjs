@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assertSuffixedSpecifiers } from '../../fixtures/assert-suffixed-specifiers.fixture.mjs';
+import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
@@ -75,7 +75,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			assert.equal(result.format, 'json');
 			assert.deepEqual(
 				result.source,
-				JSON.stringify({
+				JSON.stringify({ // oxlint-disable-line sort-keys
 					Foo: 'Foo',
 					Bar: 'Bar',
 					Qux: 'Qux',

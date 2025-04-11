@@ -2,7 +2,9 @@
   "version": "2.0.0",
   "name": "nodejs-loaders",
   "author": "Jacob Smith",
-  "maintainers": ["Augustin Mauroy"],
+  "maintainers": [
+    "Augustin Mauroy"
+  ],
   "license": "ISC",
   "keywords": [
     "customisation hooks",
@@ -12,13 +14,10 @@
   ],
   "scripts": {
     "bench": "node --no-warnings ./test/run-benchs.mjs",
-    "biome:format:fix": "biome format --fix ./",
-    "biome:format": "biome format ./",
-    "biome:lint:fix": "biome lint --fix ./",
-    "biome:lint": "biome lint ./",
-    "biome:ci": "biome ci ./",
+    "lint": "oxlint --config ./.oxlintrc.json5",
+    "lint:fix": "oxlint --config ./.oxlintrc.json5 --fix",
     "pjson:check": "node --no-warnings --test ./test/pjson.test.mjs",
-    "pre-commit": "node --run biome:lint:fix; node --run biome:format:fix",
+    "pre-commit": "node --run lint:fix",
     "test": "node --no-warnings --import='./test/snapshots.mjs' --experimental-test-snapshots --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=./coverage.lcov --test-reporter=spec --test-reporter-destination=stdout --experimental-test-module-mocks --test --test-coverage-include='packages/**/*.mjs' --test-coverage-exclude='**/*.spec.mjs' --test-coverage-exclude='**/*.test.mjs' './packages/*/*.spec.mjs' './packages/*/*.test.mjs'",
     "types:check": "tsc --noEmit",
     "types:generate": "tsc"
@@ -27,11 +26,14 @@
     "type": "git",
     "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git"
   },
-  "workspaces": ["./packages/*"],
+  "workspaces": [
+    "./packages/*"
+  ],
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.13.15",
-    "bench-node": "^0.5.4"
+    "bench-node": "^0.5.4",
+    "oxlint": "^0.16.5",
+    "type-fest": "^4.39.1"
   },
   "optionalDependencies": {
     "typescript": "^5.8.2"

@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { cwd, setSourceMapsEnabled, sourceMapsEnabled } from 'node:process';
+import { cwd } from 'node:process';
 import { pathToFileURL } from 'node:url';
 
 import { transform } from 'esbuild';
@@ -28,9 +28,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
 
 	parentURLs.set(
-		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 		/** @type {FileURL} */ (nextResult.url),
-		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
@@ -54,7 +52,7 @@ export { resolveTSX as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
- * @argument {FileURL} url
+ * @param {FileURL} url The fully resolved url.
  */
 async function loadTSX(url, ctx, nextLoad) {
 	if (ctx.format !== 'jsx' && ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
@@ -79,6 +77,7 @@ async function loadTSX(url, ctx, nextLoad) {
 			location: { column, line, lineText },
 			text,
 		} of errors) {
+			// oxlint-disable-next-line no-console
 			console.error(
 				`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`,
 			);
@@ -90,6 +89,7 @@ async function loadTSX(url, ctx, nextLoad) {
 		};
 	});
 
+	// oxlint-disable-next-line no-console
 	if (warnings?.length) console.warn(...warnings);
 
 	return {

@@ -21,7 +21,7 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 		],
 		{
 			cwd,
-			encoding: 'utf-8',
+			encoding: 'utf8',
 			env: { NO_COLOR: true },
 		},
 	);
@@ -38,7 +38,7 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		],
 		{
 			cwd,
-			encoding: 'utf-8',
+			encoding: 'utf8',
 			env: { NO_COLOR: true },
 		},
 	);
@@ -56,7 +56,7 @@ if (process.version.startsWith('v23')) {
 			],
 			{
 				cwd,
-				encoding: 'utf-8',
+				encoding: 'utf8',
 			},
 		);
 	});

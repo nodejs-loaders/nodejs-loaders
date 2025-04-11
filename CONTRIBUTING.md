@@ -32,6 +32,14 @@ Code should be well documented and tested. Each loader must:
   * unit tests for branching and especially failure cases
   * end-to-end for [happy-paths](https://en.wikipedia.org/wiki/Happy_path)
 * Adhere to code styles (CI will verify adherence but will not auto-fix).
+  * Some code styles are not automatically verified yet. Ensure, in addition to what the linter checks:
+    * 100 max line length for source code
+	* 80 max line length in markdown fenced codeblocks
+	  * Do NOT for length breaks outside of codeblocks
+	* always use parens for fat-arrow args (`(foo) => foo.bar` vs `foo => foo.bar`)
+	* extra parens elsewhere for readability are okay, but don't go nuts
+	* always use semicolons & trailing commas
+	* always put multiple items on separate lines where more may be added (e.g. do multiline: `plugins = ['foo', 'bar'];` don't multiline `input = { name: 'Jakob' }`)
 
 We take pride in this project. That said, we're pretty reasonable and friendly people; if there is a very good reason for something, make an objective case. But please also realise that our time is limited and this is not our job.
 
@@ -159,7 +167,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 describe('Your Loader (e2e)', () => {
 	const opts = {
 		cwd: fileURLToPath(import.meta.resolve('./fixtures')),
-		encoding: 'utf-8',
+		encoding: 'utf8',
 	};
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 

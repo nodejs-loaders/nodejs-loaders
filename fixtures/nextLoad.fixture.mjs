@@ -9,6 +9,6 @@ export const nextLoad = async (
 
 	return {
 		format,
-		source: await readFile(fsPath, 'utf-8'),
+		source: await readFile(fsPath, 'utf8'),
 	};
 };

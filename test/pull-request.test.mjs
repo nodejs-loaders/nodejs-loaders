@@ -8,7 +8,7 @@ import { spawnPromisified } from './spawn-promisified.mjs';
 import { SUPPORTED_PREFIXES } from './pr-prefixes.mjs';
 
 test('Pull Request checks', async (t) => {
-	const encoding = 'utf-8';
+	const encoding = 'utf8';
 	const prTestPath = fileURLToPath(import.meta.resolve('./pull-request.mjs'));
 
 	const cases = [];

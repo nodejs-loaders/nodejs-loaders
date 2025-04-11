@@ -1,0 +1,110 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"ignorePatterns": [
+		"**/fixtures/**",
+		"**/fixture.*",
+		"**/*.snap.cjs",
+	],
+	"categories": {
+		"correctness": "error",
+		"perf": "error",
+		"pedantic": "error",
+		"style": "error",
+		"suspicious": "warn",
+	},
+	"plugins": [
+		"import",
+		"jsdoc",
+		"jsx-a11y",
+		"node",
+		"oxc",
+		"react-perf",
+		"react",
+		"recommended",
+		"typescript",
+		"unicorn",
+	],
+	"rules": {
+		"eslint/eqeqeq": ["error", "always", { "null": "ignore" }],
+		"eslint/curly": ["error", "multi-line"],
+		"eslint/func-style": "off",
+		"eslint/init-declarations": "off",
+		"eslint/max-depth": ["error", 3],
+		"eslint/max-lines-per-function": "off",
+		"eslint/max-nested-callbacks": ["error", 3],
+		"eslint/max-params": ["error", 4],
+		"eslint/no-case-declarations": "off",
+		"eslint/no-console": "error",
+		"eslint/no-constructor-return": "off",
+		"eslint/no-magic-numbers": ["error", {
+			"ignore": [0, -1],
+			"ignoreArrayIndexes": true,
+			"ignoreTypeIndexes": true,
+		}],
+		"eslint/no-multi-str": "off",
+		"eslint/no-ternary": "off",
+		"eslint/prefer-promise-reject-errors": "off",
+		"eslint/prefer-object-spread": "off",
+		"eslint/require-await": "off",
+		"eslint/sort-keys": ["error", "asc", {
+			"caseSensitive": true,
+			"natural": true,
+		}],
+		"eslint/sort-imports": "off",
+		"eslint/yoda": ["error", "never"],
+		"jsdoc/check-property-names": "off", // https://github.com/oxc-project/oxc/issues/10252
+		"jsdoc/require-returns-description": "off",
+		"jsdoc/require-returns-type": "off",
+		"jsdoc/require-returns": "off",
+		"import/exports-last": "off",
+		"import/max-dependencies": "off",
+		"import/order": ["error", {
+			"groups": [
+				"builtin",
+				"external",
+				"internal",
+				"parent",
+				"sibling",
+				"index",
+				"unknown",
+		   ],
+		   "newlines-between": "always",
+		   "alphabetize": {
+				"order": "asc",
+				"caseInsensitive": false,
+		   },
+		}],
+		"typescript/ban-types": "off",
+		"typescript/no-import-type-side-effects": "error",
+		"unicorn/catch-error-name": "off",
+		"unicorn/explicit-length-check": "off",
+		"unicorn/filename-case": ["error", { "ignore": "^node:" }],
+		"unicorn/no-await-expression-member": "off",
+		"unicorn/no-null": "off",
+		"unicorn/no-typeof-undefined": "off",
+	},
+	"overrides": [
+		{
+			"files": [
+				"*.spec.mjs",
+				"*.spec.jsx",
+				"*.test.mjs",
+				"*.test.jsx",
+			],
+			"rules": {
+				"max-depth": "off",
+				"max-lines-per-function": "off",
+				"max-nested-callbacks": "off",
+				"no-magic-numbers": "off",
+				"no-throw-literal": "off",
+			},
+		},
+	],
+	"settings": {
+		"jsdoc": {
+			"tagNamePreference": {
+				"property": "prop"
+			}
+		}
+	}
+}
