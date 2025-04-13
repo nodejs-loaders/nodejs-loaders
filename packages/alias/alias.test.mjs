@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import path from 'node:path';
 import { execPath } from 'node:process';
 import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -93,5 +94,95 @@ describe('alias (e2e)', () => {
 		assert.equal(stderr, '');
 		assert.match(stdout, msgRgx);
 		assert.equal(code, 0);
+	});
+
+	describe('customising via `register`', () => {
+		it('should accept a filename for tsconfig', async () => {
+			const cwd = fileURLToPath(import.meta.resolve('./fixtures/customised-tsconfig-filename'));
+
+			const { code, stderr, stdout } = await spawnPromisified(
+				execPath,
+				[
+					'--no-warnings',
+					'--import',
+					path.join(cwd, 'register.mjs'),
+					path.join(cwd, 'e2e.mjs'),
+				],
+				{
+					cwd,
+					encoding,
+				},
+			);
+
+			assert.equal(stderr, '');
+			assert.match(stdout, msgRgx);
+			assert.equal(code, 0);
+		});
+
+		it('should accept a full location for tsconfig', async () => {
+			const cwd = fileURLToPath(import.meta.resolve('./fixtures/customised-tsconfig-full-path'));
+
+			const { code, stderr, stdout } = await spawnPromisified(
+				execPath,
+				[
+					'--no-warnings',
+					'--import',
+					path.join(cwd, 'register.mjs'),
+					path.join(cwd, 'e2e.mjs'),
+				],
+				{
+					cwd,
+					encoding,
+				},
+			);
+
+			assert.equal(stderr, '');
+			assert.match(stdout, msgRgx);
+			assert.equal(code, 0);
+		});
+	});
+
+	describe('customising via `TS_NODE_PROJECT`', () => {
+		it('should accept a filename for tsconfig', async () => {
+			const { code, stderr, stdout } = await spawnPromisified(
+				execPath,
+				[
+					'--no-warnings',
+					'--import',
+					import.meta.resolve('./fixtures/register.mjs'),
+					e2eTest,
+				],
+				{
+					cwd,
+					encoding,
+					env: { TS_NODE_PROJECT: 'tsconfig.whatever.json' },
+				},
+			);
+
+			assert.equal(stderr, '');
+			assert.match(stdout, msgRgx);
+			assert.equal(code, 0);
+		});
+
+		it('should accept a full location for tsconfig', async () => {
+			const { code, stderr, stdout } = await spawnPromisified(
+				execPath,
+				[
+					'--no-warnings',
+					'--import',
+					import.meta.resolve('./fixtures/register.mjs'),
+					e2eTest,
+				],
+				{
+					cwd,
+					encoding,
+					env: { TS_NODE_PROJECT: import.meta.resolve('./fixtures/tsconfig.whatever.json') },
+				},
+			);
+
+			assert.equal(stderr, '');
+			assert.match(stdout, msgRgx);
+			assert.equal(code, 0);
+		});
 	});
 });
