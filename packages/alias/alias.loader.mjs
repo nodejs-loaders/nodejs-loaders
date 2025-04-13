@@ -1,86 +1,62 @@
-import { readFile } from 'node:fs/promises';
-import { pathToFileURL, URL } from 'node:url';
-
-import JSON5 from 'json5';
-
-const projectRoot = pathToFileURL(`${process.cwd()}/`);
+import { getAliases, meta } from './get-aliases-from-tsconfig.mjs';
 
 /** @typedef {import('type-fest').TsConfigJson} TsConfigJson */
+/** @typedef {import('../types.d.ts').FileURL} FileURL */
 
-const aliases = await readConfigFile('tsconfig.json');
+/**
+ * @typedef {object} AliasInitConfig
+ * @prop {string | FileURL} AliasInitConfig.location The name or fully resolved location of the tsconfig.
+ */
+/**
+ * @type {import('node:module').InitializeHook}
+ * @param {AliasInitConfig} [config] Configuration object to customise Alias loader.
+ */
+function initialiseAlias(config) {
+	if (config == null) return;
 
-if (!aliases) {
-	// oxlint-disable-next-line no-console
-	console.warn(
-		'Alias loader was registered but no "paths" were found in tsconfig.json',
-		'This loader will behave as a noop (but you should probably remove it if you aren’t using it).',
-	);
+	if (config.location) meta.filename = config.location;
 }
+export { initialiseAlias as initialize };
+
+/**
+ * @typedef {import('node:module').ResolveHook} ResolveHook
+ * @typedef {Parameters<ResolveHook>} ResolveParams
+ * @typedef {ResolveParams[0]} ResolveSpecifier
+ * @typedef {ResolveParams[1]} ResolveCtx
+ */
 
 /**
  * @type {import('node:module').ResolveHook}
+ * @param {ResolveSpecifier} specifier The unresolved module specifier.
+ * @param {ResolveCtx & { parentURL?: FileURL }} ctx The ResolveHookContext.
  */
 function resolveAlias(specifier, ctx, next) {
-	return (aliases ? resolveAliases : next)(specifier, ctx, next);
+	const aliases = getAliases(ctx.parentURL);
+
+	if (!aliases) return next(specifier, ctx);
+
+	return resolveAliases(specifier, {
+		...ctx,
+		// @ts-expect-error not sure why it isn't picking up the type union
+		aliases,
+	}, next);
 }
 export { resolveAlias as resolve };
 
 /**
  * @type {import('node:module').ResolveHook}
+ * @param {ResolveSpecifier} specifier The unresolved module specifier.
+ * @param {ResolveCtx & { aliases: import('./get-aliases-from-tsconfig.mjs').AliasMap }} ctx The ResolveHookContext.
  */
-export function resolveAliases(specifier, ctx, next) {
-	for (const [key, dest] of /** @type {AliasMap} */ (aliases)) {
+export function resolveAliases(specifier, { aliases }, next) {
+	for (const [key, dest] of aliases) {
 		if (specifier === key) {
-			return next(dest, ctx);
+			return next(dest);
 		}
 		if (specifier.startsWith(key)) {
-			return next(specifier.replace(key, dest), ctx);
+			return next(specifier.replace(key, dest));
 		}
 	}
 
-	return next(specifier, ctx);
-}
-
-export function readConfigFile(filename) {
-	const filepath = new URL(filename, projectRoot); // URL for cross-compatibility with Windows
-
-	return (
-		readFile(filepath)
-			.then((contents) => contents.toString())
-			.then((contents) => /** @type {TsConfigJson} */ (JSON5.parse(contents)))
-			// Get the `compilerOptions.paths` object from the parsed JSON
-			.then((contents) => contents?.compilerOptions?.paths)
-			.then(buildAliasMaps)
-			.catch((err) => {
-				if (err.code !== 'ENOENT') throw err;
-			})
-	);
-}
-
-/**
- * @typedef {Map<string, string>} AliasMap A map of resolved aliases.
- */
-
-/**
- * @param {TsConfigJson['compilerOptions']['paths']} [tspaths] The value of "paths" if it exists
- */
-function buildAliasMaps(tspaths) {
-	if (!tspaths) return;
-
-	const aliases = /** @type {AliasMap} */ (new Map());
-
-	for (const rawKey of Object.keys(tspaths)) {
-		const alias = tspaths[rawKey][0];
-		const isPrefix = rawKey.endsWith('*');
-
-		const key = isPrefix ? rawKey.slice(0, -1) /* strip '*' */ : rawKey;
-		const baseDest = isPrefix ? alias.slice(0, -1) /* strip '*' */ : alias;
-		const dest = (baseDest[0] === '/' || URL.canParse(baseDest))
-			? baseDest
-			: new URL(baseDest, projectRoot).href;
-
-		aliases.set(key, dest);
-	}
-
-	return aliases;
+	return next(specifier);
 }
