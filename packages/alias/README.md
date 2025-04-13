@@ -40,3 +40,12 @@ This is commonly used to reference the project root; common prefixes are `@/` (o
 ## A pointer
 
 This is a static specifier similar to a bare module specifier: `foo` → `${project_root}/src/app/foo.mts`. This may be useful when you have a commonly referenced file like config (which may conditionally not even live on the same filesystem): `import CONF from 'conf';` → `${project_root}/config.json`.
+
+## configuration
+
+The are 2 ways to configure the tsconfig alias loader uses:
+
+* Environment variable: `TS_NODE_PROJECT`
+* `node:module.register`'s options.data argument: `register(…, …, { data: import.meta.resolve(…) })`.
+
+For both options, the value can be either a simple filename like `'tsconfig.whatever.json'` or a fully resolved location `'file:///path/to/someplace/tsconfig.whatever.json'` (or its absolute file path).
