@@ -20,17 +20,17 @@ async function loadMismatchedFormat(url, ctx, next) {
 			// the fact that this function is async for this to be used in `module.register`
 			// @ts-ignore - so then is needed and `next()` can't be sync
 			.then((result) => {
-				if (containsCJS('' + result.source)) {
-					throw new Error('CommonJS');
-				}
+				if (containsCJS('' + result.source)) throw new Error('CommonJS');
 
 				return result;
 			})
 			.catch(async (err) => {
 				if (
-					(err?.message.includes('require') &&
-						err?.message.includes('import')) ||
-					err?.message.includes('CommonJS')
+					(
+						err?.message.includes('require')
+						&& err?.message.includes('import')
+					)
+					|| err?.message.includes('CommonJS')
 				) {
 					return { format: 'commonjs' };
 				}
