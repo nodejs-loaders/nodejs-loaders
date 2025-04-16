@@ -54,7 +54,23 @@ export function resolveAliases(specifier, { aliases }, next) {
 			return next(dest);
 		}
 		if (specifier.startsWith(key)) {
-			return next(specifier.replace(key, dest));
+			let resolved;
+			// Need try/catch for the sync path (module.registerHooks)
+			try { resolved = next(specifier.replace(key, dest)) }
+			catch (err) { if (err.code !== 'ERR_MODULE_NOT_FOUND') throw err }
+
+			// Need the promise path for the async path (module.register)
+			if (typeof resolved?.catch === 'function') {
+				return resolved.catch((err) => {
+					if (err.code !== 'ERR_MODULE_NOT_FOUND') throw err;
+
+					return next(specifier);
+				});
+			}
+
+			if (resolved) return resolved;
+
+			return next(specifier);
 		}
 	}
 
