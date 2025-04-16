@@ -90,6 +90,7 @@ export function readTSConfigFile(resolvedLocus) {
  * @param {TSConfig['compilerOptions']|undefined} compilerOptions The value of "compilerOptions" if it exists.
  * @param {FileURL} tsConfigLocus The location of the controlling tsconfig.
  */
+// oxlint-disable-next-line eslint/default-param-last
 function buildAliasMaps({ baseUrl: base = './', paths } = {}, tsConfigLocus) {
 	if (!paths) return;
 

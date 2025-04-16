@@ -1,3 +1,5 @@
+// oxlint-disable eslint/max-depth
+
 import { getAliases, meta } from './get-aliases-from-tsconfig.mjs';
 
 /** @typedef {import('type-fest').TsConfigJson} TsConfigJson */
