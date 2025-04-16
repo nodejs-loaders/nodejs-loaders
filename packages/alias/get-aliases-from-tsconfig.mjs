@@ -90,7 +90,7 @@ export function readTSConfigFile(resolvedLocus) {
  * @param {TSConfig['compilerOptions']|undefined} compilerOptions The value of "compilerOptions" if it exists.
  * @param {FileURL} tsConfigLocus The location of the controlling tsconfig.
  */
-function buildAliasMaps({ baseUrl: base = './', paths }, tsConfigLocus) {
+function buildAliasMaps({ baseUrl: base = './', paths } = {}, tsConfigLocus) {
 	if (!paths) return;
 
 	// URL() drops/overwrites the final segment of the 2nd arg when it does not end in '/' 🤪
