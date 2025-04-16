@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
-describe('css-module (e2e)', () => {
+describe('css-module (e2e)', { concurrency: true }, () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
 	const encoding = 'utf8';
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));

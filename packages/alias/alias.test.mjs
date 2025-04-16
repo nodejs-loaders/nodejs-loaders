@@ -8,7 +8,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
 import { message } from './fixtures/message.mjs';
 
-describe('alias (e2e)', () => {
+describe('alias (e2e)', { concurrency: true }, () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
 	const encoding = 'utf8';
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));

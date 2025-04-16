@@ -7,7 +7,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
 const skip = +process.version.slice(1, 3) < 23;
 
-describe('JSX & TypeScript loader (e2e)', { skip }, () => {
+describe('JSX & TypeScript loader (e2e)', { concurrency: true }, { skip }, () => {
 	/**
 	 * If react isn't found, the transpilation has happened. If there is another error, the
 	 * transpilation failed (kind of hypothetical)

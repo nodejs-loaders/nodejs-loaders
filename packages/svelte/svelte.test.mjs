@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
-describe('svelte (e2e)', () => {
+describe('svelte (e2e)', { concurrency: true }, () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
 	const encoding = 'utf8';
 	const env = {

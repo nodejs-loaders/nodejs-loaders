@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { resolve } from './deno-npm-prefix.loader.mjs';
 
-describe('deno-npm-prefix', () => {
+describe('deno-npm-prefix', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should remove "npm:" prefix from specifier', async () => {
 			const specifier = 'npm:lodash';

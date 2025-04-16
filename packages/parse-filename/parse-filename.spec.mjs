@@ -7,7 +7,7 @@ import {
 	stripExtras,
 } from './parse-filename.mjs';
 
-describe('parse-filename', () => {
+describe('parse-filename', { concurrency: true }, () => {
 	const base = 'foo';
 	const ext = '.ext';
 
