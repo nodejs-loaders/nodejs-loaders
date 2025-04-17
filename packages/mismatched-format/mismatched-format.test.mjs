@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { load } from './mismatched-format.loader.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
-describe('Mismatched format loader (e2e)', () => {
+describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
 	describe('correctly identify the containing CJS as CJS, despite "type": "module"', () => {
 		it('should handle `require()`', async () => {
 			const result = await load(

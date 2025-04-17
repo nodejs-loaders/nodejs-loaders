@@ -8,7 +8,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 const encoding = 'utf8';
 const env = { NO_COLOR: true };
 
-describe('json5 (e2e)', () => {
+describe('json5 (e2e)', { concurrency: true }, () => {
 	const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
 	const e2eTest = fileURLToPath(
 		import.meta.resolve('./fixtures/e2e-json5.mjs'),

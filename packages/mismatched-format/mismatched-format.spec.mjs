@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { before, describe, it, mock } from 'node:test';
 
-describe('Mismatched format loader (unit)', () => {
+// `concurrency` creates a race condition in the test setup. the perf diff is ~nonexistent
+describe('Mismatched format loader (unit)', { concurrency: false }, () => {
 	/** @type {import('./mismatched-format.loader.mjs').load} */
 	let load;
 	/** @type {MockFunctionContext<NoOpFunction>} */

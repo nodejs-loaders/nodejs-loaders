@@ -3,7 +3,7 @@ import { before, describe, mock, test } from 'node:test';
 
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
-describe('alias', () => {
+describe('alias', { concurrency: true }, () => {
 	/** @type {MockFunctionContext<NoOpFunction>} */
 	let mock_readFileSync;
 	const base = 'file://';
