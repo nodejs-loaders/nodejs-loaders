@@ -96,6 +96,28 @@ describe('alias (e2e)', { concurrency: true }, () => {
 		assert.equal(code, 0);
 	});
 
+	it('should incorporate `tsconfig.compileOptions.baseUrl`', async () => {
+		const cwd = fileURLToPath(import.meta.resolve('./fixtures/base-url'));
+		const { code, stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				import.meta.resolve('./alias.mjs'),
+				path.join(cwd, 'src/b/e2e.mjs'),
+			],
+			{
+				cwd,
+				encoding,
+			},
+		);
+
+		assert.equal(stderr, '');
+		assert.match(stdout, msgRgx);
+		assert.match(stdout, /found foo/);
+		assert.equal(code, 0);
+	});
+
 	describe('customising via `register`', () => {
 		it('should accept a filename for tsconfig', async () => {
 			const cwd = fileURLToPath(import.meta.resolve('./fixtures/customised-tsconfig-filename'));

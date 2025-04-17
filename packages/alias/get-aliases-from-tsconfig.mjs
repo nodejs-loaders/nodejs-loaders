@@ -51,7 +51,7 @@ export function getAliases(
 
 	if (aliasesMap.has(tsConfigLocus)) return aliasesMap.get(tsConfigLocus);
 
-	const aliases = readConfigFile(tsConfigLocus);
+	const aliases = readTSConfigFile(tsConfigLocus);
 
 	if (aliases == null) {
 		emitWarning([
@@ -69,7 +69,7 @@ const PJSON_FNAME = 'package.json';
 /**
  * @param {FileURL} resolvedLocus The resolved location of the tsconfig file.
  */
-export function readConfigFile(resolvedLocus) {
+export function readTSConfigFile(resolvedLocus) {
 	const fileURL = new URL(resolvedLocus); // URL for cross-compatibility with Windows
 
 	let contents;
@@ -81,29 +81,33 @@ export function readConfigFile(resolvedLocus) {
 
 	if (!contents) return;
 
-	const tspaths = /** @type {TSConfig} */ (JSON5.parse(contents)).compilerOptions?.paths;
+	const { compilerOptions } = /** @type {TSConfig} */ (JSON5.parse(contents));
 
-	return buildAliasMaps(tspaths, resolvedLocus);
+	return buildAliasMaps(compilerOptions, resolvedLocus);
 }
 
 /**
- * @param {TSConfig['compilerOptions']['paths']|undefined} tspaths The value of "paths" if it exists.
+ * @param {TSConfig['compilerOptions']|undefined} compilerOptions The value of "compilerOptions" if it exists.
  * @param {FileURL} tsConfigLocus The location of the controlling tsconfig.
  */
-function buildAliasMaps(tspaths, tsConfigLocus) {
-	if (!tspaths) return;
+// oxlint-disable-next-line eslint/default-param-last
+function buildAliasMaps({ baseUrl: base = './', paths } = {}, tsConfigLocus) {
+	if (!paths) return;
 
+	// URL() drops/overwrites the final segment of the 2nd arg when it does not end in '/' 🤪
+	const basePath = base.at(-1) === '/' ? base : `${base}/`;
+	const baseURL = new URL(basePath, tsConfigLocus);
 	const aliases = /** @type {AliasMap} */ (new Map());
 
-	for (const rawKey of Object.keys(tspaths)) {
-		const alias = tspaths[rawKey][0];
+	for (const rawKey of Object.keys(paths)) {
+		const alias = paths[rawKey][0];
 		const isPrefix = rawKey.endsWith('*');
 
 		const key = isPrefix ? rawKey.slice(0, -1) /* strip '*' */ : rawKey;
 		const baseDest = isPrefix ? alias.slice(0, -1) /* strip '*' */ : alias;
 		const dest = (baseDest[0] === '/' || URL.canParse(baseDest))
 			? baseDest
-			: new URL(baseDest, tsConfigLocus).href;
+			: new URL(baseDest, baseURL).href;
 
 		aliases.set(key, dest);
 	}
