@@ -25,7 +25,7 @@ See `README.md` in the repository's root for more details.
 This loader facilitates TypeScript's [`paths`](https://www.typescriptlang.org/docs/handbook/modules/reference.html#paths), handling the (important) half of work TypeScript ignores. It looks for a `tsconfig.json` in the project root (the current working directory) and builds aliases from `compilerOptions.paths` if it exists. If your tsconfig lives in a different location, see [Configuration](#configuration) below.
 
 > [!CAUTION]
-> **Consider using Node.js's [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). It's more performant and doesn't require a loader. If you are using `tsc` for type-checking, set [compilerOptions.moduleResolution to `node16` or higher](https://www.typescriptlang.org/docs/handbook/modules/reference.html#packagejson-imports-and-self-name-imports).
+> Consider using Node.js's [subpath imports](https://nodejs.org/api/packages.html#subpath-imports). It's more performant and doesn't require a loader. If you are using `tsc` for type-checking, set [compilerOptions.moduleResolution to `node16` or higher](https://www.typescriptlang.org/docs/handbook/modules/reference.html#packagejson-imports-and-self-name-imports).
 
 ## `compilerOptions.baseUrl`
 
@@ -40,7 +40,7 @@ In order for Alias loader to leverage `baseUrl`, there must be at least 1 path i
 }
 ```
 
-> [!WARN]
+> [!IMPORTANT]
 > If an aliased specifier successfully resolves to a "local" module, you will not be able to reach one in `node_modules`. This behaviour is consistent with Node.js and tsc, but it can still be a gotcha.
 
 ## A simple prefix
