@@ -1,11 +1,8 @@
-/**
- * @type {import('node:module').ResolveHook}
- */
-function resolveNpmPrefix(specifier, ctx, nextResolve) {
-	const cleanSpecifier = specifier.startsWith('npm:')
-		? specifier.slice(4)
-		: specifier;
+import { isMainThread } from 'node:worker_threads';
+import module from 'node:module';
 
-	return nextResolve(cleanSpecifier, ctx);
+if (isMainThread && 'register' in module) {
+	module.register('./deno-npm-prefix.loader.mjs', import.meta.url);
 }
-export { resolveNpmPrefix as resolve };
+
+export * from './deno-npm-prefix.loader.mjs';

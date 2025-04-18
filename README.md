@@ -4,6 +4,8 @@
 
 ![coverage](https://img.shields.io/coverallsCoverage/github/nodejs-loaders/nodejs-loaders)
 ![tests](https://github.com/nodejs-loaders/nodejs-loaders/actions/workflows/ci.yml/badge.svg)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/nodejs-loaders/nodejs-loaders/badge)](https://scorecard.dev/viewer/?uri=github.com/nodejs-loaders/nodejs-loaders)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/10004/badge)](https://www.bestpractices.dev/projects/10004)
 
 This package provides a variety of loaders to facilitate quick and easy local development and CI testing.
 
@@ -13,6 +15,24 @@ This package provides a variety of loaders to facilitate quick and easy local de
 ## Usage
 
 The following JustWorks¹:
+
+You can register an individual nodejs-loader via `--import` like:
+
+```console
+$ node --import=@nodejs-loaders/tsx ./main.tsx
+```
+
+Or register multiple nodejs-loaders via multiple `--import`s like:
+
+```console
+$ node \
+  --import=@nodejs-loaders/tsx \
+  --import=@nodejs-loaders/css-module \
+  --import=@nodejs-loaders/media \
+  ./main.tsx
+```
+
+But that can quickly clutter the CLI. Instead, you may want to create your own `register.mts` like so:
 
 ```console
 $ node --import ./register.mts ./main.tsx
@@ -41,11 +61,25 @@ console.log(
 
 ¹ Prior to node 23.6.0, a flag is needed to support TypeScript in `register.mts` (otherwise, it can be `register.mjs` instead).
 
+### Usage with `module.registerHooks`
+
+Some nodejs-loaders are compatible with the sync version of customization hooks. In order to avoid the loader automatically registering itself via the async API (which it does when imported via its `main` entrypoint), you must import it via the direct path:
+
+```js
+import module from 'node:module';
+
+import * as aliasLoader from '@nodejs-loaders/alias/alias.loader.mjs';
+ // ⚠️ Do NOT import via `main`, like '@nodejs-loaders/alias'
+
+module.registerHooks(aliasLoader);
+```
+
 ## Available loaders
 
 * [Alias](./packages/alias/)
 * [CSS Modules](./packages/css-module/)
 * [deno 'npm:' prefix](./packages/deno-npm-prefix/)
+* [JSON5](./packages/json5/)
 * [JSONC](./packages/jsonc/)
 * [JSX / TSX](./packages/tsx/)
 * [Media](./packages/media/)
@@ -57,17 +91,19 @@ console.log(
 Some loaders must be registered in a specific sequence:
 
 1. alias
-2. tsx
-3. svgx
-4. mismatched-format
+1. tsx
+1. svgx
+1. mismatched-format
 
 These don't need a specific registration sequence:
 
 * css-module
 * deno-npm-prefix
+* JSON5
+* JSONC
 * media
 * text
-* yaml
+* YAML
 
 ## Project-official loaders
 

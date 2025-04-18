@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
-import { load } from './svgx.mjs';
+import { load } from './svgx.loader.mjs';
 
 describe('SVGX loader', { concurrency: true }, () => {
 	describe('load', () => {

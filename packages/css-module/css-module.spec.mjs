@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assertSuffixedSpecifiers } from '../../fixtures/assert-suffixed-specifiers.fixture.mjs';
+import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
-import { resolve, load } from './css-module.mjs';
+import { resolve, load } from './css-module.loader.mjs';
 
 describe('css-module loader', { concurrency: true }, () => {
 	describe('resolve', () => {
@@ -62,7 +62,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			);
 
 			assert.equal(result.format, 'commonjs');
-			assert.equal(result.source, `export = 'foo';\n`);
+			assert.equal(result.source.trim(), `export = 'foo';`);
 		});
 
 		it('should handle files with nested and non-nested comments', async () => {
@@ -75,7 +75,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			assert.equal(result.format, 'json');
 			assert.deepEqual(
 				result.source,
-				JSON.stringify({
+				JSON.stringify({ // oxlint-disable-line sort-keys
 					Foo: 'Foo',
 					Bar: 'Bar',
 					Qux: 'Qux',

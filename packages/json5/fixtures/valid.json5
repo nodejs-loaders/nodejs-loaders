@@ -1,0 +1,6 @@
+{
+  // JSON5 file example
+  key: "value",
+  number: 42,
+  // Comment line
+}

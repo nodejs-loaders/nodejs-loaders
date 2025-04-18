@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "checkJs": true,
+    "noEmit": true,
     "paths": {
-      "@/*": ["./*"]
-    }
-  }
+      // something
+      "@/*": ["./*"],
+    },
+  },
 }

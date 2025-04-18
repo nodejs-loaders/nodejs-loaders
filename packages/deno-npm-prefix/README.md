@@ -4,6 +4,19 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/deno-npm-prefix.svg)](https://www.npmjs.com/package/@nodejs-loaders/deno-npm-prefix)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/deno-npm-prefix)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/deno-npm-prefix.svg)](https://nodejs.org/download)
+
+## Usage
+
+```console
+$ npm i -D @nodejs-loaders/deno-npm-prefix
+```
+
+```console
+$ node --import @nodejs-loaders/deno-npm-prefix main.js
+```
+
+See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 
@@ -12,8 +25,6 @@
 This loader enables loading modules using the `npm:` prefix in Node.js. This syntax is used most notably by Deno to [import npm packages](https://docs.deno.com/runtime/fundamentals/node/#using-npm-packages).
 
 There is discussion within Node.js to introduce native support for this feature: [nodejs/node#44492](https://github.com/nodejs/node/issues/44492)
-
-## Usage
 
 After installing the loader and registering it with Node.js, you can use the `npm:` prefix to import modules from npm. For example:
 

@@ -32,6 +32,14 @@ Code should be well documented and tested. Each loader must:
   * unit tests for branching and especially failure cases
   * end-to-end for [happy-paths](https://en.wikipedia.org/wiki/Happy_path)
 * Adhere to code styles (CI will verify adherence but will not auto-fix).
+  * Some code styles are not automatically verified yet. Ensure, in addition to what the linter checks:
+    * 100 max line length for source code
+	* 80 max line length in markdown fenced codeblocks
+	  * Do NOT for length breaks outside of codeblocks
+	* always use parens for fat-arrow args (`(foo) => foo.bar` vs `foo => foo.bar`)
+	* extra parens elsewhere for readability are okay, but don't go nuts
+	* always use semicolons & trailing commas
+	* always put multiple items on separate lines where more may be added (e.g. do multiline: `plugins = ['foo', 'bar'];` don't multiline `input = { name: 'Jakob' }`)
 
 We take pride in this project. That said, we're pretty reasonable and friendly people; if there is a very good reason for something, make an objective case. But please also realise that our time is limited and this is not our job.
 
@@ -159,7 +167,7 @@ import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 describe('Your Loader (e2e)', () => {
 	const opts = {
 		cwd: fileURLToPath(import.meta.resolve('./fixtures')),
-		encoding: 'utf-8',
+		encoding: 'utf8',
 	};
 	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
@@ -226,17 +234,17 @@ Changes should be atomic; do not combine multiple, discrete changes within a sin
 We use [squash merge](https://docs.github.com/en/enterprise-cloud@latest/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/about-pull-request-merges#merge-message-for-a-squash-merge) to create a single fresh commit based on PR title. The PR title should follow [Conventional Commit guidelines](https://www.conventionalcommits.org/en/v1.0.0/). Acceptable "types" are:
 
 * **doc**: purely documentation updates (semver patch)
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `doc(tsx): update …`, `doc(tsx,yml): update …`
 * **dep**: a dependency update (semver patch or major)
-  * "scope" is the dependency's name
+  * "scope" is the loader's name. ex `dep(tsx): update DEP_NAME`, `dep(tsx,yml): update DEP_NAME`
 * **fix**: correct a bug (semver patch)
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `fix(tsx): handle …`, `fix(tsx,yml): handle …`
 * **feat**: add a new feature to an existing loader or introduce a new loader (semver minor or major)
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `feat(tsx): support …`, `feat(tsx,yml): support …`
 * **setup**: adjust the repository setup, like CI workflows (no semver).
-  * "scope" is usually workflow or configuration item's name
+  * "scope" is usually workflow or configuration item's name. ex `setup(workflow): fix CI step`
 * **test**: add, delete, or update a test.
-  * "scope" is usually the loader's name
+  * "scope" is usually the loader's name. ex `test(tsx): add e2e case for …`
 
 Before a pull request is merged, the following requirements should be met:
 

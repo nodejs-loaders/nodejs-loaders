@@ -18,8 +18,9 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
 
-	for (const pjson of pjsons) {
-		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
+	const tests = [];
+	for (const [i, pjson] of pjsons.entries()) {
+		tests[i] = t.test(`validate 'package.json' of ${pjson.name}`, async () => {
 			const {
 				author,
 				description,
@@ -39,13 +40,13 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.ok(author);
 			assert.ok(engines.node);
 			assert.equal(license, 'ISC');
-			assert.match(main, new RegExp(`\.\/${loaderName}\.mjs`));
+			assert.equal(main, `./${loaderName}.mjs`);
 			assert.partialDeepStrictEqual(maintainers, maintainersList);
 			assert.equal(repository.type, 'git');
 			assert.equal(repository.url, repoUrl);
 			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
-			assert.match(types, new RegExp(`\.\/${loaderName}\.d\.mts`));
+			assert.equal(types, `./${loaderName}.d.mts`);
 
 			if (!pjson.isNotLoader) {
 				assert.match(description, descriptionRgx);
@@ -53,4 +54,6 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			}
 		});
 	}
+
+	await Promise.all(tests);
 });

@@ -1,42 +1,8 @@
-import { getFilenameExt } from '@nodejs-loaders/parse-filename';
-import { parse } from 'yaml';
+import { isMainThread } from 'node:worker_threads';
+import module from 'node:module';
 
-/**
- * @type {import('node:module').ResolveHook}
- */
-async function resolveYaml(specifier, ctx, nextResolve) {
-	const nextResult = await nextResolve(specifier);
-	// Check against the fully resolved URL, not just the specifier, in case another loader has
-	// something to contribute to the resolution.
-	const ext = getFilenameExt(nextResult.url);
-
-	if (ext === '.yaml' || ext === '.yml')
-		return {
-			...nextResult,
-			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
-			format: 'yaml',
-		};
-
-	return nextResult;
+if (isMainThread && 'register' in module) {
+	module.register('./yaml.loader.mjs', import.meta.url);
 }
-export { resolveYaml as resolve };
 
-/**
- * @type {import('node:module').LoadHook}
- */
-async function loadYaml(url, ctx, nextLoad) {
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
-	if (ctx.format !== 'yaml') return nextLoad(url);
-
-	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
-	const nextResult = await nextLoad(url, { format: 'module' });
-	const rawSource = '' + nextResult.source; // byte array → string
-
-	const source = parse(rawSource);
-
-	return {
-		format: 'module',
-		source,
-	};
-}
-export { loadYaml as load };
+export * from './yaml.loader.mjs';

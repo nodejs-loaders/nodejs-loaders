@@ -16,12 +16,12 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--loader',
-			fileURLToPath(import.meta.resolve('./deno-npm-prefix.mjs')),
+			import.meta.resolve('./deno-npm-prefix.mjs'),
 			e2eTest,
 		],
 		{
 			cwd,
-			encoding: 'utf-8',
+			encoding: 'utf8',
 			env: { NO_COLOR: true },
 		},
 	);
@@ -33,12 +33,12 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--import',
-			fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+			import.meta.resolve('./fixtures/register.mjs'),
 			e2eTest,
 		],
 		{
 			cwd,
-			encoding: 'utf-8',
+			encoding: 'utf8',
 			env: { NO_COLOR: true },
 		},
 	);
@@ -51,12 +51,12 @@ if (process.version.startsWith('v23')) {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register-hooks.mjs')),
+				import.meta.resolve('./fixtures/register-hooks.mjs'),
 				e2eTest,
 			],
 			{
 				cwd,
-				encoding: 'utf-8',
+				encoding: 'utf8',
 			},
 		);
 	});

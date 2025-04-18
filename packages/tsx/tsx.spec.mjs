@@ -1,141 +1,170 @@
-if (process.version.startsWith('v23')) {
-	const assert = await import('node:assert/strict');
-	const { describe, it, mock } = await import('node:test');
+import assert from 'node:assert/strict';
+import { before, describe, it, mock } from 'node:test';
 
-	const { assertSuffixedSpecifiers } = await import(
-		'../../fixtures/assert-suffixed-specifiers.fixture.mjs'
-	);
-	const { nextLoad } = await import('../../fixtures/nextLoad.fixture.mjs');
-	const { nextResolve } = await import(
-		'../../fixtures/nextResolve.fixture.mjs'
-	);
+import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
-	const { jsxExts, tsxExts, load, resolve } = await import('./tsx.mjs');
+const skip = +process.version.slice(1, 3) < 23;
 
-	describe('JSX & TypeScript loader', { concurrency: true }, () => {
-		describe('resolve', () => {
-			it('should ignore files that aren’t text', async () => {
-				const result = await resolve('./fixture.ext', {}, nextResolve);
+const jsxExts = new Set(['.jsx']);
 
-				assert.deepEqual(result, {
-					format: 'unknown',
-					url: './fixture.ext',
-				});
-			});
+const tsxExts = new Set(['.mts', '.ts', '.tsx']);
 
-			it('should recognise JSX files', async () => {
-				for (const ext of jsxExts) {
-					const fileUrl = import.meta.resolve(`./fixture${ext}`);
-					const result = await resolve(fileUrl, {}, nextResolve);
+describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
+	let load;
+	let resolve;
 
-					assert.deepEqual(result, {
-						format: 'jsx',
-						url: fileUrl,
-					});
-				}
-			});
+	before(async () => {
+		// This is necessary because now `load` depends on `resolve` having run.
+		const esbuildConfig = {
+			...(await import('./find-esbuild-config.mjs')).defaults,
+			...(await import('./fixtures/with-config/esbuild.config.mjs')).default,
+		};
+		mock.module('./find-esbuild-config.mjs', {
+			namedExports: { findEsbuildConfig: () => esbuildConfig },
+		});
 
-			it('should recognise TypeScript files', async () => {
-				for (const ext of tsxExts) {
-					const fileUrl = import.meta.resolve(`./fixture${ext}`);
-					const result = await resolve(fileUrl, {}, nextResolve);
+		({ load, resolve } = await import('./tsx.loader.mjs'));
+	});
 
-					assert.deepEqual(result, {
-						format: 'tsx',
-						url: fileUrl,
-					});
-				}
-			});
+	describe('resolve', () => {
+		it('should ignore files that aren’t text', async () => {
+			const result = await resolve('./fixture.ext', {}, nextResolve);
 
-			it('should handle specifiers with appending data', async () => {
-				for (const ext of jsxExts)
-					await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'jsx');
-				for (const ext of tsxExts)
-					await assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'tsx');
+			assert.deepEqual(result, {
+				format: 'unknown',
+				url: './fixture.ext',
 			});
 		});
 
-		describe('load', () => {
-			const parentURL = import.meta.url;
+		it('should recognise JSX files', async () => {
+			let resolved = [];
+			let i = 0;
+			for (const ext of jsxExts) {
+				const fileUrl = import.meta.resolve(`./fixture${ext}`);
+				resolved[i++] = resolve(fileUrl, {}, nextResolve).then((result) => ({
+					fileUrl,
+					result,
+				}));
+			}
+			resolved = await Promise.all(resolved);
 
-			it('should ignore files that aren’t J|TSX', async () => {
-				const result = await load(
-					import.meta.resolve('../../fixtures/fixture.ext'),
-					{},
-					nextLoad,
-				);
-
+			for (const { fileUrl, result } of resolved) {
 				assert.deepEqual(result, {
-					format: 'unknown',
-					source: '',
+					format: 'jsx',
+					url: fileUrl,
 				});
-			});
+			}
+		});
 
-			// This verifies that esbuild.config.mjs is being loaded correctly because the one in this repo
-			// disables minification, but the loader's default config enables it.
-			const transpiled = [
-				'import { jsxDEV } from "react/jsx-dev-runtime";',
-				'export function Greet({ name }) {',
-				'  return /* @__PURE__ */ jsxDEV("h1", { children: [',
-				'    "Hello ",',
-				'    name',
-				'  ] }, void 0, true, {',
-				'    fileName: "<stdin>",',
-				'    lineNumber: 2,',
-				'    columnNumber: 10',
-				'  }, this);',
-				'}',
-				'Greet.displayName = "Greet";',
-				'', //EoF
-			].join('\n');
-
-			it('should transpile JSX', async () => {
-				const fileUrl = import.meta.resolve('./fixture.jsx');
-				const result = await load(
+		it('should recognise TypeScript files', async () => {
+			let resolved = [];
+			let i = 0;
+			for (const ext of tsxExts) {
+				const fileUrl = import.meta.resolve(`./fixture${ext}`);
+				resolved[i++] = resolve(fileUrl, {}, nextResolve).then((result) => ({
 					fileUrl,
-					{ format: 'jsx', parentURL },
-					nextLoad,
-				);
+					result,
+				}));
+			}
+			resolved = await Promise.all(resolved);
 
-				assert.equal(result.format, 'module');
-				assert.equal(result.source, transpiled);
-			});
+			for (const { fileUrl, result } of resolved) {
+				assert.deepEqual(result, {
+					format: 'tsx',
+					url: fileUrl,
+				});
+			}
+		});
 
-			it('should transpile TSX', async () => {
-				const fileUrl = import.meta.resolve('./fixture.tsx');
-				const result = await load(
-					fileUrl,
-					{ format: 'tsx', parentURL },
-					nextLoad,
-				);
-
-				assert.equal(result.format, 'module');
-				assert.equal(result.source, transpiled);
-			});
-
-			it('should log transpile errors', async () => {
-				const badJSX = 'const Foo (a) => (<div />)'; // missing `=`
-				const orig_consoleError = console.error;
-
-				// biome-ignore lint/suspicious/noAssignInExpressions: this is a test
-				const consoleErr = (globalThis.console.error = mock.fn());
-
-				await load(
-					'whatever.tsx',
-					{
-						format: 'tsx',
-						parentURL: import.meta.url,
-					},
-					async () => ({ source: badJSX }),
-				);
-
-				const errLog = consoleErr.mock.calls[0].arguments[0];
-
-				assert.match(errLog, /TranspileError/);
-				assert.match(errLog, /found "\("/);
-
-				globalThis.console.error = orig_consoleError;
-			});
+		it('should handle specifiers with appending data', async () => {
+			const cases = [];
+			let i = 0;
+			for (const ext of jsxExts) {
+				cases[i++] = assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'jsx');
+			}
+			for (const ext of tsxExts) {
+				cases[i++] = assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'tsx');
+			}
+			await Promise.all(cases);
 		});
 	});
-}
+
+	describe('load', () => {
+		it('should ignore files that aren’t J|TSX', async () => {
+			const result = await load(
+				import.meta.resolve('../../fixtures/fixture.ext'),
+				{},
+				nextLoad,
+			);
+
+			assert.deepEqual(result, {
+				format: 'unknown',
+				source: '',
+			});
+		});
+
+		// This verifies that esbuild.config.mjs is being loaded correctly because the one in this repo
+		// disables minification, but the loader's default config enables it.
+		const transpiled = [
+			'import { jsxDEV } from "react/jsx-dev-runtime";',
+			'import { Wrapper } from "./wrapper.jsx";',
+			'export function Greet({ name }) {',
+			'  return /* @__PURE__ */ jsxDEV("h1", { children: [',
+			'    "Hello ",',
+			'    /* @__PURE__ */ jsxDEV(Wrapper, { children: name }, void 0, false, {',
+			'      fileName: "<stdin>",',
+			'      lineNumber: 4,',
+			'      columnNumber: 20',
+			'    }, this)',
+			'  ] }, void 0, true, {',
+			'    fileName: "<stdin>",',
+			'    lineNumber: 4,',
+			'    columnNumber: 10',
+			'  }, this);',
+			'}',
+			'Greet.displayName = "Greet";',
+			'', //EoF
+		].join('\n');
+
+		it('should transpile JSX', async () => {
+			const fileUrl = import.meta.resolve('./fixtures/with-config/main.jsx');
+			const result = await load(fileUrl, { format: 'jsx' }, nextLoad);
+
+			assert.equal(result.format, 'module');
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
+		});
+
+		it('should transpile TSX', async () => {
+			const fileUrl = import.meta.resolve('./fixtures/with-config/main.tsx');
+			const result = await load(fileUrl, { format: 'tsx' }, nextLoad);
+
+			assert.equal(result.format, 'module');
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
+		});
+
+		it('should log transpile errors', async () => {
+			const badJSX = 'const Foo (a) => (<div />)'; // missing `=`
+			const orig_consoleError = console.error;
+
+			const consoleErr = (globalThis.console.error = mock.fn());
+
+			await load(
+				'whatever.jsx',
+				{
+					format: 'jsx',
+					parentURL: import.meta.url,
+				},
+				async () => ({ source: badJSX }),
+			);
+
+			const errLog = consoleErr.mock.calls[0].arguments[0];
+
+			assert.match(errLog, /TranspileError/);
+			assert.match(errLog, /found "\("/);
+
+			globalThis.console.error = orig_consoleError;
+		});
+	});
+});

@@ -4,6 +4,19 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/media.svg)](https://www.npmjs.com/package/@nodejs-loaders/jsonc)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/jsonc)
+[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/jsonc.svg)](https://nodejs.org/download)
+
+## Usage
+
+```console
+$ npm i -D @nodejs-loaders/jsonc
+```
+
+```console
+$ node --import @nodejs-loaders/jsonc main.js
+```
+
+See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 

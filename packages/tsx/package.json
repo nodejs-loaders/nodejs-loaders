@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.1.1",
   "name": "@nodejs-loaders/tsx",
   "description": "Extend node to support JSX & TSX via customization hooks.",
   "type": "module",
@@ -21,13 +21,13 @@
     "typescript"
   ],
   "engines": {
-    "node": "^23.2 || ^22.13"
+    "node": "^23.6 || ^22.14"
   },
   "dependencies": {
     "@nodejs-loaders/parse-filename": "1.0.0"
   },
   "peerDependencies": {
-    "esbuild": "~0.19.5"
+    "esbuild": ">=0.19.5 <=0.25.0"
   },
   "repository": {
     "type": "git",
