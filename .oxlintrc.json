@@ -67,12 +67,12 @@
 				"sibling",
 				"index",
 				"unknown",
-		   ],
-		   "newlines-between": "always",
-		   "alphabetize": {
+			],
+			"newlines-between": "always",
+			"alphabetize": {
 				"order": "asc",
 				"caseInsensitive": false,
-		   },
+			},
 		}],
 		"typescript/ban-types": "off",
 		"typescript/no-import-type-side-effects": "error",
@@ -92,6 +92,7 @@
 				"*.test.jsx",
 			],
 			"rules": {
+				"max-classes-per-file": "off",
 				"max-depth": "off",
 				"max-lines-per-function": "off",
 				"max-nested-callbacks": "off",
