@@ -2,21 +2,8 @@
 
 <img src="https://raw.githubusercontent.com/nodejs-loaders/nodejs-loaders/refs/heads/main/logo.svg" height="100" width="100" alt="@node.js loaders logo" />
 
-[![npm version](https://img.shields.io/npm/v/@nodejs-loaders/svelte.svg)](https://www.npmjs.com/package/@nodejs-loaders/svelte)
+[![npm version](https://img.shields.io/npm/v/@nodejs-loaders/svelte.svg)](https://www.npmjs.com/package/nodejs-loaders/svelte)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/svelte)
-[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/svelte.svg)](https://nodejs.org/download)
-
-## Usage
-
-```console
-$ npm i -D @nodejs-loaders/svelte
-```
-
-```console
-$ node --import @nodejs-loaders/svelte main.js
-```
-
-See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 

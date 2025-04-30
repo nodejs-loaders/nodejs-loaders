@@ -1,5 +1,5 @@
 import module from 'node:module';
 
-import * as jsoncLoader from '../jsonc.loader.mjs';
+import * as jsoncLoader from '../jsonc.mjs';
 
 module.registerHooks(jsoncLoader);

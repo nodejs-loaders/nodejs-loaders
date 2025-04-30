@@ -1,3 +1,3 @@
 import module from 'node:module';
 
-module.register('../jsonc.loader.mjs', import.meta.url);
+module.register('../jsonc.mjs', import.meta.url);

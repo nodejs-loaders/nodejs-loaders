@@ -7,7 +7,9 @@ import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 import { findEsbuildConfig } from './find-esbuild-config.mjs';
 
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/**
+ * @typedef {import('./find-esbuild-config.mjs').FileURL} FileURL
+ */
 
 /**
  * The load hook needs to know the parent URL to find the esbuild config.
@@ -25,16 +27,19 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+	const ext = getFilenameExt(nextResult.url);
 
 	parentURLs.set(
+		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 		/** @type {FileURL} */ (nextResult.url),
+		// biome-ignore format: https://github.com/biomejs/biome/issues/4799
 		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
 	if (ext === '.jsx') {
 		return {
 			...nextResult,
+			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 			format: 'jsx',
 		};
 	}
@@ -42,6 +47,7 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	if (ext === '.mts' || ext === '.ts' || ext === '.tsx') {
 		return {
 			...nextResult,
+			// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71493
 			format: 'tsx',
 		};
 	}
@@ -52,14 +58,16 @@ export { resolveTSX as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
- * @param {FileURL} url The fully resolved url.
+ * @argument {FileURL} url
  */
 async function loadTSX(url, ctx, nextLoad) {
+	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
 	if (ctx.format !== 'jsx' && ctx.format !== 'tsx') return nextLoad(url); // not (j|t)sx
 
 	const format = 'module';
 	const esbuildConfig = findEsbuildConfig(url, parentURLs.get(url));
 
+	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71492
 	const nextResult = await nextLoad(url, {
 		format,
 	});
@@ -69,15 +77,14 @@ async function loadTSX(url, ctx, nextLoad) {
 		rawSource = `import * as React from 'react';\n${rawSource}`;
 	}
 
-	const { code: source, warnings } = await transform(rawSource, {
-		sourcefile: url,
-		...esbuildConfig,
-	}).catch(({ errors }) => {
+	const { code: source, warnings } = await transform(
+		rawSource,
+		esbuildConfig,
+	).catch(({ errors }) => {
 		for (const {
 			location: { column, line, lineText },
 			text,
 		} of errors) {
-			// oxlint-disable-next-line no-console
 			console.error(
 				`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`,
 			);
@@ -89,7 +96,6 @@ async function loadTSX(url, ctx, nextLoad) {
 		};
 	});
 
-	// oxlint-disable-next-line no-console
 	if (warnings?.length) console.warn(...warnings);
 
 	return {

@@ -1,8 +1,13 @@
-import { createRequire, findPackageJSON } from 'node:module';
+import {
+	createRequire,
+	// @ts-ignore https://github.com/DefinitelyTyped/DefinitelyTyped/pull/71595
+	findPackageJSON,
+} from 'node:module';
 import { emitWarning } from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 /** @typedef {import('esbuild').TransformOptions} ESBuildOptions */
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
  * This config must contain options that are compatible with esbuild's `transform` API.
@@ -12,8 +17,8 @@ import { emitWarning } from 'node:process';
 export const configs = new Map();
 
 /**
- * @param {FileURL} target Where to start.
- * @param {FileURL} parentURL Relative to where.
+ * @param {FileURL} target
+ * @param {FileURL} parentURL
  */
 export function findEsbuildConfig(target, parentURL = target) {
 	if (configs.has(target)) return configs.get(target);
@@ -26,7 +31,7 @@ export function findEsbuildConfig(target, parentURL = target) {
 	/** @type {ESBuildOptions} */
 	let esbuildConfig;
 	if (esBuildConfigLocus != null) {
-		const req = createRequire(parentURL);
+		const req = createRequire(fileURLToPath(parentURL));
 		try {
 			esbuildConfig = req(esBuildConfigLocus)?.default;
 		} catch (err) {
@@ -49,14 +54,10 @@ export function findEsbuildConfig(target, parentURL = target) {
 const PJSON_FNAME = 'package.json';
 const CONFIG_FNAME = 'esbuild.config.mjs';
 
-/**
- * @type {ESBuildOptions}
- */
 export const defaults = {
 	jsx: 'automatic',
 	jsxDev: true,
 	jsxFactory: 'React.createElement',
 	loader: 'tsx',
 	minify: true,
-	sourcemap: true,
 };

@@ -1,6 +1,6 @@
 /**
  *
- * @param {import('node:module').ModuleSource} source The module's loaded source.
+ * @param {import('node:module').ModuleSource} source
  * @returns
  */
 export function containsCJS(source) {

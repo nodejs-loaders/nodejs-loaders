@@ -1,9 +1,6 @@
 import assert from 'node:assert/strict';
 import { before, beforeEach, describe, it, mock } from 'node:test';
 
-function mock_require_ENOENT() { throw { code: 'ENOENT' } }
-function mock_require_empty_ret() { return }
-
 describe('finding an ESbuild config', () => {
 	const target = import.meta.resolve('./fixtures/whatever.ext');
 	const pjsonLocus = target.replace('whatever.ext', 'package.json');
@@ -54,7 +51,7 @@ describe('finding an ESbuild config', () => {
 	});
 
 	it('should warn when no config is found (no package.json)', () => {
-		mock_findPackageJSON.mockImplementationOnce(() => null);
+		mock_findPackageJSON.mockImplementationOnce(() => undefined);
 
 		const result = findEsbuildConfig(target, parentURL);
 
@@ -68,7 +65,12 @@ describe('finding an ESbuild config', () => {
 
 	it('should warn when no config is found (package.json found but no config)', () => {
 		mock_findPackageJSON.mockImplementationOnce(() => pjsonLocus);
-		mock_createRequire.mockImplementationOnce(() => mock_require_ENOENT);
+		mock_createRequire.mockImplementationOnce(
+			() =>
+				function mock_require() {
+					throw { code: 'ENOENT' };
+				},
+		);
 
 		const result = findEsbuildConfig(target, parentURL);
 
@@ -82,16 +84,25 @@ describe('finding an ESbuild config', () => {
 
 	it('should not swallow unexpected errors', () => {
 		const err = { code: 'SyntaxError' };
-		function mock_require() { throw err }
 		mock_findPackageJSON.mockImplementationOnce(() => pjsonLocus);
-		mock_createRequire.mockImplementationOnce(() => mock_require);
+		mock_createRequire.mockImplementationOnce(
+			() =>
+				function mock_require() {
+					throw err;
+				},
+		);
 
 		assert.throws(() => findEsbuildConfig(target, parentURL), err);
 	});
 
 	it('should return a cached result when it has it (defaults)', () => {
 		mock_findPackageJSON.mockImplementationOnce(() => pjsonLocus);
-		mock_createRequire.mockImplementationOnce(() => mock_require_ENOENT);
+		mock_createRequire.mockImplementationOnce(
+			() =>
+				function mock_require() {
+					throw { code: 'ENOENT' };
+				},
+		);
 
 		const result1 = findEsbuildConfig(target, parentURL);
 		assert.deepEqual(result1, esbuildConfigDefaults);
@@ -105,7 +116,12 @@ describe('finding an ESbuild config', () => {
 	it('should return a cached result when it has it (non-defaults)', () => {
 		const customConfig = { minify: true };
 		mock_findPackageJSON.mockImplementationOnce(() => pjsonLocus);
-		mock_createRequire.mockImplementationOnce(() => mock_require_empty_ret);
+		mock_createRequire.mockImplementationOnce(
+			() =>
+				function mock_require() {
+					return;
+				},
+		);
 
 		const result1 = findEsbuildConfig(target, parentURL);
 		assert.deepEqual(result1, {

@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { containsCJS } from './contains-cjs.mjs';
 
-describe('Contains CJS()', { concurrency: true }, () => {
+describe('Contains CJS()', () => {
 	describe('exports', () => {
 		const matches = [
 			'exports.foo =',

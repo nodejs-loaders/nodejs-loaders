@@ -10,18 +10,18 @@ const suite = new Suite({
 const cwd = fileURLToPath(import.meta.resolve('./fixtures'));
 const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
-suite.add('--loader', { repeatSuite: 2 }, () => {
+suite.add('tsx with esbuild --loader', { repeatSuite: 2 }, () => {
 	spawnSync(
 		execPath,
 		[
 			'--no-warnings',
 			'--loader',
-			import.meta.resolve('./tsx.loader.mjs'),
+			fileURLToPath(import.meta.resolve('./esbuild.mjs')),
 			e2eTest,
 		],
 		{
 			cwd,
-			encoding: 'utf8',
+			encoding: 'utf-8',
 			env: {
 				NODE_ENV: 'development',
 			},
@@ -29,23 +29,65 @@ suite.add('--loader', { repeatSuite: 2 }, () => {
 	);
 });
 
-suite.add('--import (register)', { repeatSuite: 2 }, () => {
+suite.add('tsx with esbuild --import (register)', { repeatSuite: 2 }, () => {
 	spawnSync(
 		execPath,
 		[
 			'--no-warnings',
 			'--import',
-			import.meta.resolve('./fixtures/register.mjs'),
+			fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
 			e2eTest,
 		],
 		{
 			cwd,
-			encoding: 'utf8',
+			encoding: 'utf-8',
 			env: {
 				NODE_ENV: 'development',
 			},
 		},
 	);
 });
+
+suite.add('tsx with oxc-transform --loader', { repeatSuite: 2 }, () => {
+	spawnSync(
+		execPath,
+		[
+			'--no-warnings',
+			'--loader',
+			fileURLToPath(import.meta.resolve('./oxc-transform.mjs')),
+			e2eTest,
+		],
+		{
+			cwd,
+			encoding: 'utf-8',
+			env: {
+				NODE_ENV: 'development',
+			},
+		},
+	);
+});
+
+suite.add(
+	'tsx with oxc-transform --import (register)',
+	{ repeatSuite: 2 },
+	() => {
+		spawnSync(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
+				e2eTest,
+			],
+			{
+				cwd,
+				encoding: 'utf-8',
+				env: {
+					NODE_ENV: 'development',
+				},
+			},
+		);
+	},
+);
 
 suite.run();

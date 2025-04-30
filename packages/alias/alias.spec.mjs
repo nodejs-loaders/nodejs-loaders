@@ -3,139 +3,107 @@ import { before, describe, mock, test } from 'node:test';
 
 import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
 
-describe('alias', { concurrency: true }, () => {
+describe('alias', () => {
 	/** @type {MockFunctionContext<NoOpFunction>} */
-	let mock_readFileSync;
+	let mock_readFile;
 	const base = 'file://';
 	const aliases = {
 		'…/*': ['./src/*'],
 		ENV: ['https://example.com/env.json'],
 		VARS: ['/vars.json'],
 	};
-	const ctx = { parentURL: import.meta.url };
 
 	class ENOENT extends Error {
 		code = 'ENOENT';
-		name = 'ENOENT';
-	}
-	class ERR_MODULE_NOT_FOUND extends Error {
-		code = 'ERR_MODULE_NOT_FOUND';
-		name = 'ERR_MODULE_NOT_FOUND';
 	}
 
 	before(async () => {
-		const readFileSync = mock.fn(function mock_readFileSync() {});
-		mock_readFileSync = readFileSync.mock;
-		mock.module('node:fs', { namedExports: { readFileSync } });
-		mock.module('node:module', {
+		const readFile = mock.fn(function mock_readFile() {});
+		mock_readFile = readFile.mock;
+		mock.module('node:fs/promises', { namedExports: { readFile } });
+		mock.module('node:url', {
 			namedExports: {
-				findPackageJSON: mock.fn(function mock_findPackageJSON() { return '/package.json' }),
+				...(await import('node:url')),
+				pathToFileURL() {
+					return new URL(base);
+				},
 			},
 		});
 	});
 
-	describe('that are in tsconfig.json', () => {
+	describe('that are in tsconfig.json', async () => {
 		let resolve;
 
 		before(async () => {
-			mock_readFileSync.mockImplementation( function mock_readFileSync(p) {
-				if (p.pathname.includes('/tsconfig.json')) {
+			mock_readFile.mockImplementation(async function mock_readFile(p) {
+				if (p.includes('/tsconfig.json'))
 					return JSON.stringify({
 						compilerOptions: { paths: aliases },
 					});
-				}
 				throw new ENOENT(); // For any other file access, throw ENOENT
 			});
 
-			({ resolve } = await import('./alias.loader.mjs'));
+			({ resolve } = await import('./alias.mjs'));
 		});
 
-		test('should de-alias a prefixed specifier', () => {
+		await test('should de-alias a prefixed specifier', () => {
 			assert.equal(
-				resolve('…/test.mjs', ctx, nextResolve).url,
+				resolve('…/test.mjs', {}, nextResolve).url,
 				`${base}/src/test.mjs`,
 			);
 		});
 
-		test('should de-alias a pointer (fully-qualified url) specifier', () => {
-			assert.equal(resolve('ENV', ctx, nextResolve).url, aliases.ENV[0]);
+		await test('should de-alias a pointer (fully-qualified url) specifier', () => {
+			assert.equal(resolve('ENV', {}, nextResolve).url, aliases.ENV[0]);
 		});
 
-		test('should de-alias a pointer (absolute path) specifier', () => {
-			assert.equal(resolve('VARS', ctx, nextResolve).url, aliases.VARS[0]);
+		await test('should de-alias a pointer (absolute path) specifier', () => {
+			assert.equal(resolve('VARS', {}, nextResolve).url, aliases.VARS[0]);
 		});
 
-		test('should maintain any suffixes on the prefixed specifier', () => {
+		await test('should maintain any suffixes on the prefixed specifier', () => {
 			assert.equal(
-				resolve('…/test.mjs?foo', ctx, nextResolve).url,
+				resolve('…/test.mjs?foo', {}, nextResolve).url,
 				`${base}/src/test.mjs?foo`,
 			);
 			assert.equal(
-				resolve('…/test.mjs#bar', ctx, nextResolve).url,
+				resolve('…/test.mjs#bar', {}, nextResolve).url,
 				`${base}/src/test.mjs#bar`,
 			);
 			assert.equal(
-				resolve('…/test.mjs?foo#bar', ctx, nextResolve).url,
+				resolve('…/test.mjs?foo#bar', {}, nextResolve).url,
 				`${base}/src/test.mjs?foo#bar`,
 			);
 		});
 
-		test('should maintain any suffixes on the pointer (fully-qualified url) specifier', () => {
+		await test('should maintain any suffixes on the pointer (fully-qualified url) specifier', () => {
 			assert.equal(
-				resolve('ENV?foo', ctx, nextResolve).url,
+				resolve('ENV?foo', {}, nextResolve).url,
 				`${aliases.ENV[0]}?foo`,
 			);
 			assert.equal(
-				resolve('ENV#bar', ctx, nextResolve).url,
+				resolve('ENV#bar', {}, nextResolve).url,
 				`${aliases.ENV[0]}#bar`,
 			);
 			assert.equal(
-				resolve('ENV?foo#bar', ctx, nextResolve).url,
+				resolve('ENV?foo#bar', {}, nextResolve).url,
 				`${aliases.ENV[0]}?foo#bar`,
 			);
 		});
 
-		test('should maintain any suffixes on the pointer (absolute path) specifier', () => {
+		await test('should maintain any suffixes on the pointer (absolute path) specifier', () => {
 			assert.equal(
-				resolve('VARS?foo', ctx, nextResolve).url,
+				resolve('VARS?foo', {}, nextResolve).url,
 				`${aliases.VARS[0]}?foo`,
 			);
 			assert.equal(
-				resolve('VARS#bar', ctx, nextResolve).url,
+				resolve('VARS#bar', {}, nextResolve).url,
 				`${aliases.VARS[0]}#bar`,
 			);
 			assert.equal(
-				resolve('VARS?foo#bar', ctx, nextResolve).url,
+				resolve('VARS?foo#bar', {}, nextResolve).url,
 				`${aliases.VARS[0]}?foo#bar`,
 			);
-		});
-
-		describe('that are unresolvable', () => {
-			test('(async) should not fail internally', () => {
-				async function nextUnresolveable(s) {
-					throw new ERR_MODULE_NOT_FOUND(s);
-				}
-
-				const specifier = '…/noexist.mjs';
-
-				assert.rejects(
-					() => resolve(specifier, ctx, nextUnresolveable),
-					new RegExp(specifier),
-				);
-			});
-
-			test('(sync) should not fail internally', () => {
-				function nextUnresolveable(s) {
-					throw new ERR_MODULE_NOT_FOUND(s);
-				}
-
-				const specifier = '…/noexist.mjs';
-
-				assert.throws(
-					() => resolve(specifier, ctx, nextUnresolveable),
-					new RegExp(specifier),
-				);
-			});
 		});
 	});
 });

@@ -17,10 +17,13 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 		),
 	);
 	const repoUrl = 'git+https://github.com/nodejs-loaders/nodejs-loaders.git';
+	// main is different for tsx because there are 2 loader with different transformer
+	const mainFileNameExeption = [
+		"tsx"
+	]
 
-	const tests = [];
-	for (const [i, pjson] of pjsons.entries()) {
-		tests[i] = t.test(`validate 'package.json' of ${pjson.name}`, async () => {
+	for (const pjson of pjsons) {
+		await t.test(`validate 'package.json' of ${pjson.name}`, async () => {
 			const {
 				author,
 				description,
@@ -40,13 +43,14 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			assert.ok(author);
 			assert.ok(engines.node);
 			assert.equal(license, 'ISC');
-			assert.equal(main, `./${loaderName}.mjs`);
+			if(!mainFileNameExeption.includes(loaderName))
+				assert.match(main, new RegExp(`\.\/${loaderName}\.mjs`));
 			assert.partialDeepStrictEqual(maintainers, maintainersList);
 			assert.equal(repository.type, 'git');
 			assert.equal(repository.url, repoUrl);
 			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
-			assert.equal(types, `./${loaderName}.d.mts`);
+			assert.match(types, new RegExp(`\.\/${loaderName}\.d\.mts`));
 
 			if (!pjson.isNotLoader) {
 				assert.match(description, descriptionRgx);
@@ -54,6 +58,4 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			}
 		});
 	}
-
-	await Promise.all(tests);
 });

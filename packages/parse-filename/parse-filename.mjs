@@ -1,14 +1,9 @@
 import path from 'node:path';
 
 /**
- * @typedef {import('../types.d.ts').AbsoluteFilePath} AbsoluteFilePath
- * @typedef {import('../types.d.ts').ResolvedSpecifier} ResolvedSpecifier
- */
-
-/**
  * Some loaders may append query parameters or anchors (URLs allow that). That will dupe
  * path.extname, String::endsWith, etc.
- * @param {AbsoluteFilePath | ResolvedSpecifier} f The source to extract from.
+ * @param {string} f
  * @returns {string}
  */
 export function getFilenameExt(f) {
@@ -16,20 +11,20 @@ export function getFilenameExt(f) {
 }
 
 /**
- * Remove query params and hashes from a file path or URL string.
- * @param {string} f The source to strip.
+ * @param {string} f
  */
 export function stripExtras(f) {
 	return f.split('?')[0].split('#')[0];
 }
 
 /**
- * @param {AbsoluteFilePath | ResolvedSpecifier} resolvedLocus A resolved location to pick apart.
+ * @param {`/${string}` | URL['href']} resolvedUrl
  */
-export function getFilenameParts(resolvedLocus) {
-	const pathname = URL.canParse(resolvedLocus)
-		? /** @type {AbsoluteFilePath} */ ((new URL(resolvedLocus)).pathname)
-		: resolvedLocus;
+export function getFilenameParts(resolvedUrl) {
+	const pathname = URL.canParse(resolvedUrl)
+		? // biome-ignore format: we want to keep the parentheses
+			(new URL(resolvedUrl)).pathname
+		: resolvedUrl;
 
 	const ext = getFilenameExt(pathname);
 	const base = path.basename(pathname, ext);

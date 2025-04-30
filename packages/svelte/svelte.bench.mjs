@@ -13,10 +13,15 @@ const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 suite.add('--loader', { repeatSuite: 2 }, () => {
 	spawnSync(
 		execPath,
-		['--no-warnings', '--loader', import.meta.resolve('./svelte.mjs'), e2eTest],
+		[
+			'--no-warnings',
+			'--loader',
+			fileURLToPath(import.meta.resolve('./svelte.mjs')),
+			e2eTest,
+		],
 		{
 			cwd,
-			encoding: 'utf8',
+			encoding: 'utf-8',
 			env: {
 				NODE_ENV: 'development',
 			},
@@ -30,12 +35,12 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--import',
-			import.meta.resolve('./fixtures/register.mjs'),
+			fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
 			e2eTest,
 		],
 		{
 			cwd,
-			encoding: 'utf8',
+			encoding: 'utf-8',
 			env: {
 				NODE_ENV: 'development',
 			},

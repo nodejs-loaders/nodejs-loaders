@@ -4,19 +4,6 @@
 
 [![npm version](https://img.shields.io/npm/v/@nodejs-loaders/text.svg)](https://www.npmjs.com/package/@nodejs-loaders/text)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/text)
-[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/text.svg)](https://nodejs.org/download)
-
-## Usage
-
-```console
-$ npm i -D @nodejs-loaders/text
-```
-
-```console
-$ node --import @nodejs-loaders/text main.js
-```
-
-See `README.md` in the repository's root for more details.
 
 **Environment**: test
 
@@ -32,7 +19,3 @@ This loader handles files that are effectively plain text.
 * `.md`
 * `.txt`
 </details>
-
-## Alternatives
-
-* [`esm-loader-css`](https://www.npmjs.com/package/esm-loader-css) - This alternative **only** supports CSS files.

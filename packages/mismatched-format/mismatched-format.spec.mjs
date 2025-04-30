@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
 import { before, describe, it, mock } from 'node:test';
 
-// `concurrency` creates a race condition in the test setup. the perf diff is ~nonexistent
-describe('Mismatched format loader (unit)', { concurrency: false }, () => {
-	/** @type {import('./mismatched-format.loader.mjs').load} */
+describe('Mismatched format loader (unit)', () => {
+	/** @type {import('./mismatched-format.mjs').load} */
 	let load;
 	/** @type {MockFunctionContext<NoOpFunction>} */
 	let mock__containsCJS;
@@ -13,7 +12,7 @@ describe('Mismatched format loader (unit)', { concurrency: false }, () => {
 		mock__containsCJS = containsCJS.mock;
 		mock.module('./contains-cjs.mjs', { namedExports: { containsCJS } });
 
-		({ load } = await import('./mismatched-format.loader.mjs'));
+		({ load } = await import('./mismatched-format.mjs'));
 	});
 
 	describe('when "esm" is actually cjs', () => {

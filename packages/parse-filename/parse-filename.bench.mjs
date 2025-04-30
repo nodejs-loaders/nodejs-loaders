@@ -3,7 +3,7 @@ import {
 	getFilenameExt,
 	stripExtras,
 	getFilenameParts,
-} from './parse-filename.mjs';
+} from './your-module.mjs';
 
 const suite = new Suite({
 	reporter: chartReport,

@@ -1,3 +1,3 @@
 import module from 'node:module';
 
-module.register('../svelte.loader.mjs', import.meta.url);
+module.register('../svelte.mjs', import.meta.url);

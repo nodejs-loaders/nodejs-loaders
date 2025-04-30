@@ -2,21 +2,8 @@
 
 <img src="https://raw.githubusercontent.com/nodejs-loaders/nodejs-loaders/refs/heads/main/logo.svg" height="100" width="100" alt="@node.js loaders logo" />
 
-[![npm version](https://img.shields.io/npm/v/@nodejs-loaders/mismatched-format.svg)](https://www.npmjs.com/package/@nodejs-loaders/mismatched-format)
+[![npm version](https://img.shields.io/npm/v/@nodejs-loaders/mismatched-format.svg)](https://www.npmjs.com/package/nodejs-loaders/mismatched-format)
 ![unpacked size](https://img.shields.io/npm/unpacked-size/@nodejs-loaders/mismatched-format)
-[![compatible node version(s)](https://img.shields.io/node/v/@nodejs-loaders/mismatched-format.svg)](https://nodejs.org/download)
-
-## Usage
-
-```console
-$ npm i -D @nodejs-loaders/mismatched-format
-```
-
-```console
-$ node --import @nodejs-loaders/mismatched-format main.js
-```
-
-See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 

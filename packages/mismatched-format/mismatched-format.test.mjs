@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { load } from './mismatched-format.loader.mjs';
+import { load } from './mismatched-format.mjs';
 import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
-describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
+describe('Mismatched format loader (e2e)', () => {
 	describe('correctly identify the containing CJS as CJS, despite "type": "module"', () => {
 		it('should handle `require()`', async () => {
 			const result = await load(

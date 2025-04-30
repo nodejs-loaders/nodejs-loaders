@@ -1,3 +1,3 @@
 import module from 'node:module';
 
-module.register('../alias.loader.mjs', import.meta.url);
+module.register('../alias.mjs', import.meta.url);
