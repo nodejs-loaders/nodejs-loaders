@@ -35,7 +35,45 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		[
 			'--no-warnings',
 			'--import',
-			import.meta.resolve('./fixtures/register.mjs'),
+			import.meta.resolve('./tsx.mjs'),
+			e2eTest,
+		],
+		{
+			cwd,
+			encoding: 'utf8',
+			env: {
+				NODE_ENV: 'development',
+			},
+		},
+	);
+});
+
+suite.add('--loader oxc', { repeatSuite: 2 }, () => {
+	spawnSync(
+		execPath,
+		[
+			'--no-warnings',
+			'--loader',
+			import.meta.resolve('./tsx.loader-oxc.mjs'),
+			e2eTest,
+		],
+		{
+			cwd,
+			encoding: 'utf8',
+			env: {
+				NODE_ENV: 'development',
+			},
+		},
+	);
+});
+
+suite.add('--import oxc (register)', { repeatSuite: 2 }, () => {
+	spawnSync(
+		execPath,
+		[
+			'--no-warnings',
+			'--import',
+			import.meta.resolve('./tsx-oxc.mjs'),
 			e2eTest,
 		],
 		{

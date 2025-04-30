@@ -5,9 +5,7 @@ import { describe, it } from 'node:test';
 
 import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
-const skip = +process.version.slice(1, 3) < 23;
-
-describe('JSX & TypeScript loader (e2e)', { concurrency: true, skip }, () => {
+describe('JSX & TypeScript loader oxc (e2e)', { concurrency: true }, () => {
 	it('--loader should load a TSX file but fail because of missing react package', async () => {
 		const cwd = path.join(import.meta.dirname, 'fixtures/with-config');
 		const { stderr, stdout } = await spawnPromisified(
@@ -15,7 +13,7 @@ describe('JSX & TypeScript loader (e2e)', { concurrency: true, skip }, () => {
 			[
 				'--no-warnings',
 				'--loader',
-				import.meta.resolve('./tsx.mjs'),
+				import.meta.resolve('./tsx-oxc.mjs'),
 				path.join(cwd, 'main.tsx'),
 			],
 			{
@@ -33,7 +31,7 @@ describe('JSX & TypeScript loader (e2e)', { concurrency: true, skip }, () => {
 			execPath,
 			[
 				'--no-warnings',
-				`--import=${path.join(cwd, 'register.mjs')}`,
+				`--import=${path.join(cwd, 'register-oxc.mjs')}`,
 				path.join(cwd, 'main.jsx'),
 			],
 			{
@@ -43,5 +41,26 @@ describe('JSX & TypeScript loader (e2e)', { concurrency: true, skip }, () => {
 
 		assert.equal(stderr, '');
 		assert.equal(stdout, '');
+	});
+
+	it("should work with source maps", async () => {
+		const cwd = path.join(import.meta.dirname, 'fixtures/with-config');
+		const { stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--enable-source-maps',
+				`--import=${path.join(cwd, 'register-oxc.mjs')}`,
+				path.join(cwd, 'with-fail.jsx'),
+			],
+			{
+				cwd,
+				env: {
+					NO_COLOR: '1',
+				},
+			},
+		);
+
+		assert.equal(stderr, '');
+		assert.match(stdout, new RegExp("test at with-fail.jsx:6:1"));
 	});
 });
