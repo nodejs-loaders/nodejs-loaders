@@ -62,7 +62,8 @@ export function resolveAliases(specifier, { aliases }, next) {
 			catch (err) { if (err.code !== 'ERR_MODULE_NOT_FOUND') throw err }
 
 			// Need the promise path for the async path (module.register)
-			if ('catch' in resolved && typeof resolved?.catch === 'function') {
+			// Eff you typescript
+			if (resolved && 'catch' in resolved && typeof resolved.catch === 'function') {
 				return resolved.catch((err) => {
 					if (err.code !== 'ERR_MODULE_NOT_FOUND') throw err;
 

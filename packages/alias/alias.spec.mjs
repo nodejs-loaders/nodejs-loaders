@@ -16,6 +16,11 @@ describe('alias', { concurrency: true }, () => {
 
 	class ENOENT extends Error {
 		code = 'ENOENT';
+		name = 'ENOENT';
+	}
+	class ERR_MODULE_NOT_FOUND extends Error {
+		code = 'ERR_MODULE_NOT_FOUND';
+		name = 'ERR_MODULE_NOT_FOUND';
 	}
 
 	before(async () => {
@@ -103,6 +108,34 @@ describe('alias', { concurrency: true }, () => {
 				resolve('VARS?foo#bar', ctx, nextResolve).url,
 				`${aliases.VARS[0]}?foo#bar`,
 			);
+		});
+
+		describe('that are unresolvable', () => {
+			test('(async) should not fail internally', () => {
+				async function nextUnresolveable(s) {
+					throw new ERR_MODULE_NOT_FOUND(s);
+				}
+
+				const specifier = '…/noexist.mjs';
+
+				assert.rejects(
+					() => resolve(specifier, ctx, nextUnresolveable),
+					new RegExp(specifier),
+				);
+			});
+
+			test('(sync) should not fail internally', () => {
+				function nextUnresolveable(s) {
+					throw new ERR_MODULE_NOT_FOUND(s);
+				}
+
+				const specifier = '…/noexist.mjs';
+
+				assert.throws(
+					() => resolve(specifier, ctx, nextUnresolveable),
+					new RegExp(specifier),
+				);
+			});
 		});
 	});
 });
