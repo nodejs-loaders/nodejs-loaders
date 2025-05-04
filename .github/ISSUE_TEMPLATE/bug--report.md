@@ -1,6 +1,6 @@
 ---
-name: "Bug \U0001F41E  Report"
-about: Bug repport for a loader
+name: "\U0001F41E Bug Report"
+about: Report a bug in a loader
 title: "[BUG]"
 labels: bug
 assignees: ''
