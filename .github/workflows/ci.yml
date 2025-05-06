@@ -53,7 +53,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        # We test on all LTS, maitenance and current versions of node above 22.X
+        # We test on all LTS, maintenance and current versions of node above 22.X
         node:
           - version: 24.x
           - version: 23.x
