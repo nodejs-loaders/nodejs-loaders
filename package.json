@@ -36,6 +36,6 @@
     "type-fest": "^4.39.1"
   },
   "optionalDependencies": {
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }
