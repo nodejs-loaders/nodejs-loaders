@@ -21,7 +21,7 @@
     "typescript"
   ],
   "engines": {
-    "node": "^23.6 || ^22.14"
+    "node": "^24.0 || ^23.6 || ^22.14"
   },
   "dependencies": {
     "@nodejs-loaders/parse-filename": "1.0.0"
