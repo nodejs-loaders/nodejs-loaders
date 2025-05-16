@@ -221,7 +221,7 @@ describe('alias (e2e)', { concurrency: true }, () => {
 				{
 					cwd,
 					encoding,
-					env: 'NODE_DISABLE_COLORS=1'
+					env: { NO_COLORS: 1 },
 				},
 			);
 
