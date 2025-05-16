@@ -59,13 +59,24 @@ export function resolveAliases(specifier, { aliases }, next) {
 			let resolved;
 			// Need try/catch for the sync path (module.registerHooks)
 			try { resolved = next(specifier.replace(key, dest)) }
-			catch (err) { if (err.code !== 'ERR_MODULE_NOT_FOUND') throw err }
+			catch (err) {
+				if (
+					!(specifier[0] === '#' && err.code === 'ERR_UNSUPPORTED_DIR_IMPORT') // [1]
+					&& err.code !== 'ERR_MODULE_NOT_FOUND'
+				)
+				{
+					throw err;
+				}
+			}
 
 			// Need the promise path for the async path (module.register)
 			// Eff you typescript
 			if (resolved && 'catch' in resolved && typeof resolved.catch === 'function') {
 				return resolved.catch((err) => {
-					if (err.code !== 'ERR_MODULE_NOT_FOUND') throw err;
+					if (
+						!(specifier[0] === '#' && err.code === 'ERR_UNSUPPORTED_DIR_IMPORT') // [1]
+						&& err.code !== 'ERR_MODULE_NOT_FOUND'
+					) throw err;
 
 					return next(specifier);
 				});
@@ -79,3 +90,7 @@ export function resolveAliases(specifier, { aliases }, next) {
 
 	return next(specifier);
 }
+
+// [1] This is caused by a subpath import key appended to a file url when tsconfig paths contains `"*": ["./*"]`,
+// which actually results in a url with a hash: file:///Users/foo/my-project/#config.js
+// This _could_ be an actual file, so the check needs to happen after it fails (confirming the file doesn't exist).

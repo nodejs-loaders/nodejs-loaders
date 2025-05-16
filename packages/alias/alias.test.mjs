@@ -207,4 +207,27 @@ describe('alias (e2e)', { concurrency: true }, () => {
 			assert.equal(code, 0);
 		});
 	});
+
+	describe('subpath imports + tsconfig paths', () => {
+		it('should play nice', async () => {
+			const cwd = fileURLToPath(import.meta.resolve('./fixtures/subpath-import'));
+			const { code, stderr, stdout } = await spawnPromisified(
+				execPath,
+				[
+					'--no-warnings',
+					'--import', import.meta.resolve('./alias.mjs'),
+					path.join(cwd, 'e2e.mjs'),
+				],
+				{
+					cwd,
+					encoding,
+					env: 'NODE_DISABLE_COLORS=1'
+				},
+			);
+
+			assert.equal(stderr, '');
+			assert.match(stdout, /{ foo: 'bar' }/);
+			assert.equal(code, 0);
+		});
+	});
 });
