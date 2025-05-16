@@ -1,0 +1,4 @@
+{
+  "name": "alias-subpath-test",
+  "imports": { "#config.js": "./config.js" }
+}
