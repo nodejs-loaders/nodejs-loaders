@@ -54,27 +54,25 @@ describe('alias (e2e)', { concurrency: true }, () => {
 		assert.equal(code, 0);
 	});
 
-	if (process.version.startsWith('v23')) {
-		it('should work with `module.registerHooks`', async () => {
-			const { code, stderr, stdout } = await spawnPromisified(
-				execPath,
-				[
-					'--no-warnings',
-					'--import',
-					import.meta.resolve('./fixtures/register-hooks.mjs'),
-					e2eTest,
-				],
-				{
-					cwd,
-					encoding,
-				},
-			);
+	it('should work with `module.registerHooks`', async () => {
+		const { code, stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				import.meta.resolve('./fixtures/register-hooks.mjs'),
+				e2eTest,
+			],
+			{
+				cwd,
+				encoding,
+			},
+		);
 
-			assert.equal(stderr, '');
-			assert.match(stdout, msgRgx);
-			assert.equal(code, 0);
-		});
-	}
+		assert.equal(stderr, '');
+		assert.match(stdout, msgRgx);
+		assert.equal(code, 0);
+	});
 
 	it('should work with `--import`', async () => {
 		const { code, stderr, stdout } = await spawnPromisified(
