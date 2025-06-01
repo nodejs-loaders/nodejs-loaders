@@ -30,7 +30,7 @@
     "./packages/*"
   ],
   "devDependencies": {
-    "@types/node": "^22.15.14",
+    "@types/node": "^22.15.29",
     "bench-node": "^0.6.0",
     "oxlint": "^0.16.5",
     "type-fest": "^4.41.0"
