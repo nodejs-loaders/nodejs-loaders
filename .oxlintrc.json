@@ -57,6 +57,7 @@
 		"jsdoc/require-returns-type": "off",
 		"jsdoc/require-returns": "off",
 		"import/exports-last": "off",
+    "import/group-exports": "off",
 		"import/max-dependencies": "off",
 		"import/order": ["error", {
 			"groups": [
