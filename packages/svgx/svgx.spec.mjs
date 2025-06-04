@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
 
 import { load } from './svgx.loader.mjs';
 
@@ -11,7 +11,7 @@ describe('SVGX loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('../../fixtures/fixture.ext'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -22,9 +22,9 @@ describe('SVGX loader', { concurrency: true }, () => {
 
 		it('should transpile the SVG to a JSX module', async () => {
 			const fileUrl = import.meta.resolve('./fixture.svg');
-			const result = await load(fileUrl, { format: 'jsx' }, nextLoad);
+			const result = await load(fileUrl, { format: 'jsx' }, nextLoadAsync);
 
-			const { source } = await nextLoad(fileUrl, { format: 'jsx' });
+			const { source } = await nextLoadAsync(fileUrl, { format: 'jsx' });
 
 			assert.equal(result.format, 'module');
 			assert.equal(
@@ -39,7 +39,7 @@ describe('SVGX loader', { concurrency: true }, () => {
 			const { message } = await load(
 				fileUrl,
 				{ format: 'jsx' },
-				nextLoad,
+				nextLoadAsync,
 			).catch((err) => err);
 
 			assert.match(message, /component name/);

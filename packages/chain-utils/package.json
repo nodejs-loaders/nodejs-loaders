@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "name": "@nodejs-loaders/chain-utils",
+  "description": "Facilitate synchronous hooks in both async and sync chains.",
+  "type": "module",
+  "author": "Jacob Smith",
+  "maintainers": [
+    "Augustin Mauroy",
+    "Jacob Smith"
+  ],
+  "license": "ISC",
+  "exports": {
+    "./finish-hook": {
+      "types": "./chain-utils.d.mts",
+      "default": "./finish-hook.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodejs-loaders/nodejs-loaders.git",
+    "directory": "packages/chain-utils"
+  },
+  "isNotLoader": true
+}
