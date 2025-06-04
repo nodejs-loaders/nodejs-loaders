@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
+import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
 
 import { exts, load, resolve } from './media.loader.mjs';
 
@@ -13,7 +13,7 @@ describe('media loader', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should ignore unrecognised files', async () => {
 			const specifier = '../../fixtures/fixture.ext';
-			const result = await resolve(specifier, {}, nextResolve);
+			const result = await resolve(specifier, {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
@@ -26,7 +26,7 @@ describe('media loader', { concurrency: true }, () => {
 			let i = 0;
 			for (const ext of exts) {
 				const fileUrl = `./fixture.${ext}`;
-				resolved[i++] = resolve(fileUrl, {}, nextResolve).then((result) => ({
+				resolved[i++] = resolve(fileUrl, {}, nextResolveAsync).then((result) => ({
 					fileUrl,
 					result,
 				}));
@@ -46,7 +46,7 @@ describe('media loader', { concurrency: true }, () => {
 			const resolved = [];
 			let i = 0;
 			for (const ext of exts) {
-				resolved[i++] = assertSuffixedSpecifiers(resolve, `./fixture.${ext}`, 'media');
+				resolved[i++] = assertSuffixedSpecifiersAsync(resolve, `./fixture.${ext}`, 'media');
 			}
 
 			await Promise.all(resolved);
@@ -58,7 +58,7 @@ describe('media loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('../../fixtures/fixture.ext'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.deepEqual(result, {

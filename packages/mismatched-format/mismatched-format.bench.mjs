@@ -1,6 +1,6 @@
 import { Suite, chartReport } from 'bench-node';
 import { load } from './mismatched-format.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
 
 const suite = new Suite({
 	reporter: chartReport,
@@ -20,19 +20,19 @@ const esmRequireInComment = import.meta.resolve(
 );
 
 suite.add('CJS: require()', { repeatSuite: 2 }, async () => {
-	await load(cjsRequire, {}, nextLoad);
+	await load(cjsRequire, {}, nextLoadAsync);
 });
 
 suite.add('CJS: module.exports', { repeatSuite: 2 }, async () => {
-	await load(cjsModuleExports, {}, nextLoad);
+	await load(cjsModuleExports, {}, nextLoadAsync);
 });
 
 suite.add('ESM: createRequire', { repeatSuite: 2 }, async () => {
-	await load(esmCreateRequire, {}, nextLoad);
+	await load(esmCreateRequire, {}, nextLoadAsync);
 });
 
 suite.add('ESM: require() within a comment', { repeatSuite: 2 }, async () => {
-	await load(esmRequireInComment, {}, nextLoad);
+	await load(esmRequireInComment, {}, nextLoadAsync);
 });
 
 suite.run();

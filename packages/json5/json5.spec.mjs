@@ -1,17 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
 import { resolve, load } from './json5.loader.mjs';
 
 describe('json5 loader', { concurrency: true }, () => {
+	const ctx = { importAttributes: { type: 'json5' } };
+
 	describe('resolve', () => {
 		it('should recognise json5 files', async () => {
 			const result = await resolve(
 				'./fixtures/valid.json5',
-				{ importAttributes: { type: 'json5' } },
-				nextResolve,
+				ctx,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -21,7 +23,7 @@ describe('json5 loader', { concurrency: true }, () => {
 		});
 
 		it('should ignore json files that aren’t json5', async () => {
-			const result = await resolve('./fixtures/valid.json', {}, nextResolve);
+			const result = await resolve('./fixtures/valid.json', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
@@ -33,7 +35,7 @@ describe('json5 loader', { concurrency: true }, () => {
 			const result = await resolve(
 				'../../fixtures/fixture.ext',
 				{},
-				nextResolve,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -43,7 +45,7 @@ describe('json5 loader', { concurrency: true }, () => {
 		});
 
 		it('should handle specifiers with appending data', async () => {
-			await assertSuffixedSpecifiers(
+			await assertSuffixedSpecifiersAsync(
 				resolve,
 				'./fixtures/valid.json5',
 				'json5',
@@ -56,8 +58,8 @@ describe('json5 loader', { concurrency: true }, () => {
 		it('should ignore json files that aren’t json5', async () => {
 			const result = await resolve(
 				'./fixture.txt',
-				{ importAttributes: { type: 'json5' } },
-				nextResolve,
+				ctx,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -69,10 +71,8 @@ describe('json5 loader', { concurrency: true }, () => {
 		it('should ignore json if the import attribute is set', async () => {
 			const result = await resolve(
 				'./fixtures/valid.json',
-				{
-					importAttributes: { type: 'json5' },
-				},
-				nextResolve,
+				ctx,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -87,7 +87,7 @@ describe('json5 loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/valid.json5'),
 				{ format: 'json5' },
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'json');
