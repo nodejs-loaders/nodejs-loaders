@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import { before, describe, mock, test } from 'node:test';
+import { before, describe, mock, it } from 'node:test';
 
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
+import { nextResolveAsync, nextResolveSync } from '../../fixtures/nextResolve.fixture.mjs';
 
 describe('alias', { concurrency: true }, () => {
 	/** @type {MockFunctionContext<NoOpFunction>} */
@@ -34,6 +34,36 @@ describe('alias', { concurrency: true }, () => {
 		});
 	});
 
+	describe('chains', () => {
+		const specifier = './fixtures/message.mjs';
+		const resultOfPassthrough = {
+			format: 'unknown',
+			url: specifier,
+		};
+
+		let resolve;
+
+		before(async () => {
+			({ resolve } = await import('./alias.loader.mjs'));
+		});
+
+		it('should work in an async chain', async () => {
+			const result = resolve(specifier, ctx, nextResolveAsync);
+
+			assert.ok(result instanceof Promise);
+
+			assert.deepEqual(await result, resultOfPassthrough);
+		});
+
+		it('should work in an sync chain', () => {
+			const result = resolve(specifier, ctx, nextResolveSync);
+
+			assert.ok(!(result instanceof Promise));
+
+			assert.deepEqual(result, resultOfPassthrough);
+		});
+	});
+
 	describe('that are in tsconfig.json', () => {
 		let resolve;
 
@@ -50,68 +80,68 @@ describe('alias', { concurrency: true }, () => {
 			({ resolve } = await import('./alias.loader.mjs'));
 		});
 
-		test('should de-alias a prefixed specifier', () => {
+		it('should de-alias a prefixed specifier', () => {
 			assert.equal(
-				resolve('…/test.mjs', ctx, nextResolve).url,
+				resolve('…/test.mjs', ctx, nextResolveSync).url,
 				`${base}/src/test.mjs`,
 			);
 		});
 
-		test('should de-alias a pointer (fully-qualified url) specifier', () => {
-			assert.equal(resolve('ENV', ctx, nextResolve).url, aliases.ENV[0]);
+		it('should de-alias a pointer (fully-qualified url) specifier', () => {
+			assert.equal(resolve('ENV', ctx, nextResolveSync).url, aliases.ENV[0]);
 		});
 
-		test('should de-alias a pointer (absolute path) specifier', () => {
-			assert.equal(resolve('VARS', ctx, nextResolve).url, aliases.VARS[0]);
+		it('should de-alias a pointer (absolute path) specifier', () => {
+			assert.equal(resolve('VARS', ctx, nextResolveSync).url, aliases.VARS[0]);
 		});
 
-		test('should maintain any suffixes on the prefixed specifier', () => {
+		it('should maintain any suffixes on the prefixed specifier', () => {
 			assert.equal(
-				resolve('…/test.mjs?foo', ctx, nextResolve).url,
+				resolve('…/test.mjs?foo', ctx, nextResolveSync).url,
 				`${base}/src/test.mjs?foo`,
 			);
 			assert.equal(
-				resolve('…/test.mjs#bar', ctx, nextResolve).url,
+				resolve('…/test.mjs#bar', ctx, nextResolveSync).url,
 				`${base}/src/test.mjs#bar`,
 			);
 			assert.equal(
-				resolve('…/test.mjs?foo#bar', ctx, nextResolve).url,
+				resolve('…/test.mjs?foo#bar', ctx, nextResolveSync).url,
 				`${base}/src/test.mjs?foo#bar`,
 			);
 		});
 
-		test('should maintain any suffixes on the pointer (fully-qualified url) specifier', () => {
+		it('should maintain any suffixes on the pointer (fully-qualified url) specifier', () => {
 			assert.equal(
-				resolve('ENV?foo', ctx, nextResolve).url,
+				resolve('ENV?foo', ctx, nextResolveSync).url,
 				`${aliases.ENV[0]}?foo`,
 			);
 			assert.equal(
-				resolve('ENV#bar', ctx, nextResolve).url,
+				resolve('ENV#bar', ctx, nextResolveSync).url,
 				`${aliases.ENV[0]}#bar`,
 			);
 			assert.equal(
-				resolve('ENV?foo#bar', ctx, nextResolve).url,
+				resolve('ENV?foo#bar', ctx, nextResolveSync).url,
 				`${aliases.ENV[0]}?foo#bar`,
 			);
 		});
 
-		test('should maintain any suffixes on the pointer (absolute path) specifier', () => {
+		it('should maintain any suffixes on the pointer (absolute path) specifier', () => {
 			assert.equal(
-				resolve('VARS?foo', ctx, nextResolve).url,
+				resolve('VARS?foo', ctx, nextResolveSync).url,
 				`${aliases.VARS[0]}?foo`,
 			);
 			assert.equal(
-				resolve('VARS#bar', ctx, nextResolve).url,
+				resolve('VARS#bar', ctx, nextResolveSync).url,
 				`${aliases.VARS[0]}#bar`,
 			);
 			assert.equal(
-				resolve('VARS?foo#bar', ctx, nextResolve).url,
+				resolve('VARS?foo#bar', ctx, nextResolveSync).url,
 				`${aliases.VARS[0]}?foo#bar`,
 			);
 		});
 
 		describe('that are unresolvable', () => {
-			test('(async) should not fail internally', () => {
+			it('(async) should not fail internally', () => {
 				async function nextUnresolveable(s) {
 					throw new ERR_MODULE_NOT_FOUND(s);
 				}
@@ -124,7 +154,7 @@ describe('alias', { concurrency: true }, () => {
 				);
 			});
 
-			test('(sync) should not fail internally', () => {
+			it('(sync) should not fail internally', () => {
 				function nextUnresolveable(s) {
 					throw new ERR_MODULE_NOT_FOUND(s);
 				}
