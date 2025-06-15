@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
+import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
 
 import { exts, load, resolve } from './text.loader.mjs';
 
 describe('text loader', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should ignore files that aren’t text', async () => {
-			const result = await resolve('./fixture.ext', {}, nextResolve);
+			const result = await resolve('./fixture.ext', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
@@ -23,7 +23,7 @@ describe('text loader', { concurrency: true }, () => {
 			let i = 0;
 			for (const ext of Object.keys(exts)) {
 				const fileUrl = `./fixture${ext}`;
-				resolved[i++] = resolve(fileUrl, {}, nextResolve).then((result) => ({
+				resolved[i++] = resolve(fileUrl, {}, nextResolveAsync).then((result) => ({
 					ext,
 					fileUrl,
 					result,
@@ -43,7 +43,7 @@ describe('text loader', { concurrency: true }, () => {
 			const cases = [];
 			let i = 0;
 			for (const [ext, format] of Object.entries(exts)) {
-				cases[i++] = assertSuffixedSpecifiers(resolve, `./fixture${ext}`, format);
+				cases[i++] = assertSuffixedSpecifiersAsync(resolve, `./fixture${ext}`, format);
 			}
 
 			await Promise.all(cases);
@@ -55,7 +55,7 @@ describe('text loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('../../fixtures/fixture.ext'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -70,8 +70,8 @@ describe('text loader', { concurrency: true }, () => {
 			for (const ext of Object.keys(exts)) {
 				const fileUrl = import.meta.resolve(`./fixture${ext}`);
 				loaded[i++] = Promise.all([
-					load(fileUrl, { format: 'graphql' }, nextLoad),
-					nextLoad(fileUrl, { format: 'graphql' }).then(({ source }) => source),
+					load(fileUrl, { format: 'graphql' }, nextLoadAsync),
+					nextLoadAsync(fileUrl, { format: 'graphql' }).then(({ source }) => source),
 				]);
 			}
 

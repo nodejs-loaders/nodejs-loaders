@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
 
 import { resolve, load } from './css-module.loader.mjs';
 
@@ -13,7 +13,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			const result = await resolve(
 				'./fixtures/fixture.module.css',
 				{},
-				nextResolve,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -23,7 +23,7 @@ describe('css-module loader', { concurrency: true }, () => {
 		});
 
 		it('should ignore css files that aren’t css-modules', async () => {
-			const result = await resolve('./fixture.css', {}, nextResolve);
+			const result = await resolve('./fixture.css', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
@@ -35,7 +35,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			const result = await resolve(
 				'../../fixtures/fixture.ext',
 				{},
-				nextResolve,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -45,7 +45,7 @@ describe('css-module loader', { concurrency: true }, () => {
 		});
 
 		it('should handle specifiers with appending data', async () => {
-			await assertSuffixedSpecifiers(
+			await assertSuffixedSpecifiersAsync(
 				resolve,
 				'./fixtures/fixture.module.css',
 				'css-module',
@@ -58,7 +58,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/fixture.js'),
 				{ format: 'commonjs' },
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'commonjs');
@@ -69,7 +69,7 @@ describe('css-module loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/fixture.module.css'),
 				{ format: 'css-module' },
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'json');

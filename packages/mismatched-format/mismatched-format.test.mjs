@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { load } from './mismatched-format.loader.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
 
 describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
 	describe('correctly identify the containing CJS as CJS, despite "type": "module"', () => {
@@ -10,7 +10,7 @@ describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/actually-cjs/uses-require.cjs.js'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'commonjs');
@@ -20,7 +20,7 @@ describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/actually-cjs/module-exports.cjs.js'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'commonjs');
@@ -32,7 +32,7 @@ describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/actually-esm/create-require.esm.js'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'module');
@@ -44,7 +44,7 @@ describe('Mismatched format loader (e2e)', { concurrency: true }, () => {
 					'./fixtures/actually-esm/require-in-comment.esm.js',
 				),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.equal(result.format, 'module');

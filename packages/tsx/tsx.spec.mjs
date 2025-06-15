@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { before, describe, it, mock } from 'node:test';
 
-import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
+import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
 
 const skip = +process.version.slice(1, 3) < 23;
 
@@ -30,7 +30,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 	describe('resolve', () => {
 		it('should ignore files that aren’t text', async () => {
-			const result = await resolve('./fixture.ext', {}, nextResolve);
+			const result = await resolve('./fixture.ext', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
@@ -43,7 +43,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			let i = 0;
 			for (const ext of jsxExts) {
 				const fileUrl = import.meta.resolve(`./fixture${ext}`);
-				resolved[i++] = resolve(fileUrl, {}, nextResolve).then((result) => ({
+				resolved[i++] = resolve(fileUrl, {}, nextResolveAsync).then((result) => ({
 					fileUrl,
 					result,
 				}));
@@ -63,7 +63,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			let i = 0;
 			for (const ext of tsxExts) {
 				const fileUrl = import.meta.resolve(`./fixture${ext}`);
-				resolved[i++] = resolve(fileUrl, {}, nextResolve).then((result) => ({
+				resolved[i++] = resolve(fileUrl, {}, nextResolveAsync).then((result) => ({
 					fileUrl,
 					result,
 				}));
@@ -82,10 +82,10 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			const cases = [];
 			let i = 0;
 			for (const ext of jsxExts) {
-				cases[i++] = assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'jsx');
+				cases[i++] = assertSuffixedSpecifiersAsync(resolve, `./fixture${ext}`, 'jsx');
 			}
 			for (const ext of tsxExts) {
-				cases[i++] = assertSuffixedSpecifiers(resolve, `./fixture${ext}`, 'tsx');
+				cases[i++] = assertSuffixedSpecifiersAsync(resolve, `./fixture${ext}`, 'tsx');
 			}
 			await Promise.all(cases);
 		});
@@ -96,7 +96,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			const result = await load(
 				import.meta.resolve('../../fixtures/fixture.ext'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -130,7 +130,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should transpile JSX', async () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.jsx');
-			const result = await load(fileUrl, { format: 'jsx' }, nextLoad);
+			const result = await load(fileUrl, { format: 'jsx' }, nextLoadAsync);
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
@@ -138,7 +138,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should transpile TSX', async () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.tsx');
-			const result = await load(fileUrl, { format: 'tsx' }, nextLoad);
+			const result = await load(fileUrl, { format: 'tsx' }, nextLoadAsync);
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));

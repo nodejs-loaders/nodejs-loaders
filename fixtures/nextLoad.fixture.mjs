@@ -1,7 +1,7 @@
-import { readFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-export const nextLoad = async (
+export const nextLoadSync = (
 	url,
 	{ format = 'unknown' } = { format: 'unknown' },
 ) => {
@@ -9,6 +9,11 @@ export const nextLoad = async (
 
 	return {
 		format,
-		source: await readFile(fsPath, 'utf8'),
+		source: readFileSync(fsPath, 'utf8'),
 	};
 };
+
+/**
+ * @param  {Parameters<nextLoadSync>} args
+ */
+export const nextLoadAsync = async (...args) => nextLoadSync(...args);

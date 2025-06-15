@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
 
 import { load, resolve } from './svelte.loader.mjs';
 
@@ -12,7 +12,7 @@ describe('svelte loader', { concurrency: true }, () => {
 			const result = await resolve(
 				'../../fixtures/fixture.txt',
 				{},
-				nextResolve,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -22,7 +22,7 @@ describe('svelte loader', { concurrency: true }, () => {
 		});
 
 		it('should recognise svelte files', async () => {
-			const result = await resolve('./fixture.svelte', {}, nextResolve);
+			const result = await resolve('./fixture.svelte', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'svelte',
@@ -36,7 +36,7 @@ describe('svelte loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('../../fixtures/fixture.ext'),
 				{},
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			assert.deepEqual(result, {

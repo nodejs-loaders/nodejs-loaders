@@ -1,17 +1,19 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { assertSuffixedSpecifiers } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextResolve } from '../../fixtures/nextResolve.fixture.mjs';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
+import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
+import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
 import { resolve, load } from './jsonc.loader.mjs';
 
 describe('JSONC loader', { concurrency: true }, () => {
+	const ctx = { importAttributes: { type: 'jsonc' } };
+
 	describe('resolve', () => {
 		it('should recognise jsonc files', async () => {
 			const result = await resolve(
 				'./fixtures/valid.jsonc',
-				{ importAttributes: { type: 'jsonc' } },
-				nextResolve,
+				ctx,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -21,7 +23,7 @@ describe('JSONC loader', { concurrency: true }, () => {
 		});
 
 		it('should ignore json files that aren’t jsonc', async () => {
-			const result = await resolve('./fixtures/valid.json', {}, nextResolve);
+			const result = await resolve('./fixtures/valid.json', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
@@ -33,7 +35,7 @@ describe('JSONC loader', { concurrency: true }, () => {
 			const result = await resolve(
 				'../../fixtures/fixture.ext',
 				{},
-				nextResolve,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -43,21 +45,19 @@ describe('JSONC loader', { concurrency: true }, () => {
 		});
 
 		it('should handle specifiers with appending data', async () => {
-			await assertSuffixedSpecifiers(
+			await assertSuffixedSpecifiersAsync(
 				resolve,
 				'./fixtures/valid.jsonc',
 				'jsonc',
-				{
-					importAttributes: { type: 'jsonc' },
-				},
+				ctx,
 			);
 		});
 
 		it('should ignore json files that aren’t jsonc', async () => {
 			const result = await resolve(
 				'./fixture.txt',
-				{ importAttributes: { type: 'jsonc' } },
-				nextResolve,
+				ctx,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -69,10 +69,8 @@ describe('JSONC loader', { concurrency: true }, () => {
 		it('should ignore json if the import attribute is set', async () => {
 			const result = await resolve(
 				'./fixtures/valid.json',
-				{
-					importAttributes: { type: 'jsonc' },
-				},
-				nextResolve,
+				ctx,
+				nextResolveAsync,
 			);
 
 			assert.deepEqual(result, {
@@ -87,7 +85,7 @@ describe('JSONC loader', { concurrency: true }, () => {
 			const result = await load(
 				import.meta.resolve('./fixtures/valid.jsonc'),
 				{ format: 'jsonc' },
-				nextLoad,
+				nextLoadAsync,
 			);
 
 			const expected = [
