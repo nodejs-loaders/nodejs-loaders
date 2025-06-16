@@ -68,7 +68,7 @@ Some nodejs-loaders are compatible with the sync version of customization hooks.
 ```js
 import module from 'node:module';
 
-import * as aliasLoader from '@nodejs-loaders/alias/alias.loader.js';
+import * as aliasLoader from '@nodejs-loaders/alias/alias.loader.mjs';
  // ⚠️ Do NOT import via `main`, like '@nodejs-loaders/alias'
 
 module.registerHooks(aliasLoader);

@@ -6,17 +6,17 @@ const suite = new Suite({
 	reporter: chartReport,
 });
 
-const e2eTest = './fixtures/e2e.js';
+const e2eTest = './fixtures/e2e.mjs';
 
 suite.add('--loader', { repeatSuite: 2 }, () => {
-	spawnSync(execPath, ['--no-warnings', '--loader', './alias.js', e2eTest]);
+	spawnSync(execPath, ['--no-warnings', '--loader', './alias.mjs', e2eTest]);
 });
 
 suite.add('--import (register)', { repeatSuite: 2 }, () => {
 	spawnSync(execPath, [
 		'--no-warnings',
 		'--import',
-		'./fixtures/register.js',
+		'./fixtures/register.mjs',
 		e2eTest,
 	]);
 });
@@ -26,7 +26,7 @@ if (process.version.startsWith('v23')) {
 		spawnSync(execPath, [
 			'--no-warnings',
 			'--import',
-			'./fixtures/register-hooks.js',
+			'./fixtures/register-hooks.mjs',
 			e2eTest,
 		]);
 	});

@@ -1,6 +1,6 @@
 /**
  * @example
- * node script/pre-release.js --w=alias --bump=patch
+ * node script/pre-release.mjs --w=alias --bump=patch
  */
 import fs from 'node:fs/promises';
 import { styleText, parseArgs } from 'node:util';

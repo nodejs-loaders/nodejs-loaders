@@ -58,9 +58,7 @@ jobs:
           languages: ${{ matrix.language }}
           config: |
             paths-ignore:
-                - '**/*.test.js'
                 - '**/*.test.mjs'
-                - '**/*.bench.js'
                 - '**/*.bench.mjs'
 
       # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).

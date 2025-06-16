@@ -1,6 +1,6 @@
 import { Suite, chartReport } from 'bench-node';
-import { load } from './mismatched-format.js';
-import { nextLoad } from '../../fixtures/nextLoad.fixture.js';
+import { load } from './mismatched-format.mjs';
+import { nextLoad } from '../../fixtures/nextLoad.fixture.mjs';
 
 const suite = new Suite({
 	reporter: chartReport,

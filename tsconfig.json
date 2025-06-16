@@ -10,7 +10,7 @@
     "moduleResolution": "NodeNext",
     "target": "ESNext"
   },
-  "include": ["./packages"],
+  "include": ["./packages/**.mjs"],
   "exclude": [
     "**/fixtures/**/*",
     "**/*/fixture.*",

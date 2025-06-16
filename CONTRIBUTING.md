@@ -69,7 +69,7 @@ Create a new directory in the `packages` directory with the name of the loader
   "name": "@nodejs-loaders/YOUR-LOADER",
   "description": "Extend node to support YOUR THING via customisation hooks.",
   "type": "module",
-  "main": "./YOUR-LOADER.js",
+  "main": "./YOUR-LOADER.mjs",
   "types": "./YOUR-LOADER.d.mts",
   "author": "YOUR NAME",
   "license": "ISC",
@@ -129,7 +129,7 @@ Loaders making their own network calls (not just facilitating a user-specified c
 
 There are two part of testing: unit tests and end-to-end tests.
 
-First write unit tests for your hooks via [`node:test`](https://nodejs.org/api/test.html), to validate the individual logic with your hooks. Unit tests should follow the naming convention `your-loader.spec.js`. And the test file should be co-located (in the same directory) with the loader; there is a separate `test` directory in the repo root—these are not the droids you're looking for (mostly ignore that directory).
+First write unit tests for your hooks via [`node:test`](https://nodejs.org/api/test.html), to validate the individual logic with your hooks. Unit tests should follow the naming convention `your-loader.spec.mjs`. And the test file should be co-located (in the same directory) with the loader; there is a separate `test` directory in the repo root—these are not the droids you're looking for (mostly ignore that directory).
 
 The high-level structure of a unit test looks like:
 
@@ -137,7 +137,7 @@ The high-level structure of a unit test looks like:
 import assert from 'node:assert/strict';
 import { describe it } from 'node:test';
 
-import { resolve, load } from './your-loader.js';
+import { resolve, load } from './your-loader.mjs';
 
 describe('Your Loader', () => {
 	describe('resolve', () => {
@@ -154,7 +154,7 @@ describe('Your Loader', () => {
 });
 ```
 
-Second, write end-to-end (e2e / E2E) tests. These prove the loader works IRL. End-to-end tests should follow the naming convention `your-loader.test.js`.
+Second, write end-to-end (e2e / E2E) tests. These prove the loader works IRL. End-to-end tests should follow the naming convention `your-loader.test.mjs`.
 
 ```js
 import assert from 'node:assert/strict';
@@ -162,14 +162,14 @@ import path from 'node:path';
 import { execPath } from 'node:process';
 import { describe, it } from 'node:test';
 
-import { spawnPromisified } from '../../test/spawn-promisified.js';
+import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
 describe('Your Loader (e2e)', () => {
 	const opts = {
 		cwd: fileURLToPath(import.meta.resolve('./fixtures')),
 		encoding: 'utf8',
 	};
-	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.js'));
+	const e2eTest = fileURLToPath(import.meta.resolve('./fixtures/e2e.mjs'));
 
 	it('should work with `--loader`', async (t) => {
 		const { code, stderr, stdout } = await spawnPromisified(
@@ -177,7 +177,7 @@ describe('Your Loader (e2e)', () => {
 			[
 				'--no-warnings',
 				'--loader',
-				fileURLToPath(import.meta.resolve('./your-loader.js')),
+				fileURLToPath(import.meta.resolve('./your-loader.mjs')),
 				e2eTest,
 			],
 			opts,
@@ -194,7 +194,7 @@ describe('Your Loader (e2e)', () => {
 			[
 				'--no-warnings',
 				'--import',
-				fileURLToPath(import.meta.resolve('./fixtures/register.js')),
+				fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
 				e2eTest,
 			],
 			opts,
@@ -213,7 +213,7 @@ describe('Your Loader (e2e)', () => {
 				[
 					'--no-warnings',
 					'--import',
-					fileURLToPath(import.meta.resolve('./fixtures/register.js')),
+					fileURLToPath(import.meta.resolve('./fixtures/register.mjs')),
 					e2eTest,
 				],
 				opts,
