@@ -77,7 +77,7 @@ describe('text loader', { concurrency: true }, () => {
 
 			loaded = await Promise.all(loaded);
 
-			for (const [result, source ] of loaded) {
+			for (const [result, source] of loaded) {
 				assert.equal(result.format, 'module');
 				assert.equal(result.source, `export default \`${source}\`;`);
 			}

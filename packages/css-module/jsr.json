@@ -1,0 +1,23 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "version": "1.1.0",
+  "name": "@nodejs-loaders/css-module",
+  "description": "Extend node to support css modules via customization hooks.",
+  "exports": "./css-module.mjs",
+  "publish": {
+    "include": [
+      "./*.mjs",
+      "./*.d.mts",
+      "./*.d.mts.map"
+    ],
+    "exclude": [
+      "!./*.mjs",
+      "!./*.d.mts",
+      "!./*.d.mts.map",
+      "./*.bench.mjs",
+      "./*.test.mjs",
+      "./*.spec.mjs",
+      "./fixtures/**/*"
+    ]
+  }
+}

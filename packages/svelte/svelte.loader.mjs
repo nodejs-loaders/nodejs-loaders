@@ -1,3 +1,4 @@
+/* @ts-self-types="./svelte.loader.d.mts" */
 import { compile } from 'svelte/compiler';
 import { stripExtras } from '@nodejs-loaders/parse-filename';
 

@@ -1,3 +1,4 @@
+/* @ts-self-types="./parse-filename.d.mts" */
 import path from 'node:path';
 
 /**

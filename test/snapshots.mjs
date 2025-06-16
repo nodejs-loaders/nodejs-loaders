@@ -3,7 +3,7 @@ import { snapshot } from 'node:test';
 
 snapshot.setResolveSnapshotPath(generateSnapshotPath);
 /**
- * @param {string} testFilePath `'/tmp/foo.test.js'`
+ * @param {string} testFilePath `'/tmp/foo.test.mjs'`
  * @returns `'/tmp/foo.test.snap.cjs'`
  * @type {Parameters<snapshot.setResolveSnapshotPath>[0]}
  */

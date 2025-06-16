@@ -25,11 +25,11 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+	const ext = getFilenameExt(/** @type {FileURL} */(nextResult.url));
 
 	parentURLs.set(
-		/** @type {FileURL} */ (nextResult.url),
-		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
+		/** @type {FileURL} */(nextResult.url),
+		/** @type {FileURL} */(ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
 	if (ext === '.jsx') {

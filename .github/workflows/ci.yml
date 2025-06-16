@@ -37,6 +37,9 @@ jobs:
       - name: Clean install dependencies
         run: npm ci
 
+      - name: Generate type definitions
+        run: node --run types:generate
+
       - name: Check types
         run: node --run types:check
 
@@ -44,7 +47,7 @@ jobs:
         run: node --run lint
 
       - name: Validate `package.json`s
-        run: npm run pjson:check
+        run: node --run pjson:check
 
   test:
     name: Unit & e2e tests

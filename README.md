@@ -32,10 +32,10 @@ $ node \
   ./main.tsx
 ```
 
-But that can quickly clutter the CLI. Instead, you may want to create your own `register.mts` like so:
+But that can quickly clutter the CLI. Instead, you may want to create your own `register.ts` like so:
 
 ```console
-$ node --import ./register.mts ./main.tsx
+$ node --import ./register.ts ./main.tsx
 ```
 
 ```ts
@@ -59,7 +59,7 @@ console.log(
 );
 ```
 
-¹ Prior to node 23.6.0, a flag is needed to support TypeScript in `register.mts` (otherwise, it can be `register.mjs` instead).
+¹ Prior to node 23.6.0, a flag is needed to support TypeScript in `register.ts` (otherwise, it can be `register.js` instead).
 
 ### Usage with `module.registerHooks`
 

@@ -3,9 +3,9 @@ import { execPath } from 'node:process';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { spawnPromisified } from './spawn-promisified.mjs';
+import { spawnPromisified } from './spawn-promisified.js';
 
-import { SUPPORTED_PREFIXES } from './pr-prefixes.mjs';
+import { SUPPORTED_PREFIXES } from './pr-prefixes.js';
 
 test('Pull Request checks', async (t) => {
 	const encoding = 'utf8';

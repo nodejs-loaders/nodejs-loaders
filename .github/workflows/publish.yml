@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
 name: Publish to NPM
+
 on:
   push:
     tags:
@@ -10,12 +11,12 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
-      id-token: write
+      id-token: write # need for jsr auth and npm provenance
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
@@ -28,11 +29,16 @@ jobs:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
-      - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
-      - run: echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV"
+      - name: check integrity between registry and package.json
+        run: node --run pjson:check
       - name: Generate types
         run: node --run types:generate
-      - name: Publish $pkg_name $pkg_version with provenance
+        # try first publish to npm because it's our primary registry
+      - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --provenance --workspace="packages/$pkg_name"
+      - name: Publish to jsr
+        run: |
+          cd packages/$pkg_name
+          npx jsr publish

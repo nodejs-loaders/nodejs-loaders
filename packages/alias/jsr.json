@@ -1,0 +1,23 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "version": "2.1.2",
+  "name": "@nodejs-loaders/alias",
+  "description": "Extend node to support TypeScript 'paths' via customization hooks.",
+  "exports": "./alias.mjs",
+  "publish": {
+    "include": [
+      "./*.mjs",
+      "./*.d.mts",
+      "./*.d.mts.map"
+    ],
+    "exclude": [
+      "!./*.mjs",
+      "!./*.d.mts",
+      "!./*.d.mts.map",
+      "./*.bench.mjs",
+      "./*.test.mjs",
+      "./*.spec.mjs",
+      "./fixtures/**/*"
+    ]
+  }
+}

@@ -1,3 +1,4 @@
+/* @ts-self-types="./css-module.loader.d.mts" */
 // This loader provides a basic facsimile of CSS Modules intended for testing.
 // Use something like esbuild to handle this in production.
 

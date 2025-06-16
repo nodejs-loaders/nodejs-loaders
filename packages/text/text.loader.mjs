@@ -1,3 +1,4 @@
+/* @ts-self-types="./text.loader.d.mts" */
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
@@ -8,7 +9,7 @@ import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 async function resolveText(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 
-	const format = exts[getFilenameExt(/** @type {FileURL} */ (nextResult.url))];
+	const format = exts[getFilenameExt(/** @type {FileURL} */(nextResult.url))];
 
 	if (!format) return nextResult;
 
