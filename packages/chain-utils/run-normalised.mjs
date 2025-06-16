@@ -1,3 +1,5 @@
+import { isPromise } from 'node:util/types';
+
 /**
  * @typedef {import('node:module').ResolveFnOutput} ResolveFnOutput
  * @typedef {import('node:module').LoadFnOutput} LoadFnOutput
@@ -19,14 +21,3 @@ export function runForAsyncOrSync(nextResult, cb, ...others) {
 
 	return cb(nextResult, ...others);
 }
-
-/**
- * @template {{}} V
- * @param {V | Promise<V>} val The value to test.
- * @returns {val is Promise<V>}
- */
-const isPromise = (val) => (
-	val
-	&& 'then' in val
-	&& typeof val.then === 'function'
-);
