@@ -6,9 +6,9 @@ describe('deno-npm-prefix', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should remove "npm:" prefix from specifier', async () => {
 			const specifier = 'npm:lodash';
-			const nextResolve = (cleanSpecifier, _ctx) => {
+			const nextResolve = async (cleanSpecifier, _ctx) => {
 				assert.strictEqual(cleanSpecifier, 'lodash');
-				return Promise.resolve({ url: `node_modules/${cleanSpecifier}` });
+				return { url: `node_modules/${cleanSpecifier}` };
 			};
 
 			const result = await resolve(specifier, {}, nextResolve);
@@ -17,9 +17,9 @@ describe('deno-npm-prefix', { concurrency: true }, () => {
 
 		it('should pass through specifier without "npm:" prefix', async () => {
 			const specifier = 'lodash';
-			const nextResolve = (cleanSpecifier, _ctx) => {
+			const nextResolve = async (cleanSpecifier, _ctx) => {
 				assert.strictEqual(cleanSpecifier, 'lodash');
-				return Promise.resolve({ url: `node_modules/${cleanSpecifier}` });
+				return { url: `node_modules/${cleanSpecifier}` };
 			};
 
 			const result = await resolve(specifier, {}, nextResolve);
@@ -28,9 +28,9 @@ describe('deno-npm-prefix', { concurrency: true }, () => {
 
 		it('should handle empty specifier', async () => {
 			const specifier = '';
-			const nextResolve = (cleanSpecifier, _ctx) => {
+			const nextResolve = async (cleanSpecifier, _ctx) => {
 				assert.strictEqual(cleanSpecifier, '');
-				return Promise.resolve({ url: '' });
+				return { url: '' };
 			};
 
 			const result = await resolve(specifier, {}, nextResolve);

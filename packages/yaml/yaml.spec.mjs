@@ -10,7 +10,6 @@ describe('YAML loader', { concurrency: true }, () => {
 			const specifier = './test.yaml';
 			const ctx = {};
 
-
 			const result = await resolve(specifier, ctx, nextResolve);
 			assert.equal(result.format, 'yaml');
 		});
