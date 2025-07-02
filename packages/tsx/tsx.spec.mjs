@@ -145,6 +145,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 		});
 
 		it('should log transpile errors', async () => {
+			// oxlint-disable eslint/no-console
 			const badJSX = 'const Foo (a) => (<div />)'; // missing `=`
 			const orig_consoleError = console.error;
 
@@ -165,6 +166,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			assert.match(errLog, /found "\("/);
 
 			globalThis.console.error = orig_consoleError;
+			// oxlint-enable eslint/no-console
 		});
 	});
 });
