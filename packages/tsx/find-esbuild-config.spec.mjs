@@ -103,7 +103,7 @@ describe('finding an ESbuild config', () => {
 	});
 
 	it('should return a cached result when it has it (non-defaults)', () => {
-		const customConfig = { minify: true };
+		const customConfig = { minify: false };
 		mock_findPackageJSON.mockImplementationOnce(() => pjsonLocus);
 		mock_createRequire.mockImplementationOnce(() => mock_require_empty_ret);
 

@@ -5,9 +5,7 @@ import { describe, it } from 'node:test';
 
 import { spawnPromisified } from '../../test/spawn-promisified.mjs';
 
-const skip = +process.version.slice(1, 3) < 23;
-
-describe('JSX & TypeScript loader (e2e)', { concurrency: true, skip }, () => {
+describe('JSX & TypeScript loader (e2e)', { concurrency: true }, () => {
 	/**
 	 * If react isn't found, the transpilation has happened. If there is another error, the
 	 * transpilation failed (kind of hypothetical)
@@ -27,6 +25,24 @@ describe('JSX & TypeScript loader (e2e)', { concurrency: true, skip }, () => {
 			},
 		);
 
+		assert.match(stderr, /Cannot find package 'react' imported from/);
+		assert.equal(stdout, '');
+	});
+
+	it('--import should load a TSX file but fail because of missing react package', async () => {
+		const cwd = path.join(import.meta.dirname, 'fixtures/with-config');
+		const { stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				import.meta.resolve('./tsx.mjs'),
+				path.join(cwd, 'main.jsx'),
+			],
+			{
+				cwd,
+			},
+		);
 		assert.match(stderr, /Cannot find package 'react' imported from/);
 		assert.equal(stdout, '');
 	});
