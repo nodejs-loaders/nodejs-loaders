@@ -57,6 +57,6 @@ export const defaults = {
 	jsxDev: true,
 	jsxFactory: 'React.createElement',
 	loader: 'tsx',
-	minify: true,
-	sourcemap: true,
+	minify: false, // reduce performance impact of the loader
+	sourcemap: process.sourceMapsEnabled ? 'inline' : undefined,
 };
