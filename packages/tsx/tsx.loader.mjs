@@ -65,7 +65,7 @@ async function loadTSX(url, ctx, nextLoad) {
 	});
 	let rawSource = `${nextResult.source}`; // byte array → string
 
-	const { code: source, warnings, } = await transform(rawSource, {
+	const { code: source, warnings } = await transform(rawSource, {
 		sourcefile: url,
 		...esbuildConfig,
 	});
