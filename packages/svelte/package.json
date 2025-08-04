@@ -27,7 +27,12 @@
     "directory": "packages/svelte"
   },
   "dependencies": {
-    "@nodejs-loaders/parse-filename": "^1.0.0",
+    "@nodejs-loaders/parse-filename": "^1.0.0"
+  },
+  "devDependencies": {
     "svelte": "^5.37.2"
+  },
+  "peerDependencies": {
+    "svelte": "^5.19.7"
   }
 }
