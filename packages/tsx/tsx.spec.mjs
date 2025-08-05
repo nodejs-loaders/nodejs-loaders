@@ -145,28 +145,18 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 		});
 
 		it('should log transpile errors', async () => {
-			// oxlint-disable eslint/no-console
 			const badJSX = 'const Foo (a) => (<div />)'; // missing `=`
-			const orig_consoleError = console.error;
 
-			const consoleErr = (globalThis.console.error = mock.fn());
-
-			await load(
+			assert.rejects(load(
 				'whatever.jsx',
 				{
 					format: 'jsx',
 					parentURL: import.meta.url,
 				},
 				async () => ({ source: badJSX }),
-			);
-
-			const errLog = consoleErr.mock.calls[0].arguments[0];
-
-			assert.match(errLog, /TranspileError/);
-			assert.match(errLog, /found "\("/);
-
-			globalThis.console.error = orig_consoleError;
-			// oxlint-enable eslint/no-console
+			), {
+				message: 'Transform failed with 1 error:\nwhatever.jsx:1:10: ERROR: Expected ";" but found "("',
+			});
 		});
 	});
 });

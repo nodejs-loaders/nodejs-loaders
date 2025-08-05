@@ -25,11 +25,11 @@ async function resolveTSX(specifier, ctx, nextResolve) {
 	const nextResult = await nextResolve(specifier);
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+	const ext = getFilenameExt(/** @type {FileURL} */(nextResult.url));
 
 	parentURLs.set(
-		/** @type {FileURL} */ (nextResult.url),
-		/** @type {FileURL} */ (ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
+		/** @type {FileURL} */(nextResult.url),
+		/** @type {FileURL} */(ctx.parentURL ?? pathToFileURL(path.join(cwd(), 'whatever.ext')).href),
 	);
 
 	if (ext === '.jsx') {
@@ -65,28 +65,9 @@ async function loadTSX(url, ctx, nextLoad) {
 	});
 	let rawSource = `${nextResult.source}`; // byte array → string
 
-	if (esbuildConfig.jsx === 'transform') {
-		rawSource = `import * as React from 'react';\n${rawSource}`;
-	}
-
 	const { code: source, warnings } = await transform(rawSource, {
 		sourcefile: url,
 		...esbuildConfig,
-	}).catch(({ errors }) => {
-		for (const {
-			location: { column, line, lineText },
-			text,
-		} of errors) {
-			// oxlint-disable-next-line no-console
-			console.error(
-				`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`,
-			);
-		}
-
-		return {
-			code: null,
-			warnings: [],
-		};
 	});
 
 	// oxlint-disable-next-line no-console
