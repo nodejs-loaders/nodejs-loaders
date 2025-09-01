@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@nodejs-loaders/parse-filename": "1.0.0",
-    "yaml": "^2.8.0"
+    "yaml": "^2.8.1"
   },
   "repository": {
     "type": "git",
