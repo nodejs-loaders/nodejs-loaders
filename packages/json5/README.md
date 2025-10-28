@@ -21,7 +21,10 @@ See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+**Compatible APIs**:
+
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
 
 To import a JSON5 file in Node.js, it must have a `.json5` file extension **and** an [import attribute](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import/with) in the import statement (for consistency with Node.js's support for `json` imports):
 
