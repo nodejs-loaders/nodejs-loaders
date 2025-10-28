@@ -14,13 +14,7 @@
       "**/*.spec.mjs",
       "**/*.test.mjs"
     ],
-    "test-reporter": [
-      "lcov",
-      "spec"
-    ],
-    "test-reporter-destination": [
-      "./coverage.lcov",
-      "stdout"
-    ]
+    "test-reporter": "spec",
+    "test-reporter-destination": "stdout"
   }
 }

@@ -103,6 +103,8 @@ jobs:
 
       - name: Run unit & e2e tests
         run: node --run test:packages
+        env:
+          NODE_OPTIONS: --test-reporter=lcov --test-reporter-destination=./coverage.lcov
 
       - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node-version }}
         if: ${{ matrix.os == 'ubuntu-latest' }}
