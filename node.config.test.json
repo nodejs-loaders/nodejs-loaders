@@ -1,0 +1,26 @@
+{
+  "$schema": "https://nodejs.org/dist/v24.10.0/docs/node-config-schema.json",
+  "nodeOptions": {
+    "import": [
+      "./test/snapshots.mjs"
+    ]
+  },
+  "testRunner": {
+    "experimental-test-module-mocks": true,
+    "test-coverage-include": [
+      "packages/**/*.mjs"
+    ],
+    "test-coverage-exclude": [
+      "**/*.spec.mjs",
+      "**/*.test.mjs"
+    ],
+    "test-reporter": [
+      "lcov",
+      "spec"
+    ],
+    "test-reporter-destination": [
+      "./coverage.lcov",
+      "stdout"
+    ]
+  }
+}
