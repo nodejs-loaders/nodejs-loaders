@@ -44,9 +44,9 @@ export { loadCSSModule as load };
 
 /**
  * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
- * @param {import('../types.js').FileURL} _url The fully resolved module location.
+ * @param {import('node:module').LoadHookContext} _ctx Context about the module being loaded.
  */
-function finaliseLoadCSSModule(loadedResult, _url) {
+function finaliseLoadCSSModule(loadedResult, _ctx) {
 	const rawSource = '' + loadedResult.source;
 	const parsed = parseCssToObject(rawSource);
 
