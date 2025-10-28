@@ -18,7 +18,7 @@
     "lint:fix": "oxlint --config .oxlintrc.json --fix",
     "pjson:check": "node --no-warnings --test ./test/pjson.test.mjs",
     "pre-commit": "node --run lint:fix",
-    "test": "node --no-warnings --experimental-config-file=./node.config.test.json --experimental-test-module-mocks --experimental-test-coverage --test",
+    "test": "node --no-warnings --experimental-config-file=\"./node.config.test.json\" --experimental-test-module-mocks --experimental-test-coverage --test",
     "test:packages": "node --run test -- './packages/**/*.spec.mjs' './packages/**/*.test.mjs'",
     "types:check": "tsc --noEmit",
     "types:generate": "tsc"
