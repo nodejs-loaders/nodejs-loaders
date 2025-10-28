@@ -3,33 +3,51 @@
 
 import { parse } from 'postcss';
 
+import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 import { stripExtras } from '@nodejs-loaders/parse-filename';
 
 /**
  * @type {import('node:module').ResolveHook}
  */
-async function resolveCSSModule(specifier, ctx, nextResolve) {
-	const nextResult = await nextResolve(specifier);
+function resolveCSSModule(specifier, ctx, nextResolve) {
+	const nextResult = nextResolve(specifier);
 
 	if (!stripExtras(specifier).endsWith('.module.css')) return nextResult;
 
-	return {
-		...ctx,
-		format: 'css-module',
-		url: nextResult.url,
-	};
+	return runForAsyncOrSync(nextResult, finaliseResolveCSSModule, ctx);
 }
 export { resolveCSSModule as resolve };
 
 /**
+ * @param {import('node:module').ResolveFnOutput} resolvedResult Specifier has been fully resolved.
+ * @param {import('node:module').ResolveHookContext} ctx Context about the module.
+ */
+function finaliseResolveCSSModule(resolvedResult, ctx) {
+	return {
+		...ctx,
+		format: 'css-module',
+		url: resolvedResult.url,
+	};
+}
+
+/**
  * @type {import('node:module').LoadHook}
  */
-async function loadCSSModule(url, ctx, nextLoad) {
-	const nextResult = await nextLoad(url, ctx);
+function loadCSSModule(url, ctx, nextLoad) {
+	const nextResult = nextLoad(url, ctx);
 
 	if (ctx.format !== 'css-module') return nextResult;
 
-	const rawSource = '' + nextResult.source;
+	return runForAsyncOrSync(nextResult, finaliseLoadCSSModule, ctx);
+}
+export { loadCSSModule as load };
+
+/**
+ * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
+ * @param {import('../types.js').FileURL} _url The fully resolved module location.
+ */
+function finaliseLoadCSSModule(loadedResult, _url) {
+	const rawSource = '' + loadedResult.source;
 	const parsed = parseCssToObject(rawSource);
 
 	return {
@@ -37,7 +55,6 @@ async function loadCSSModule(url, ctx, nextLoad) {
 		source: JSON.stringify(parsed),
 	};
 }
-export { loadCSSModule as load };
 
 function parseCssToObject(rawSource) {
 	const output = new Map(); // Map is best for mutation
