@@ -20,8 +20,10 @@ permissions:
 jobs:
 
   get-matrix:
-    name: Configure Node environment matrix
+    name: Configure node versions
     runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
 
     outputs:
       latest: ${{ steps.set-matrix.outputs.requireds }}
@@ -41,6 +43,9 @@ jobs:
   quality:
     name: Code quality
     runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
@@ -73,6 +78,8 @@ jobs:
 
     needs: [get-matrix]
     runs-on: ${{ matrix.os }}
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
 
     strategy:
       fail-fast: false # prevent a failure in other versions run cancelling others
@@ -117,8 +124,11 @@ jobs:
 
   finish:
     needs: test
-    if: ${{ success() }}
+
     runs-on: ubuntu-latest
+
+    if: ${{ success() }}
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1

@@ -4,7 +4,8 @@ name: PR Checks
 
 on:
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
     types:
       - edited
       - opened
@@ -17,6 +18,8 @@ permissions:
 jobs:
   check-title:
     runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
 
     steps:
       - name: Harden Runner
