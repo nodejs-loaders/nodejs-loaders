@@ -1,14 +1,27 @@
-import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import stripJsonComments from 'strip-json-comments';
+
+import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
+import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
  * @type {import('node:module').ResolveHook}
  */
-async function resolveJSONC(specifier, ctx, nextResolve) {
-	const nextResult = await nextResolve(specifier);
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+function resolveJSONC(specifier, ctx, nextResolve) {
+	return runForAsyncOrSync(
+		nextResolve(specifier),
+		finaliseResolveJSONC,
+		ctx,
+	);
+}
+export { resolveJSONC as resolve };
+/**
+ * @param {import('node:module').ResolveFnOutput} resolvedResult Specifier has been fully resolved.
+ * @param {import('node:module').ResolveHookContext} ctx Context about the module.
+ */
+function finaliseResolveJSONC(resolvedResult, ctx) {
+	const ext = getFilenameExt(/** @type {FileURL} */ (resolvedResult.url));
 
 	/**
 	 * On Node.js v20, v22, v23 the extension **and** the `importAttributes`
@@ -17,24 +30,34 @@ async function resolveJSONC(specifier, ctx, nextResolve) {
 	 */
 	if (ext === '.jsonc' && ctx.importAttributes?.type === 'jsonc') {
 		return {
-			...nextResult,
+			...resolvedResult,
 			format: 'jsonc',
 		};
 	}
 
-	return nextResult;
+	return resolvedResult;
 }
-export { resolveJSONC as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
  */
-async function loadJSONC(url, ctx, nextLoad) {
-	const nextResult = await nextLoad(url, ctx);
+function loadJSONC(url, ctx, nextLoad) {
+	return runForAsyncOrSync(
+		nextLoad(url, ctx),
+		finaliseLoadJSONC,
+		ctx.format,
+	);
+}
+export { loadJSONC as load };
 
-	if (ctx.format !== 'jsonc') return nextResult;
+/**
+ * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
+ * @param {import('node:module').LoadHookContext['format']} format The format of the module being loaded.
+ */
+function finaliseLoadJSONC(loadedResult, format) {
+	if (format !== 'jsonc') return loadedResult;
 
-	const rawSource = '' + nextResult.source; // byte array → string
+	const rawSource = '' + loadedResult.source; // byte array → string
 	const stripped = stripJsonComments(rawSource);
 
 	return {
@@ -42,4 +65,3 @@ async function loadJSONC(url, ctx, nextLoad) {
 		source: stripped,
 	};
 }
-export { loadJSONC as load };
