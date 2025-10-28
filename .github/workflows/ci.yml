@@ -100,7 +100,7 @@ jobs:
         run: npm ci
 
       - name: Run unit & e2e tests
-        run: node --run test
+        run: node --run test:packages
 
       - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node-version }}
         if: ${{ matrix.os == 'ubuntu-latest' }}
