@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Validate GH Workflow
+
+on:
+  push:
+    branches: ["*"]
+    paths:
+      - ".github/workflows/*.yml"
+  pull_request:
+    branches: ["*"]
+    paths:
+      - ".github/workflows/*.yml"
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+
+jobs:
+  validate-yaml:
+    name: Validate YAML files
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Validate YAML files
+        run: yamllint -c .yamllint.yaml -f github ./

@@ -18,7 +18,8 @@
     "lint:fix": "oxlint --config .oxlintrc.json --fix",
     "pjson:check": "node --no-warnings --test ./test/pjson.test.mjs",
     "pre-commit": "node --run lint:fix",
-    "test": "node --no-warnings --import='./test/snapshots.mjs' --experimental-test-snapshots --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=./coverage.lcov --test-reporter=spec --test-reporter-destination=stdout --experimental-test-module-mocks --test --test-coverage-include='packages/**/*.mjs' --test-coverage-exclude='**/*.spec.mjs' --test-coverage-exclude='**/*.test.mjs' './packages/*/*.spec.mjs' './packages/*/*.test.mjs'",
+    "test": "node --no-warnings --import='./test/snapshots.mjs' --experimental-test-module-mocks --experimental-test-snapshots --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=./coverage.lcov --test-reporter=spec --test-reporter-destination=stdout --test-coverage-include='packages/**/*.mjs' --test-coverage-exclude='**/*.spec.mjs' --test-coverage-exclude='**/*.test.mjs' --test",
+    "test:packages": "node --run test -- './packages/**/*.spec.mjs' './packages/**/*.test.mjs'",
     "types:check": "tsc --noEmit",
     "types:generate": "tsc"
   },

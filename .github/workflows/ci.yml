@@ -4,21 +4,48 @@
 # It will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Tests
+name: Quality Assurance
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
+
+  get-matrix:
+    name: Configure node versions
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
+    outputs:
+      latest: ${{ steps.set-matrix.outputs.requireds }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        with:
+          egress-policy: audit
+
+      - uses: ljharb/actions/node/matrix@7f214d8efdbdcefc96ad9689663ef387a195deec # main
+        id: set-matrix
+        with:
+          versionsAsRoot: true
+          type: majors
+          preset: ">= 22" # glob is not backported below 22.x
+
   quality:
     name: Code quality
     runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
@@ -31,8 +58,8 @@ jobs:
       - name: Install node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-            node-version-file: '.nvmrc'
-            cache: 'npm'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Clean install dependencies
         run: npm ci
@@ -48,16 +75,20 @@ jobs:
 
   test:
     name: Unit & e2e tests
+
+    needs: [get-matrix]
     runs-on: ${{ matrix.os }}
 
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
     strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        # We test on all LTS and current versions of node above 22.X
-        node:
-          - version: 24.x
-          - version: 22.x
       fail-fast: false # prevent a failure in other versions run cancelling others
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        node-version: ${{ fromJson(needs.get-matrix.outputs.latest) }}
 
     steps:
       - name: Harden Runner
@@ -68,19 +99,19 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-      - name: Use Node.js ${{ matrix.node.version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-          node-version: ${{ matrix.node.version }}
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Clean install dependencies
         run: npm ci
 
       - name: Run unit & e2e tests
-        run: node --run test
+        run: node --run test:packages
 
-      - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node.version }}
+      - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node-version }}
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
         with:
@@ -91,8 +122,11 @@ jobs:
 
   finish:
     needs: test
-    if: ${{ success() }}
+
     runs-on: ubuntu-latest
+
+    if: ${{ success() }}
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
