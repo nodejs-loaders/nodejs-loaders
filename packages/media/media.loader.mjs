@@ -42,6 +42,19 @@ function finaliseResolveMedia(resolvedResult, ctx) {
 function loadMedia(url, ctx, nextLoad) {
 	if (ctx.format !== 'media') return nextLoad(url);
 
+	return runForAsyncOrSync(
+		{ format: ctx.format },
+		finaliseLoadMedia,
+		url,
+	);
+}
+export { loadMedia as load };
+
+/**
+ * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
+ * @param {FileURL} url Context about the module being loaded.
+ */
+function finaliseLoadMedia(loadedResult, url) {
 	const source = `export default '${url.replace(cwd, '[…]')}';`;
 
 	return {
@@ -50,7 +63,6 @@ function loadMedia(url, ctx, nextLoad) {
 		source,
 	};
 }
-export { loadMedia as load };
 
 /**
  * @typedef {Array<string>|Set<string>} FileExtensionsList

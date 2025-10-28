@@ -72,11 +72,11 @@ describe('media loader', { concurrency: true }, () => {
 			let i = 0;
 			for (const ext of exts) {
 				const fileUrl = import.meta.resolve(`./fixture${ext}`);
-				loaded[i++] = load(fileUrl, { format: 'media' }, nextLoad_Err).then((result) => ({
+				loaded[i++] = {
 					ext,
 					fileUrl,
-					result,
-				}));
+					result: load(fileUrl, { format: 'media' }, nextLoad_Err),
+				};
 			}
 
 			loaded = await Promise.all(loaded);
