@@ -14,6 +14,10 @@ exports[`media (e2e) > should work with \`--loader\` 1`] = `
 "file://[…]/fixture.ico\\n"
 `;
 
+exports[`media (e2e) > should work with \`module.registerHooks\` 1`] = `
+"file://[…]/fixture.ico\\n"
+`;
+
 exports[`media (e2e) > should work with \`module.register\` 1`] = `
 "file://[…]/fixture.ico\\n"
 `;
