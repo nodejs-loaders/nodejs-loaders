@@ -19,10 +19,8 @@ function resolveCSSModule(specifier, ctx, nextResolve) {
 export { resolveCSSModule as resolve };
 
 /**
- *
  * @param {import('node:module').ResolveFnOutput} resolvedResult Specifier has been fully resolved.
  * @param {import('node:module').ResolveHookContext} ctx Context about the module.
- * @returns
  */
 function finaliseResolveCSSModule(resolvedResult, ctx) {
 	return {
@@ -44,7 +42,11 @@ function loadCSSModule(url, ctx, nextLoad) {
 }
 export { loadCSSModule as load };
 
-function finaliseLoadCSSModule(loadedResult) {
+/**
+ * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
+ * @param {import('../types.js').FileURL} url The fully resolved module location.
+ */
+function finaliseLoadCSSModule(loadedResult, url) {
 	const rawSource = '' + loadedResult.source;
 	const parsed = parseCssToObject(rawSource);
 
