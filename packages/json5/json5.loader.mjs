@@ -1,14 +1,26 @@
-import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import JSON5 from 'json5';
+
+import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
+import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
  * @type {import('node:module').ResolveHook}
  */
-async function resolveJSON5(specifier, ctx, nextResolve) {
-	const nextResult = await nextResolve(specifier);
-	const ext = getFilenameExt(/** @type {FileURL} */ (nextResult.url));
+function resolveJSON5(specifier, ctx, nextResolve) {
+	const nextResult = nextResolve(specifier);
+
+	return runForAsyncOrSync(nextResult, finaliseResolveJSON5, ctx);
+}
+export { resolveJSON5 as resolve };
+
+/**
+ * @param {import('node:module').ResolveFnOutput} resolvedResult Specifier has been fully resolved.
+ * @param {import('node:module').ResolveHookContext} ctx Context about the module.
+ */
+function finaliseResolveJSON5(resolvedResult, ctx) {
+	const ext = getFilenameExt(/** @type {FileURL} */ (resolvedResult.url));
 
 	/**
 	 * On Node.js v20, v22, v23 the extension **and** the `importAttributes`
@@ -17,28 +29,35 @@ async function resolveJSON5(specifier, ctx, nextResolve) {
 	 */
 	if (ext === '.json5' && ctx.importAttributes?.type === 'json5') {
 		return {
-			...nextResult,
+			...resolvedResult,
 			format: 'json5',
 		};
 	}
 
-	return nextResult;
+	return resolvedResult;
 }
-export { resolveJSON5 as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
  */
-async function loadJSON5(url, ctx, nextLoad) {
-	const nextResult = await nextLoad(url, ctx);
+function loadJSON5(url, ctx, nextLoad) {
+	const nextResult = nextLoad(url, ctx);
 
-	if (ctx.format !== 'json5') return nextResult;
+	return runForAsyncOrSync(nextResult, finaliseLoadJSON5, ctx.format);
+}
+export { loadJSON5 as load };
 
-	const data = JSON5.parse(String(nextResult.source));
+/**
+ * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
+ * @param {import('node:module').LoadHookContext['format']} format The format hint.
+ */
+function finaliseLoadJSON5(loadedResult, format) {
+	if (format !== 'json5') return loadedResult;
+
+	const data = JSON5.parse(String(loadedResult.source));
 
 	return {
 		format: 'json',
 		source: JSON.stringify(data),
 	};
 }
-export { loadJSON5 as load };
