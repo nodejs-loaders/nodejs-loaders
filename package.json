@@ -19,8 +19,8 @@
     "pjson:check": "node --no-warnings --test ./test/pjson.test.mjs",
     "pre-commit": "node --run lint:fix",
     "test": "node --no-warnings --import='./test/snapshots.mjs' --experimental-test-snapshots --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=./coverage.lcov --test-reporter=spec --test-reporter-destination=stdout --experimental-test-module-mocks --test --test-coverage-include='packages/**/*.mjs' --test-coverage-exclude='**/*.spec.mjs' --test-coverage-exclude='**/*.test.mjs' './packages/*/*.spec.mjs' './packages/*/*.test.mjs'",
-    "types:check": "tsc --noEmit",
-    "types:generate": "tsc"
+    "types:check": "tsgo --noEmit",
+    "types:generate": "tsgo"
   },
   "repository": {
     "type": "git",
@@ -31,11 +31,9 @@
   ],
   "devDependencies": {
     "@types/node": "^24.6.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251027.1",
     "bench-node": "^0.11.0",
     "oxlint": "^1.5.0",
     "type-fest": "^5.0.1"
-  },
-  "optionalDependencies": {
-    "typescript": "^5.9.3"
   }
 }

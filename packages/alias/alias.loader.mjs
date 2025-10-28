@@ -39,7 +39,6 @@ function resolveAlias(specifier, ctx, next) {
 
 	return resolveAliases(specifier, {
 		...ctx,
-		// @ts-expect-error not sure why it isn't picking up the type union
 		aliases,
 	}, next);
 }
