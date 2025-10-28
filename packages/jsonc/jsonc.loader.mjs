@@ -52,7 +52,7 @@ export { loadJSONC as load };
 
 /**
  * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
- * @param {import('node:module').LoadHookContext['format']} format The fully resolved module location.
+ * @param {import('node:module').LoadHookContext['format']} format The format of the module being loaded.
  */
 function finaliseLoadJSONC(loadedResult, format) {
 	if (format !== 'jsonc') return loadedResult;
