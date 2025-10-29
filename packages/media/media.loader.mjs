@@ -1,36 +1,60 @@
 import process from 'node:process';
-
-import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import { pathToFileURL } from 'node:url';
+
+import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
+import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
  * @type {import('node:module').ResolveHook}
  */
-async function resolveMedia(specifier, ctx, nextResolve) {
-	const nextResult = await nextResolve(specifier);
+function resolveMedia(specifier, ctx, nextResolve) {
+	return runForAsyncOrSync(
+		nextResolve(specifier),
+		finaliseResolveMedia,
+		ctx,
+	);
+}
+export { resolveMedia as resolve };
 
+/**
+ * @param {import('node:module').ResolveFnOutput} resolvedResult Specifier has been fully resolved.
+ * @param {import('node:module').ResolveHookContext} ctx Context about the module.
+ */
+function finaliseResolveMedia(resolvedResult, ctx) {
 	// Check against the fully resolved URL, not just the specifier, in case another loader has
 	// something to contribute to the resolution.
-	if (!exts.has(getFilenameExt(/** @type {FileURL} */ (nextResult.url)))) {
-		return nextResult;
+	if (!exts.has(getFilenameExt(/** @type {FileURL} */ (resolvedResult.url)))) {
+		return resolvedResult;
 	}
 
 	return {
 		...ctx,
 		format: 'media',
-		url: nextResult.url,
+		url: resolvedResult.url,
 	};
 }
-export { resolveMedia as resolve };
 
 /**
  * @type {import('node:module').LoadHook}
  */
-async function loadMedia(url, ctx, nextLoad) {
+function loadMedia(url, ctx, nextLoad) {
 	if (ctx.format !== 'media') return nextLoad(url);
 
+	return runForAsyncOrSync(
+		{ format: ctx.format },
+		finaliseLoadMedia,
+		url,
+	);
+}
+export { loadMedia as load };
+
+/**
+ * @param {import('node:module').LoadFnOutput} loadedResult Raw source has been retrieved.
+ * @param {FileURL} url Context about the module being loaded.
+ */
+function finaliseLoadMedia(loadedResult, url) {
 	const source = `export default '${url.replace(cwd, '[…]')}';`;
 
 	return {
@@ -39,7 +63,6 @@ async function loadMedia(url, ctx, nextLoad) {
 		source,
 	};
 }
-export { loadMedia as load };
 
 /**
  * @typedef {Array<string>|Set<string>} FileExtensionsList
