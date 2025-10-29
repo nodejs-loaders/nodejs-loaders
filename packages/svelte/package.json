@@ -27,6 +27,7 @@
     "directory": "packages/svelte"
   },
   "dependencies": {
+    "@nodejs-loaders/chain-utils": "^1.0.0",
     "@nodejs-loaders/parse-filename": "^1.0.0"
   },
   "devDependencies": {
