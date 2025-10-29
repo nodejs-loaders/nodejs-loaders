@@ -10,8 +10,7 @@ import { getAliases, meta } from './get-aliases-from-tsconfig.mjs';
  * @prop {string | FileURL} AliasInitConfig.location The name or fully resolved location of the tsconfig.
  */
 /**
- * @type {import('node:module').InitializeHook}
- * @param {AliasInitConfig} [config] Configuration object to customise Alias loader.
+ * @type {import('node:module').InitializeHook<AliasInitConfig>}
  */
 function initialiseAlias(config) {
 	if (config == null) return;
