@@ -20,7 +20,10 @@ See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+**Compatible APIs**:
+
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
 
 
 This loader enables importing [Svelte](https://svelte.dev) files, converting them to a plain javascript object. Svelte is a component framework that compiles to vanilla JavaScript.
