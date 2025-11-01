@@ -3,14 +3,14 @@
 	"ignorePatterns": [
 		"**/fixtures/**",
 		"**/fixture.*",
-		"**/*.snap.cjs",
+		"**/*.snap.cjs"
 	],
 	"categories": {
 		"correctness": "error",
 		"perf": "error",
 		"pedantic": "error",
 		"style": "error",
-		"suspicious": "warn",
+		"suspicious": "warn"
 	},
 	"plugins": [
 		"import",
@@ -20,11 +20,13 @@
 		"oxc",
 		"react-perf",
 		"react",
-		"recommended",
 		"typescript",
-		"unicorn",
+		"unicorn"
 	],
 	"rules": {
+        "no-nested-ternary": "off",
+		"prefer-template": "off",
+        "prefer-destructuring": "warn",
 		"eslint/eqeqeq": ["error", "always", { "null": "ignore" }],
 		"eslint/curly": ["error", "multi-line"],
 		"eslint/func-style": "off",
@@ -40,7 +42,7 @@
 		"eslint/no-magic-numbers": ["error", {
 			"ignore": [0, -1],
 			"ignoreArrayIndexes": true,
-			"ignoreTypeIndexes": true,
+			"ignoreTypeIndexes": true
 		}],
 		"eslint/no-multi-str": "off",
 		"eslint/no-ternary": "off",
@@ -49,14 +51,15 @@
 		"eslint/require-await": "off",
 		"eslint/sort-keys": ["error", "asc", {
 			"caseSensitive": true,
-			"natural": true,
+			"natural": true
 		}],
 		"eslint/sort-imports": "off",
 		"eslint/yoda": ["error", "never"],
-		"jsdoc/check-property-names": "off", // https://github.com/oxc-project/oxc/issues/10252
+		"jsdoc/check-property-names": "off",
 		"jsdoc/require-returns-description": "off",
 		"jsdoc/require-returns-type": "off",
 		"jsdoc/require-returns": "off",
+        "import/no-named-export": "off",
 		"import/exports-last": "off",
     "import/group-exports": "off",
 		"import/max-dependencies": "off",
@@ -68,13 +71,13 @@
 				"parent",
 				"sibling",
 				"index",
-				"unknown",
+				"unknown"
 			],
 			"newlines-between": "always",
 			"alphabetize": {
 				"order": "asc",
-				"caseInsensitive": false,
-			},
+				"caseInsensitive": false
+			}
 		}],
 		"import/prefer-default-export": "off",
 		"typescript/ban-types": "off",
@@ -85,7 +88,7 @@
 		"unicorn/filename-case": ["error", { "ignore": "^node:" }],
 		"unicorn/no-await-expression-member": "off",
 		"unicorn/no-null": "off",
-		"unicorn/no-typeof-undefined": "off",
+		"unicorn/no-typeof-undefined": "off"
 	},
 	"overrides": [
 		{
@@ -93,7 +96,7 @@
 				"*.spec.mjs",
 				"*.spec.jsx",
 				"*.test.mjs",
-				"*.test.jsx",
+				"*.test.jsx"
 			],
 			"rules": {
 				"max-classes-per-file": "off",
@@ -101,9 +104,9 @@
 				"max-lines-per-function": "off",
 				"max-nested-callbacks": "off",
 				"no-magic-numbers": "off",
-				"no-throw-literal": "off",
-			},
-		},
+				"no-throw-literal": "off"
+			}
+		}
 	],
 	"settings": {
 		"jsdoc": {
