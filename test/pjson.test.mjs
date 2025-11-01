@@ -73,7 +73,7 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 							throw new AggregateError(
 								[err1, err2],
 								// oxlint-disable-next-line no-template-curly-in-string
-								'A subpath export’s specifier should follow either "./${subpath_name}.${ext}" or "./${subpath_name}/${subpath_name}.${ext}"'
+								'A subpath export’s specifier should follow either "./${subpath_name}.${ext}" or "./${subpath_name}/${subpath_name}.${ext}"', { cause: err1 }, { cause: err2 }
 							);
 						}
 					}
