@@ -45,7 +45,7 @@ function loadYaml(url, ctx, nextLoad) {
 		nextLoad(url, { format: 'module' }),
 		finaliseLoadYaml,
 		ctx,
-	)
+	);
 }
 export { loadYaml as load };
 
