@@ -10,11 +10,11 @@ import { exts, load, resolve } from './text.loader.mjs';
 describe('text loader', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should ignore files that aren’t text', async () => {
-			const result = await resolve('./fixture.ext', {}, nextResolveAsync);
+			const result = await resolve('./fixtures/fixture.ext', {}, nextResolveAsync);
 
 			assert.deepEqual(result, {
 				format: 'unknown',
-				url: './fixture.ext',
+				url: './fixtures/fixture.ext',
 			});
 		});
 
@@ -68,7 +68,7 @@ describe('text loader', { concurrency: true }, () => {
 			let loaded = [];
 			let i = 0;
 			for (const ext of Object.keys(exts)) {
-				const fileUrl = import.meta.resolve(`./fixture${ext}`);
+				const fileUrl = import.meta.resolve(`./fixtures/fixture${ext}`);
 				loaded[i++] = Promise.all([
 					load(fileUrl, { format: 'graphql' }, nextLoadAsync),
 					nextLoadAsync(fileUrl, { format: 'graphql' }).then(({ source }) => source),
