@@ -42,7 +42,7 @@ export { loadSVGX as load };
 /**
  * @param {import('node:module').LoadFnOutput} resolvedResult Specifier has been fully resolved.
  * @param {import('node:module').LoadHookContext} ctx Context about the module.
- * @param {string} name
+ * @param {string} name Name to use for the component (derived from file name).
  */
 function finaliseLoadSVGX({ source: svg }, ctx, name) {
 	const source = `export default function ${name}() { return (\n${svg}); }`;
