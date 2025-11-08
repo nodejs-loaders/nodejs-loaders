@@ -6,21 +6,15 @@ describe('YAML loader', { concurrency: true }, () => {
 	describe('resolve', () => {
 		const nextResolve = async (specifier) => ({ url: specifier });
 
-		it('should resolve a ".yaml"', async () => {
-			const specifier = './test.yaml';
-			const ctx = {};
+		for (const ext of ['yml', 'yaml']) {
+			it(`should resolve a ".${ext}"`, async () => {
+				const specifier = `./test.${ext}`;
+				const ctx = {};
 
-			const result = await resolve(specifier, ctx, nextResolve);
-			assert.equal(result.format, 'yaml');
-		});
-
-		it('should resolve a ".yml" file', async () => {
-			const specifier = './test.yml';
-			const ctx = {};
-
-			const result = await resolve(specifier, ctx, nextResolve);
-			assert.equal(result.format, 'yaml');
-		});
+				const result = await resolve(specifier, ctx, nextResolve);
+				assert.equal(result.format, 'yaml');
+			});
+		}
 
 		it('should ignore a non-yaml file', async () => {
 			const specifier = './test.txt';
@@ -36,7 +30,7 @@ describe('YAML loader', { concurrency: true }, () => {
 
 		it('should load and parse YAML content', async () => {
 			const result = await load('./test.yaml', { format: 'yaml' }, nextLoad);
-			assert.deepEqual(result.source, { key: 'value' });
+			assert.deepEqual(result.source, JSON.stringify({ key: 'value' }));
 		});
 
 		it('should not load non-yaml content', async () => {
@@ -63,14 +57,14 @@ describe('YAML loader', { concurrency: true }, () => {
 			});
 
 			const result = await load(url, ctx, nextLoad);
-			assert.deepEqual(result.source, {
+			assert.deepEqual(result.source, JSON.stringify({
 				key1: 'value1',
 				key2: ['item1', 'item2'],
 				key3: {
 					subkey1: 'subvalue1',
 					subkey2: 'subvalue2',
 				},
-			});
+			}));
 		});
 	});
 });
