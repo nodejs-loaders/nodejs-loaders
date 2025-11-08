@@ -31,7 +31,7 @@
     "@nodejs-loaders/parse-filename": "^1.0.0"
   },
   "devDependencies": {
-    "svelte": "^5.43.0"
+    "svelte": "^5.43.5"
   },
   "peerDependencies": {
     "svelte": "^5.19.7"
