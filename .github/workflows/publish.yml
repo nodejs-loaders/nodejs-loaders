@@ -1,10 +1,12 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
+# See https://docs.npmjs.com/trusted-publishers
+
 name: Publish to NPM
 on:
   push:
     tags:
-      - '**@*'
+      - "**@*"
 
 permissions:
   contents: read
@@ -15,7 +17,8 @@ jobs:
 
     permissions:
       contents: read
-      id-token: write
+      id-token: write # Required for OIDC
+
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
@@ -25,14 +28,12 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
-          node-version-file: '.nvmrc'
-          registry-url: 'https://registry.npmjs.org'
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: echo "pkg_name=${GITHUB_REF_NAME##*@}" >> "$GITHUB_ENV"
       - run: echo "pkg_version=${GITHUB_REF_NAME%@*}" >> "$GITHUB_ENV"
       - name: Generate types
         run: node --run types:generate
       - name: Publish $pkg_name $pkg_version with provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance --workspace="packages/$pkg_name"
+        run: npm publish --workspace="packages/$pkg_name"
