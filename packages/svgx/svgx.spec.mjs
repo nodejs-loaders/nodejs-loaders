@@ -41,9 +41,9 @@ describe('SVGX loader', { concurrency: true }, () => {
 					fileUrl,
 					{ format: 'jsx' },
 					nextLoadAsync,
-				) ;
+				);
 				throw new Error('SHOULD HAVE THROWN');
-			} catch(err) {
+			} catch (err) {
 				assert.match(err.message, /component name/);
 				assert.match(err.message, /fixtur\$e/);
 				assert.match(err.message, /illegal/);
