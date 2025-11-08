@@ -7,10 +7,12 @@ on:
     branches: ["*"]
     paths:
       - ".github/workflows/*.yml"
+      - .yamllint.yaml
   pull_request:
     branches: ["*"]
     paths:
       - ".github/workflows/*.yml"
+      - .yamllint.yaml
     types:
       - opened
       - ready_for_review

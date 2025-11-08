@@ -10,9 +10,31 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/ci.yml
+      - packages/**/*.mjs
+      - packages/**/*.d.ts
+      - packages/**/*.mts
+      - packages/**/package.json
+      - test/**
+      - .oxlintrc.json
+      - node.config.test.json
+      - package.json
+      - tsconfig.json
   pull_request:
     branches:
       - main
+    paths:
+      - .github/workflows/ci.yml
+      - packages/**/*.mjs
+      - packages/**/*.d.ts
+      - packages/**/*.mts
+      - packages/**/package.json
+      - test/**
+      - .oxlintrc.json
+      - node.config.test.json
+      - package.json
+      - tsconfig.json
 
 permissions:
   contents: read
