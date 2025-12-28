@@ -165,7 +165,7 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 
 		it('should log transpile errors', () => {
 			const badJSX = 'const Foo (a) => (<div />)'; // missing `=`
-			const orig_consoleError = console.error;
+			const orig_consoleError = console.error; // oxlint-disable-line no-console
 
 			const consoleErr = (globalThis.console.error = mock.fn());
 
