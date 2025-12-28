@@ -56,6 +56,27 @@ describe('json5 (e2e)', { concurrency: true }, () => {
 		assert.equal(code, 0);
 	});
 
+	it('should work with `module.registerHooks`', async (t) => {
+		const { code, stderr, stdout } = await spawnPromisified(
+			execPath,
+			[
+				'--no-warnings',
+				'--import',
+				import.meta.resolve('./fixtures/register-hooks.mjs'),
+				e2eTest,
+			],
+			{
+				cwd,
+				encoding,
+				env,
+			},
+		);
+
+		assert.equal(stderr, '');
+		t.assert.snapshot(stdout);
+		assert.equal(code, 0);
+	});
+
 	it('should work with `--import`', async (t) => {
 		const { code, stderr, stdout } = await spawnPromisified(
 			execPath,

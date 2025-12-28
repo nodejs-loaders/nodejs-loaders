@@ -20,9 +20,12 @@ See `README.md` in the repository's root for more details.
 
 **Environment**: test, development
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+**Compatible APIs**:
 
-This loader enables importing [YAML](https://yaml.org) files, converting them to a plain javascript object. YAML id commonly used for configuration files, which are often more easily represented in YAML than JSON.
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
+
+This loader enables importing [YAML](https://yaml.org) files, converting them to a plain javascript object. YAML is commonly used for configuration files, which are often more easily represented in YAML than JSON.
 
 ```yaml
 # config.yaml

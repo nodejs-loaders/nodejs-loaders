@@ -4,35 +4,84 @@
 # It will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Tests
+name: Quality Assurance
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - .github/workflows/ci.yml
+      - packages/**/*.mjs
+      - packages/**/*.d.ts
+      - packages/**/*.mts
+      - packages/**/package.json
+      - test/**
+      - .oxlintrc.json
+      - node.config.test.json
+      - package.json
+      - tsconfig.json
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - .github/workflows/ci.yml
+      - packages/**/*.mjs
+      - packages/**/*.d.ts
+      - packages/**/*.mts
+      - packages/**/package.json
+      - test/**
+      - .oxlintrc.json
+      - node.config.test.json
+      - package.json
+      - tsconfig.json
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
+
+  get-matrix:
+    name: Configure node versions
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
+    outputs:
+      latest: ${{ steps.set-matrix.outputs.requireds }}
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+        with:
+          egress-policy: audit
+
+      - uses: ljharb/actions/node/matrix@7f214d8efdbdcefc96ad9689663ef387a195deec # main
+        id: set-matrix
+        with:
+          versionsAsRoot: true
+          type: majors
+          preset: ">= 22" # glob is not backported below 22.x
+
   quality:
     name: Code quality
     runs-on: ubuntu-latest
+
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
         with:
           egress-policy: audit
 
       - name: Checkout repo
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
       - name: Install node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
-            node-version-file: '.nvmrc'
-            cache: 'npm'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Clean install dependencies
         run: npm ci
@@ -48,41 +97,45 @@ jobs:
 
   test:
     name: Unit & e2e tests
+
+    needs: [get-matrix]
     runs-on: ${{ matrix.os }}
 
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
+
     strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        # We test on all LTS and current versions of node above 22.X
-        node:
-          - version: 24.x
-          - version: 22.x
       fail-fast: false # prevent a failure in other versions run cancelling others
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        node-version: ${{ fromJson(needs.get-matrix.outputs.latest) }}
 
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
         with:
           egress-policy: audit
 
       - name: Checkout repo
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
-      - name: Use Node.js ${{ matrix.node.version }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
-          node-version: ${{ matrix.node.version }}
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Clean install dependencies
         run: npm ci
 
       - name: Run unit & e2e tests
-        run: node --run test
+        run: node --run test:packages
 
-      - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node.version }}
+      - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node-version }}
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         with:
           flag-name: run-${{ join(matrix.*, '-') }}
           file: ./coverage.lcov
@@ -91,16 +144,19 @@ jobs:
 
   finish:
     needs: test
-    if: ${{ success() }}
+
     runs-on: ubuntu-latest
+
+    if: ${{ success() }}
+
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@0634a2670c59f64b4a01f0f96f84700a4088b9f0 # v2.12.0
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
         with:
           egress-policy: audit
 
       - name: Coveralls Finished
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         with:
           parallel-finished: true
           carryforward: "run-1,run-2"

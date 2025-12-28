@@ -47,11 +47,9 @@ describe('svelte loader', { concurrency: true }, () => {
 
 		it('should compile svelte files correctly', async (t) => {
 			const fileUrl = import.meta.resolve('./fixture.svelte');
-			const result = await load(fileUrl, { format: 'svelte' }, () => {
-				return {
-					source: '<script>export let name;</script><h1>Hello {name}!</h1>',
-				};
-			});
+			const result = await load(fileUrl, { format: 'svelte' }, () => ({
+				source: '<script>export let name;</script><h1>Hello {name}!</h1>',
+			}));
 
 			t.assert.snapshot(result.source);
 		});

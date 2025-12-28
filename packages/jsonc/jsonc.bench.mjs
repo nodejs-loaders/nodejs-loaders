@@ -22,4 +22,13 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 	]);
 });
 
+suite.add('--import (registerHooks)', { repeatSuite: 2 }, () => {
+	spawnSync(execPath, [
+		'--no-warnings',
+		'--import',
+		'./fixtures/register-hooks.mjs',
+		e2eTest,
+	]);
+});
+
 suite.run();

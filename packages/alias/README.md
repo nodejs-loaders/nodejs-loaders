@@ -20,7 +20,10 @@ See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options), [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
+**Compatible APIs**:
+
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
 
 This loader facilitates TypeScript's [`paths`](https://www.typescriptlang.org/docs/handbook/modules/reference.html#paths), handling the (important) half of work TypeScript ignores. It looks for a `tsconfig.json` in the project root (the current working directory) and builds aliases from `compilerOptions.paths` if it exists. If your tsconfig lives in a different location, see [Configuration](#configuration) below.
 

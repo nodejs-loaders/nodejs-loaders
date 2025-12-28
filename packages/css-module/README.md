@@ -20,7 +20,10 @@ See `README.md` in the repository's root for more details.
 
 **Environment**: test
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+**Compatible APIs**:
+
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
 
 This loads the module as a plain-object of simple key-value pairs of the css specifiers like:
 

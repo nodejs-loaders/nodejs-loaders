@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { transform, transformSync } from 'esbuild';
 
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
-import { finishHookInAsyncOrSyncChain } from '@nodejs-loaders/chain-utils/finish-hook';
+import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 
 import { findEsbuildConfig } from './find-esbuild-config.mjs';
 
@@ -26,7 +26,7 @@ export const parentURLs = new Map();
 function resolveTSX(specifier, ctx, nextResolve) {
 	const nextResult = nextResolve(specifier);
 
-	return finishHookInAsyncOrSyncChain(nextResult, finaliseResolveTSX, ctx);
+	return runForAsyncOrSync(nextResult, finaliseResolveTSX, ctx);
 }
 export { resolveTSX as resolve };
 
@@ -74,7 +74,7 @@ function loadTSX(url, ctx, nextLoad) {
 
 	const nextResult = nextLoad(url, { format });
 
-	return finishHookInAsyncOrSyncChain(nextResult, finaliseLoadTSX, url);
+	return runForAsyncOrSync(nextResult, finaliseLoadTSX, url);
 }
 export { loadTSX as load };
 

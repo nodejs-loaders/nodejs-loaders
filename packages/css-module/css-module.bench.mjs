@@ -9,7 +9,7 @@ const suite = new Suite({
 const e2eTest = './fixtures/e2e.mjs';
 
 suite.add('--loader', { repeatSuite: 2 }, () => {
-	spawnSync(execPath, ['--no-warnings', '--loader', './alias.mjs', e2eTest]);
+	spawnSync(execPath, ['--no-warnings', '--loader', './css-module.mjs', e2eTest]);
 });
 
 suite.add('--import (register)', { repeatSuite: 2 }, () => {
@@ -17,6 +17,15 @@ suite.add('--import (register)', { repeatSuite: 2 }, () => {
 		'--no-warnings',
 		'--import',
 		'./fixtures/register.mjs',
+		e2eTest,
+	]);
+});
+
+suite.add('--import (registerHooks)', { repeatSuite: 2 }, () => {
+	spawnSync(execPath, [
+		'--no-warnings',
+		'--import',
+		'./fixtures/register-hooks.mjs',
 		e2eTest,
 	]);
 });

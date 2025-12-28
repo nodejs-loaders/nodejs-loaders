@@ -1,0 +1,10 @@
+name: Test
+
+someList:
+  - foo
+  - bar
+
+nested:
+  fields:
+    are:
+      supported: true

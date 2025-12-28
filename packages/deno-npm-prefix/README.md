@@ -20,7 +20,10 @@ See `README.md` in the repository's root for more details.
 
 **Environments**: dev, test
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options), [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
+**Compatible APIs**:
+
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
 
 This loader enables loading modules using the `npm:` prefix in Node.js. This syntax is used most notably by Deno to [import npm packages](https://docs.deno.com/runtime/fundamentals/node/#using-npm-packages).
 

@@ -25,6 +25,7 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 				author,
 				description,
 				engines,
+				exports,
 				keywords,
 				license,
 				main,
@@ -39,14 +40,51 @@ test('Loader `package.json`s', { concurrency: true }, async (t) => {
 			const loaderName = name.slice(16);
 			assert.ok(author);
 			assert.ok(engines.node);
+			// Loader packages should use "main"
+			if (!(pjson.isNotLoader)) assert.ok(!('exports' in pjson));
 			assert.equal(license, 'ISC');
-			assert.equal(main, `./${loaderName}.mjs`);
+			if ('main' in pjson || !pjson.isNotLoader) {
+				assert.equal(main, `./${loaderName}.mjs`);
+				assert.equal(types, `./${loaderName}.d.mts`);
+			} else {
+				const subpaths = Object.keys(exports);
+
+				// The pjson export is different from all the others, so check it first, and then remove it.
+				const pjsonIdx = subpaths.indexOf('./package.json');
+				assert.equal(subpaths[pjsonIdx], './package.json');
+				subpaths.splice(pjsonIdx, 1);
+
+				// oxlint-disable sort-keys
+				for (const subpath of subpaths) {
+					const exp = exports[subpath];
+					const name = subpath.slice(2); // Skip './'
+					try {
+						assert.deepEqual(exp, {
+							types: `./${name}.d.mts`,
+							default: `./${name}.mjs`,
+						});
+					} catch (err1) {
+						try {
+							assert.deepEqual(exp, {
+								types: `./${name}/${name}.d.mts`,
+								default: `./${name}/${name}.mjs`,
+							});
+						} catch (err2) {
+							throw new AggregateError(
+								[err1, err2],
+								// oxlint-disable-next-line no-template-curly-in-string
+								'A subpath export’s specifier should follow either "./${subpath_name}.${ext}" or "./${subpath_name}/${subpath_name}.${ext}"', { cause: err1 }, { cause: err2 }
+							);
+						}
+					}
+				}
+				// oxlint-enable sort-keys
+			}
 			assert.partialDeepStrictEqual(maintainers, maintainersList);
 			assert.equal(repository.type, 'git');
 			assert.equal(repository.url, repoUrl);
 			assert.match(repository.directory, new RegExp(`packages/${loaderName}`));
 			assert.equal(type, 'module');
-			assert.equal(types, `./${loaderName}.d.mts`);
 
 			if (!pjson.isNotLoader) {
 				assert.match(description, descriptionRgx);
