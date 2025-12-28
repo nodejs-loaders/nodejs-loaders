@@ -95,18 +95,16 @@ function finaliseLoadTSX({ format, source: rawSource }, url, wasPromise) {
 
 	if (wasPromise) {
 		return transform(rawSource, { sourcefile: url, ...esbuildConfig })
-			.then(
-				({ code: source, warnings }) => {
-					// oxlint-disable-next-line no-console
-					if (warnings.length) console.warn(...warnings);
+			.catch((f) => handleTrasformErrors(f, url))
+			.then(({ code: source, warnings }) => {
+				// oxlint-disable-next-line no-console
+				if (warnings.length) console.warn(...warnings);
 
-					return {
-						format,
-						source,
-					}
-				},
-				(f) => handleTrasformErrors(f, url)
-			);
+				return {
+					format,
+					source,
+				};
+			});
 	}
 
 	try {
@@ -138,4 +136,9 @@ function handleTrasformErrors(f, url) {
 
 	// oxlint-disable-next-line no-console
 	if (failure.warnings.length) console.warn(...failure.warnings);
+
+	return {
+		code: null,
+		warnings: [],
+	};
 }
