@@ -2,7 +2,7 @@ import path from 'node:path';
 import { cwd } from 'node:process';
 import { pathToFileURL } from 'node:url';
 
-import { transformSync } from 'esbuild';
+import { transform, transformSync } from 'esbuild';
 
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 import { finishHookInAsyncOrSyncChain } from '@nodejs-loaders/chain-utils/finish-hook';
@@ -82,8 +82,9 @@ export { loadTSX as load };
  *
  * @param {import('node:module').LoadFnOutput} loadResult Raw source has been retrieved.
  * @param {FileURL} url The fully resolved module location.
+ * @param {boolean} wasPromise Whether the chain is sync or async.
  */
-function finaliseLoadTSX({ format, source: rawSource }, url) {
+function finaliseLoadTSX({ format, source: rawSource }, url, wasPromise) {
 	if (!rawSource) return { format, source: undefined };
 
 	rawSource = `${rawSource}`; // byte array → string
@@ -92,38 +93,49 @@ function finaliseLoadTSX({ format, source: rawSource }, url) {
 
 	if (esbuildConfig.jsx === 'transform') rawSource = `import * as React from 'react';\n${rawSource}`;
 
-	/**
-	 * @type {import('esbuild').TransformResult['code']}
-	 */
-	let source;
-	/**
-	 * @type {import('esbuild').TransformResult['warnings']}
-	 */
-	let warnings = [];
+	if (wasPromise) {
+		return transform(rawSource, { sourcefile: url, ...esbuildConfig })
+			.then(
+				({ code: source, warnings }) => {
+					// oxlint-disable-next-line no-console
+					if (warnings.length) console.warn(...warnings);
+
+					return {
+						format,
+						source,
+					}
+				},
+				(f) => handleTrasformErrors(f, url)
+			);
+	}
 
 	try {
-		({ code: source, warnings } = transformSync(rawSource, { sourcefile: url, ...esbuildConfig }));
-	} catch (f) {
-		if (!('errors' in f) || !('warnings' in f)) throw f;
+		const { code: source, warnings } = transformSync(rawSource, { sourcefile: url, ...esbuildConfig });
 
-		const failure = /** @type {import('esbuild').TransformFailure} */ (f);
+		// oxlint-disable-next-line no-console
+		if (warnings.length) console.warn(...warnings);
 
-		for (const {
-			location: { column, line, lineText },
-			text,
-		} of failure.errors) {
-			// oxlint-disable-next-line no-console
-			console.error(`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`);
-		}
+		return {
+			format,
+			source,
+		};
+	}
+	catch (f) { handleTrasformErrors(f, url) }
+}
 
-		if (failure.warnings.length) warnings = failure.warnings;
+function handleTrasformErrors(f, url) {
+	if (!('errors' in f) || !('warnings' in f)) throw f;
+
+	const failure = /** @type {import('esbuild').TransformFailure} */ (f);
+
+	for (const {
+		location: { column, line, lineText },
+		text,
+	} of failure.errors) {
+		// oxlint-disable-next-line no-console
+		console.error(`TranspileError: ${text}\n    at ${url}:${line}:${column}\n    at: ${lineText}\n`);
 	}
 
 	// oxlint-disable-next-line no-console
-	if (warnings?.length) console.warn(...warnings);
-
-	return {
-		format,
-		source,
-	};
+	if (failure.warnings.length) console.warn(...failure.warnings);
 }
