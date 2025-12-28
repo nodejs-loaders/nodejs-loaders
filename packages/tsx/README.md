@@ -20,7 +20,10 @@ See `README.md` in the repository's root for more details.
 
 **Environment**: test
 
-**Compatible APIs**: [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+**Compatible APIs**:
+
+* [`module.register`](https://nodejs.org/api/module.html#moduleregisterspecifier-parenturl-options)
+* [`module.registerHooks`](https://nodejs.org/api/module.html#moduleregisterhooksoptions)
 
 > [!TIP]
 > If you are using _only_ TypeScript (**not** tsx), consider using Node.js's builtin [type stripping](https://nodejs.org/api/typescript.html#type-stripping). This _can_ handle it, but the builtin may provide better/more consistent results.

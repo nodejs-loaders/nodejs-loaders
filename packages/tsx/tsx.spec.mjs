@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { before, describe, it, mock } from 'node:test';
 
-import { assertSuffixedSpecifiersAsync } from '../../test/assert-suffixed-specifiers.mjs';
-import { nextLoadAsync } from '../../fixtures/nextLoad.fixture.mjs';
-import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
+import { assertSuffixedSpecifiersSync } from '../../test/assert-suffixed-specifiers.mjs';
+import { nextLoadAsync, nextLoadSync } from '../../fixtures/nextLoad.fixture.mjs';
+import { nextResolveAsync, nextResolveSync } from '../../fixtures/nextResolve.fixture.mjs';
 
 const skip = +process.version.slice(1, 3) < 23;
 
@@ -29,28 +29,37 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 	});
 
 	describe('resolve', () => {
-		it('should ignore files that aren’t text', async () => {
-			const result = await resolve('./fixture.ext', {}, nextResolveAsync);
-
-			assert.deepEqual(result, {
+		describe('chains', () => {
+			const resultOfUnknown = {
 				format: 'unknown',
 				url: './fixture.ext',
+			};
+
+			/**
+			 * Also assert case "should ignore files that aren’t text"
+			 */
+
+			it('should work in an async chain', async () => {
+				const result = resolve('./fixture.ext', {}, nextResolveAsync);
+
+				assert.ok(result instanceof Promise);
+
+				assert.deepEqual(await result, resultOfUnknown);
+			});
+
+			it('should work in a sync chain', () => {
+				const result = resolve('./fixture.ext', {}, nextResolveSync);
+
+				assert.ok(!(result instanceof Promise));
+
+				assert.deepEqual(result, resultOfUnknown);
 			});
 		});
 
-		it('should recognise JSX files', async () => {
-			let resolved = [];
-			let i = 0;
+		it('should recognise JSX files', () => {
 			for (const ext of jsxExts) {
 				const fileUrl = import.meta.resolve(`./fixture${ext}`);
-				resolved[i++] = resolve(fileUrl, {}, nextResolveAsync).then((result) => ({
-					fileUrl,
-					result,
-				}));
-			}
-			resolved = await Promise.all(resolved);
-
-			for (const { fileUrl, result } of resolved) {
+				const result = resolve(fileUrl, {}, nextResolveSync);
 				assert.deepEqual(result, {
 					format: 'jsx',
 					url: fileUrl,
@@ -58,19 +67,10 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			}
 		});
 
-		it('should recognise TypeScript files', async () => {
-			let resolved = [];
-			let i = 0;
+		it('should recognise TypeScript files', () => {
 			for (const ext of tsxExts) {
 				const fileUrl = import.meta.resolve(`./fixture${ext}`);
-				resolved[i++] = resolve(fileUrl, {}, nextResolveAsync).then((result) => ({
-					fileUrl,
-					result,
-				}));
-			}
-			resolved = await Promise.all(resolved);
-
-			for (const { fileUrl, result } of resolved) {
+				const result = resolve(fileUrl, {}, nextResolveSync);
 				assert.deepEqual(result, {
 					format: 'tsx',
 					url: fileUrl,
@@ -78,30 +78,49 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			}
 		});
 
-		it('should handle specifiers with appending data', async () => {
-			const cases = [];
-			let i = 0;
+		it('should handle specifiers with appending data', () => {
 			for (const ext of jsxExts) {
-				cases[i++] = assertSuffixedSpecifiersAsync(resolve, `./fixture${ext}`, 'jsx');
+				assertSuffixedSpecifiersSync(resolve, `./fixture${ext}`, 'jsx');
 			}
 			for (const ext of tsxExts) {
-				cases[i++] = assertSuffixedSpecifiersAsync(resolve, `./fixture${ext}`, 'tsx');
+				assertSuffixedSpecifiersSync(resolve, `./fixture${ext}`, 'tsx');
 			}
-			await Promise.all(cases);
 		});
 	});
 
 	describe('load', () => {
-		it('should ignore files that aren’t J|TSX', async () => {
-			const result = await load(
-				import.meta.resolve('../../fixtures/fixture.ext'),
-				{},
-				nextLoadAsync,
-			);
-
-			assert.deepEqual(result, {
+		describe('chains', () => {
+			const resultOfUnknown = {
 				format: 'unknown',
 				source: '',
+			};
+
+			/**
+			 * Also assert case "should ignore files that aren’t J|TSX"
+			 */
+
+			it('should work in an async chain', async () => {
+				const result = load(
+					import.meta.resolve('../../fixtures/fixture.ext'),
+					{},
+					nextLoadAsync,
+				);
+
+				assert.ok(result instanceof Promise);
+
+				assert.deepEqual(await result, resultOfUnknown);
+			});
+
+			it('should work in a sync chain', () => {
+				const result = load(
+					import.meta.resolve('../../fixtures/fixture.ext'),
+					{},
+					nextLoadSync,
+				);
+
+				assert.ok(!(result instanceof Promise));
+
+				assert.deepEqual(result, resultOfUnknown);
 			});
 		});
 
@@ -128,36 +147,35 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			'', //EoF
 		].join('\n');
 
-		it('should transpile JSX', async () => {
+		it('should transpile JSX', () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.jsx');
-			const result = await load(fileUrl, { format: 'jsx' }, nextLoadAsync);
+			const result = load(fileUrl, { format: 'jsx' }, nextLoadSync);
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
 		});
 
-		it('should transpile TSX', async () => {
+		it('should transpile TSX', () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.tsx');
-			const result = await load(fileUrl, { format: 'tsx' }, nextLoadAsync);
+			const result = load(fileUrl, { format: 'tsx' }, nextLoadSync);
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
 		});
 
-		it('should log transpile errors', async () => {
-			// oxlint-disable eslint/no-console
+		it('should log transpile errors', () => {
 			const badJSX = 'const Foo (a) => (<div />)'; // missing `=`
-			const orig_consoleError = console.error;
+			const orig_consoleError = console.error; // oxlint-disable-line no-console
 
 			const consoleErr = (globalThis.console.error = mock.fn());
 
-			await load(
+			load(
 				'whatever.jsx',
 				{
 					format: 'jsx',
 					parentURL: import.meta.url,
 				},
-				async () => ({ source: badJSX }),
+				() => ({ source: badJSX }),
 			);
 
 			const errLog = consoleErr.mock.calls[0].arguments[0];
@@ -166,7 +184,6 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			assert.match(errLog, /found "\("/);
 
 			globalThis.console.error = orig_consoleError;
-			// oxlint-enable eslint/no-console
 		});
 	});
 });
