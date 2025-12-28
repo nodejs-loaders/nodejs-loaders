@@ -17,7 +17,8 @@ import { isPromise } from 'node:util/types';
  * callback.
  */
 export function runForAsyncOrSync(nextResult, cb, ...others) {
-	if (isPromise(nextResult)) return nextResult.then((nextResult) => cb(nextResult, ...others));
+	const wasPromise = isPromise(nextResult);
+	if (wasPromise) return nextResult.then((nextResult) => cb(nextResult, ...others, wasPromise));
 
-	return cb(nextResult, ...others);
+	return cb(nextResult, ...others, wasPromise);
 }
