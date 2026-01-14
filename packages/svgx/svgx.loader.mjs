@@ -1,6 +1,7 @@
 import _camelCase from 'lodash.camelcase';
 import _upperFirst from 'lodash.upperfirst';
 
+import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 import { getFilenameParts } from '@nodejs-loaders/parse-filename';
 
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
@@ -12,32 +13,46 @@ const nonWords = /[\W$]/;
  * @type {import('node:module').LoadHook}
  * @param {FileURL} url The fully resolved url.
  */
-async function loadSVGX(url, ctx, next) {
-	const { ext, ...others } = getFilenameParts(url);
+function loadSVGX(url, ctx, nextLoad) {
+	const { base, ext } = getFilenameParts(url);
 
-	if (ext !== '.svg') return next(url);
+	if (ext !== '.svg') return nextLoad(url);
 
-	if (nonWords.test(others.base)) {
+	if (nonWords.test(base)) {
 		throw new SyntaxError(
 			[
-				'Cannot generate a react component name from filename',
-				`"${others.base}"`,
+				'Cannot generate jsx component name from filename',
+				`"${base}"`,
 				'as it contains character(s) illegal for JavaScript identifiers',
 			].join(' '),
 		);
 	}
 
-	const base = pascalCase(others.base);
-	const svg = (await next(url, { format: 'jsx' })).source;
-	const source = `export default function ${base}() { return (\n${svg}); }`;
+	const name = pascalCase(base);
+
+	return runForAsyncOrSync(
+		nextLoad(url, { ...ctx, format: 'text' }),
+		finaliseLoadSVGX,
+		ctx,
+		name,
+	);
+}
+export { loadSVGX as load };
+
+/**
+ * @param {import('node:module').LoadFnOutput} resolvedResult Specifier has been fully resolved.
+ * @param {import('node:module').LoadHookContext} ctx Context about the module.
+ * @param {string} name Name to use for the component (derived from file name).
+ */
+function finaliseLoadSVGX({ source: svg }, ctx, name) {
+	const source = `export default function ${name}() { return (\n${svg}); }`;
 
 	return {
 		...ctx,
-		format: 'module',
+		format: 'jsx',
 		source,
 	};
 }
-export { loadSVGX as load };
 
 /**
  * Convert a string to quasi-PascalCase.
