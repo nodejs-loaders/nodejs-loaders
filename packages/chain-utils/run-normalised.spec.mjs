@@ -21,8 +21,9 @@ describe('Chain utils: Run For Async Or Sync', { concurrency: true }, () => {
 
 			const spiedArgs = cb.mock.calls[0].arguments
 
-			assert.equal(spiedArgs[1], other1);
-			assert.equal(spiedArgs[2], other2);
+			assert.equal(spiedArgs[1], other1, '1st arg');
+			assert.equal(spiedArgs[2], other2, '2nd arg');
+			assert.equal(spiedArgs[3], true, 'wasPromise');
 		});
 	});
 
@@ -43,8 +44,9 @@ describe('Chain utils: Run For Async Or Sync', { concurrency: true }, () => {
 
 			const spiedArgs = cb.mock.calls[0].arguments
 
-			assert.equal(spiedArgs[1], other1);
-			assert.equal(spiedArgs[2], other2);
+			assert.equal(spiedArgs[1], other1, '1st arg');
+			assert.equal(spiedArgs[2], other2, '2nd arg');
+			assert.equal(spiedArgs[3], false, 'wasPromise');
 		});
 	});
 });

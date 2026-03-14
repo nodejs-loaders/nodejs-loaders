@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { before, beforeEach, describe, it, mock } from 'node:test';
 
 function mock_require_ENOENT() { throw { code: 'ENOENT' } }
-function mock_require_empty_ret() { return }
+function mock_require_empty_ret() {}
 
 describe('finding an ESbuild config', () => {
 	const target = import.meta.resolve('./fixtures/whatever.ext');

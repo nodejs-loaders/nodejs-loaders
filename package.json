@@ -31,10 +31,10 @@
     "./packages/*"
   ],
   "devDependencies": {
-    "@types/node": "^24.9.2",
-    "bench-node": "^0.11.0",
-    "oxlint": "^1.25.0",
-    "type-fest": "^5.1.0"
+    "@types/node": "^25.3.3",
+    "bench-node": "^0.14.0",
+    "oxlint": "^1.50.0",
+    "type-fest": "^5.4.4"
   },
   "optionalDependencies": {
     "typescript": "^5.9.3"

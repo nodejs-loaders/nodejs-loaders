@@ -1,3 +1,5 @@
+// oxlint-disable eslint/max-statements
+
 import assert from 'node:assert/strict';
 import { globSync } from 'node:fs';
 import { test } from 'node:test';

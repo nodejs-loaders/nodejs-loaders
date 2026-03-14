@@ -16,13 +16,13 @@ This package provides a variety of loaders to facilitate quick and easy local de
 
 The following JustWorks¹:
 
-You can register an individual nodejs-loader via `--import` like:
+You can register an individual via `--import` like:
 
 ```console
 $ node --import=@nodejs-loaders/tsx ./main.tsx
 ```
 
-Or register multiple nodejs-loaders via multiple `--import`s like:
+Or register multiple via multiple `--import`s like:
 
 ```console
 $ node \
@@ -63,13 +63,13 @@ console.log(
 
 ### Usage with `module.registerHooks`
 
-Some nodejs-loaders are compatible with the sync version of customization hooks. In order to avoid the loader automatically registering itself via the async API (which it does when imported via its `main` entrypoint), you must import it via the direct path:
+Most @nodejs-loaders are compatible with the sync version of customization hooks. In order to avoid the loader automatically registering itself via the async API (which it does when imported via its `main` entrypoint), you must import it via the direct path:
 
 ```js
 import module from 'node:module';
 
+// ⚠️ Do NOT import via `main`, like '@nodejs-loaders/alias'
 import * as aliasLoader from '@nodejs-loaders/alias/alias.loader.mjs';
- // ⚠️ Do NOT import via `main`, like '@nodejs-loaders/alias'
 
 module.registerHooks(aliasLoader);
 ```
