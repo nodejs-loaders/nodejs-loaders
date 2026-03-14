@@ -21,30 +21,33 @@ describe('SVGX loader', { concurrency: true }, () => {
 		});
 
 		it('should transpile the SVG to a JSX module', async () => {
-			const fileUrl = import.meta.resolve('./fixture.svg');
+			const fileUrl = import.meta.resolve('./fixtures/fixture.svg');
 			const result = await load(fileUrl, { format: 'jsx' }, nextLoadAsync);
 
 			const { source } = await nextLoadAsync(fileUrl, { format: 'jsx' });
 
-			assert.equal(result.format, 'module');
+			assert.equal(result.format, 'jsx'); // pass off to loadTSX
 			assert.equal(
 				result.source,
 				`export default function Fixture() { return (\n${source}); }`,
 			);
 		});
 
-		it('should throw a helpful error when a valid component name cannot be derived', async () => {
+		it('should throw a helpful error when a valid component name cannot be derived', () => {
 			const fileUrl = import.meta.resolve('./fixtur$e.svg');
 
-			const { message } = await load(
-				fileUrl,
-				{ format: 'jsx' },
-				nextLoadAsync,
-			).catch((err) => err);
-
-			assert.match(message, /component name/);
-			assert.match(message, /fixtur\$e/);
-			assert.match(message, /illegal/);
+			try {
+				load(
+					fileUrl,
+					{ format: 'jsx' },
+					nextLoadAsync,
+				);
+				throw new Error('SHOULD HAVE THROWN');
+			} catch (err) {
+				assert.match(err.message, /component name/);
+				assert.match(err.message, /fixtur\$e/);
+				assert.match(err.message, /illegal/);
+			}
 		});
 	});
 });
