@@ -58,8 +58,8 @@ describe('SVGX (e2e)', { concurrency: true }, () => {
 			[
 				'--no-warnings',
 				'--import', import.meta.resolve('./fixtures/register-hooks.mjs'),
-				'--import', textLoader,
-				'--import', tsxLoader,
+				'--import', import.meta.resolve('@nodejs-loaders/text/fixtures/register-hooks.mjs'),
+				'--import', import.meta.resolve('@nodejs-loaders/tsx/fixtures/with-config/register-hooks.mjs'),
 				e2eTest,
 			],
 			opts,
