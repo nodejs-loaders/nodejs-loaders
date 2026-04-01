@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/node": "^25.5.0",
     "bench-node": "^0.14.0",
-    "oxlint": "^1.50.0",
+    "oxlint": "^1.58.0",
     "type-fest": "^5.5.0"
   },
   "optionalDependencies": {
