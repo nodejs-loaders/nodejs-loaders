@@ -60,7 +60,7 @@ jobs:
         with:
           versionsAsRoot: true
           type: majors
-          preset: ">= 22" # glob is not backported below 22.x
+          preset: ">= 24" #
 
   quality:
     name: Code quality
@@ -98,7 +98,7 @@ jobs:
   test:
     name: Unit & e2e tests
 
-    needs: [get-matrix]
+    needs: [ get-matrix ]
     runs-on: ${{ matrix.os }}
 
     if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
@@ -108,15 +108,15 @@ jobs:
       matrix:
         os:
           - macos-latest
-          - ubuntu-latest
+          - ubuntu-slim
           - windows-latest
         node-version: ${{ fromJson(needs.get-matrix.outputs.latest) }}
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
-        with:
-          egress-policy: audit
+      #- name: Harden Runner
+      #  uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+      #  with:
+      #    egress-policy: audit
 
       - name: Checkout repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -134,7 +134,8 @@ jobs:
         run: node --run test:packages
 
       - name: Publish coverage to Coveralls ${{ matrix.os }}-${{ matrix.node-version }}
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-slim' && matrix.node-version ==
+          needs.get-matrix.outputs.latest }}
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
         with:
           flag-name: run-${{ join(matrix.*, '-') }}
