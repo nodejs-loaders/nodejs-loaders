@@ -20,8 +20,8 @@
     "pre-commit": "node --run lint:fix",
     "test": "node --no-warnings --import='./test/snapshots.mjs' --experimental-test-module-mocks --experimental-test-snapshots --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=./coverage.lcov --test-reporter=spec --test-reporter-destination=stdout --test-coverage-include='packages/**/*.mjs' --test-coverage-exclude='**/*.spec.mjs' --test-coverage-exclude='**/*.test.mjs' --test",
     "test:packages": "node --run test -- './packages/**/*.spec.mjs' './packages/**/*.test.mjs'",
-    "types:check": "tsc --noEmit",
-    "types:generate": "tsc"
+    "types:check": "tsgo --noEmit && echo 'Type check passed!'",
+    "types:generate": "tsgo"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "./packages/*"
   ],
   "devDependencies": {
+    "@typescript/native-preview": "^ 7.0.0-dev.20260505.1",
     "@types/node": "^25.6.0",
     "bench-node": "^0.14.0",
     "oxlint": "^1.50.0",
