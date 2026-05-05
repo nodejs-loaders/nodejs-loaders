@@ -30,7 +30,7 @@
     "./packages/*"
   ],
   "devDependencies": {
-    "@typescript/native-preview": "^7.0.0-dev.20251027.1",
+    "@typescript/native-preview": "^ 7.0.0-dev.20260505.1",
     "@types/node": "^25.6.0",
     "bench-node": "^0.14.0",
     "oxlint": "^1.50.0",
