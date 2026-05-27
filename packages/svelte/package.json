@@ -1,7 +1,7 @@
 {
   "name": "@nodejs-loaders/svelte",
   "description": "Extend node to support svelte via customization hooks.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "author": "Augustin Mauroy",
   "maintainers": [
@@ -27,11 +27,11 @@
     "directory": "packages/svelte"
   },
   "dependencies": {
-    "@nodejs-loaders/chain-utils": "^1.0.0",
+    "@nodejs-loaders/chain-utils": "^1.1.1",
     "@nodejs-loaders/parse-filename": "^1.0.0"
   },
   "devDependencies": {
-    "svelte": "^5.55.5"
+    "svelte": "^5.55.7"
   },
   "peerDependencies": {
     "svelte": "^5.19.7"
