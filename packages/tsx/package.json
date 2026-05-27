@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "name": "@nodejs-loaders/tsx",
   "description": "Extend node to support JSX & TSX via customization hooks.",
   "type": "module",
@@ -24,7 +24,7 @@
     "node": ">=23.6 || ^22.14"
   },
   "dependencies": {
-    "@nodejs-loaders/chain-utils": "^1.0.0",
+    "@nodejs-loaders/chain-utils": "^1.1.1",
     "@nodejs-loaders/parse-filename": "1.0.0"
   },
   "peerDependencies": {
