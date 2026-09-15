@@ -31,7 +31,11 @@ function loadSVGX(url, ctx, nextLoad) {
 	const name = pascalCase(base);
 
 	return runForAsyncOrSync(
-		nextLoad(url, { ...ctx, format: 'text' }),
+		nextLoad(url, {
+			...ctx,
+			format: 'text',
+			importAttributes: { ...ctx.importAttributes, type: 'text' },
+		}),
 		finaliseLoadSVGX,
 		ctx,
 		name,
