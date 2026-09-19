@@ -34,7 +34,7 @@
     "@types/node": "^26.1.2",
     "bench-node": "^0.15.0",
     "oxlint": "^1.50.0",
-    "type-fest": "^5.7.0"
+    "type-fest": "^5.8.0"
   },
   "optionalDependencies": {
     "typescript": "^5.9.3"
