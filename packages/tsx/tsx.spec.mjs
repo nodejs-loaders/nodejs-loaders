@@ -11,18 +11,65 @@ const jsxExts = new Set(['.jsx']);
 
 const tsxExts = new Set(['.mts', '.ts', '.tsx']);
 
+function getConfigKey(url) {
+	const target = `${url}`;
+
+	if (target.includes('/fixtures/with-preact/')) return 'preact';
+	if (target.includes('/fixtures/with-solid/')) return 'solid';
+
+	return 'react';
+}
+
+function getTranspiled(runtime) {
+	return [
+		`import { jsxDEV } from "${runtime}/jsx-dev-runtime";`,
+		'import { Wrapper } from "./wrapper.jsx";',
+		'export function Greet({ name }) {',
+		'  return /* @__PURE__ */ jsxDEV("h1", { children: [',
+		'    "Hello ",',
+		'    /* @__PURE__ */ jsxDEV(Wrapper, { children: name }, void 0, false, {',
+		'      fileName: "<stdin>",',
+		'      lineNumber: 4,',
+		'      columnNumber: 20',
+		'    }, this)',
+		'  ] }, void 0, true, {',
+		'    fileName: "<stdin>",',
+		'    lineNumber: 4,',
+		'    columnNumber: 10',
+		'  }, this);',
+		'}',
+		'Greet.displayName = "Greet";',
+		'', //EoF
+	].join('\n');
+}
+
 describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 	let load;
 	let resolve;
 
 	before(async () => {
 		// This is necessary because now `load` depends on `resolve` having run.
-		const esbuildConfig = {
-			...(await import('./find-esbuild-config.mjs')).defaults,
-			...(await import('./fixtures/with-config/esbuild.config.mjs')).default,
+		const defaults = (await import('./find-esbuild-config.mjs')).defaults;
+		const reactConfig = (await import('./fixtures/with-config/esbuild.config.mjs')).default;
+		const preactConfig = (await import('./fixtures/with-preact/esbuild.config.mjs')).default;
+		const solidConfig = (await import('./fixtures/with-solid/esbuild.config.mjs')).default;
+
+		const esbuildConfigs = {
+			preact: {
+				...defaults,
+				...preactConfig,
+			},
+			react: {
+				...defaults,
+				...reactConfig,
+			},
+			solid: {
+				...defaults,
+				...solidConfig,
+			},
 		};
 		mock.module('./find-esbuild-config.mjs', {
-			namedExports: { findEsbuildConfig: () => esbuildConfig },
+			namedExports: { findEsbuildConfig: (target) => esbuildConfigs[getConfigKey(target)] },
 		});
 
 		({ load, resolve } = await import('./tsx.loader.mjs'));
@@ -124,32 +171,13 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 			});
 		});
 
-		// This verifies that esbuild.config.mjs is being loaded correctly because the one in this repo
-		// disables minification, but the loader's default config enables it.
-		const transpiled = [
-			'import { jsxDEV } from "react/jsx-dev-runtime";',
-			'import { Wrapper } from "./wrapper.jsx";',
-			'export function Greet({ name }) {',
-			'  return /* @__PURE__ */ jsxDEV("h1", { children: [',
-			'    "Hello ",',
-			'    /* @__PURE__ */ jsxDEV(Wrapper, { children: name }, void 0, false, {',
-			'      fileName: "<stdin>",',
-			'      lineNumber: 4,',
-			'      columnNumber: 20',
-			'    }, this)',
-			'  ] }, void 0, true, {',
-			'    fileName: "<stdin>",',
-			'    lineNumber: 4,',
-			'    columnNumber: 10',
-			'  }, this);',
-			'}',
-			'Greet.displayName = "Greet";',
-			'', //EoF
-		].join('\n');
-
 		it('should transpile JSX', () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.jsx');
 			const result = load(fileUrl, { format: 'jsx' }, nextLoadSync);
+
+			// This verifies that esbuild.config.mjs is being loaded correctly because the one in this repo
+			// disables minification, but the loader's default config enables it.
+			const transpiled = getTranspiled('react');
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
@@ -158,6 +186,43 @@ describe('JSX & TypeScript loader', { concurrency: true, skip }, () => {
 		it('should transpile TSX', () => {
 			const fileUrl = import.meta.resolve('./fixtures/with-config/main.tsx');
 			const result = load(fileUrl, { format: 'tsx' }, nextLoadSync);
+			const transpiled = getTranspiled('react');
+
+			assert.equal(result.format, 'module');
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
+		});
+
+		it('should transpile JSX with Preact', () => {
+			const fileUrl = import.meta.resolve('./fixtures/with-preact/main.jsx');
+			const result = load(fileUrl, { format: 'jsx' }, nextLoadSync);
+			const transpiled = getTranspiled('preact');
+
+			assert.equal(result.format, 'module');
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
+		});
+
+		it('should transpile TSX with Preact', () => {
+			const fileUrl = import.meta.resolve('./fixtures/with-preact/main.tsx');
+			const result = load(fileUrl, { format: 'tsx' }, nextLoadSync);
+			const transpiled = getTranspiled('preact');
+
+			assert.equal(result.format, 'module');
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
+		});
+
+		it('should transpile JSX with SolidJS', () => {
+			const fileUrl = import.meta.resolve('./fixtures/with-solid/main.jsx');
+			const result = load(fileUrl, { format: 'jsx' }, nextLoadSync);
+			const transpiled = getTranspiled('solid-js');
+
+			assert.equal(result.format, 'module');
+			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));
+		});
+
+		it('should transpile TSX with SolidJS', () => {
+			const fileUrl = import.meta.resolve('./fixtures/with-solid/main.tsx');
+			const result = load(fileUrl, { format: 'tsx' }, nextLoadSync);
+			const transpiled = getTranspiled('solid-js');
 
 			assert.equal(result.format, 'module');
 			assert.equal(result.source, transpiled.replaceAll('<stdin>', fileUrl));

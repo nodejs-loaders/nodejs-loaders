@@ -1,0 +1,7 @@
+{
+  "name": "e2e-tsx-preact",
+  "main": "./main.jsx",
+  "dependencies": {
+    "@nodejs-loaders/tsx": "*"
+  }
+}
