@@ -1,6 +1,7 @@
 import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
+/** @typedef {import('node:module').ModuleSource} ModuleSource */
 /** @typedef {import('../types.d.ts').FileURL} FileURL */
 
 /**
@@ -32,6 +33,31 @@ function finaliseResolveText(resolvedResult, ctx) {
 }
 
 /**
+ * Node hands the load hook either a string or a binary representation of the file, so binary
+ * sources are decoded as UTF-8. `ignoreBOM` keeps a leading byte order mark, matching what reading
+ * the same file as text returns.
+ * @type {TextDecoder}
+ */
+const textDecoder = new TextDecoder('utf-8', { ignoreBOM: true });
+
+/**
+ * @param {ModuleSource | undefined} source Raw source returned by the next load hook.
+ * @returns {string}
+ */
+function toText(source) {
+	if (typeof source === 'string') return source;
+	if (source === undefined) return '';
+
+	if (ArrayBuffer.isView(source)) {
+		const { buffer, byteOffset, byteLength } = source;
+
+		return textDecoder.decode(new Uint8Array(buffer, byteOffset, byteLength));
+	}
+
+	return textDecoder.decode(source);
+}
+
+/**
  * @type {import('node:module').LoadHook}
  */
 function loadText(url, ctx, nextLoad) {
@@ -50,7 +76,9 @@ export { loadText as load };
 function finaliseLoadText(loadedResult, { format }) {
 	if (!formats.has(format)) return loadedResult;
 
-	const source = `export default \`${loadedResult.source}\`;`;
+	// Serialise the text instead of interpolating it into a template literal: backticks, `${…}`, and
+	// backslash sequences in the file would otherwise run as JavaScript rather than import literally.
+	const source = `export default ${JSON.stringify(toText(loadedResult.source))};`;
 
 	return {
 		format: 'module',
