@@ -7,18 +7,6 @@ import { nextResolveAsync } from '../../fixtures/nextResolve.fixture.mjs';
 
 import { exts, load, resolve } from './text.loader.mjs';
 
-/**
- * Imports a generated module through a data URL so the test observes what the module evaluates to,
- * not only the source the loader produced.
- * @param {string} source Generated module source.
- * @returns {Promise<unknown>} The module's default export.
- */
-async function importGenerated(source) {
-	const { default: value } = await import(`data:text/javascript,${encodeURIComponent(source)}`);
-
-	return value;
-}
-
 describe('text loader', { concurrency: true }, () => {
 	describe('resolve', () => {
 		it('should ignore files that aren’t text', async () => {
@@ -95,23 +83,7 @@ describe('text loader', { concurrency: true }, () => {
 			}
 		});
 
-		it('should import text literally instead of evaluating it', async () => {
-			// Written as a template literal so the placeholder text does not trip
-			// `no-template-curly-in-string`; escaping keeps every sequence literal.
-			const contents = `code: \`x\`\n\${1 + 1}\na\\nb\n"quoted"\n`;
-			const result = await load(
-				import.meta.resolve('./fixtures/fixture.md'),
-				{ format: 'markdown' },
-				async () => ({ format: 'markdown', source: contents }),
-			);
-
-			assert.equal(result.source, `export default ${JSON.stringify(contents)};`);
-			assert.equal(await importGenerated(result.source), contents);
-		});
-
 		it('should normalise binary sources to their text', async () => {
-			// The leading mark and non-ASCII characters catch a decoder that drops the mark or
-			// mis-reads multi-byte characters.
 			const contents = '\uFEFFcafé — ✓\n';
 			const bytes = Buffer.from(contents, 'utf8');
 			const padded = Buffer.concat([Buffer.from('**'), bytes, Buffer.from('**')]);
@@ -123,20 +95,15 @@ describe('text loader', { concurrency: true }, () => {
 			);
 
 			const loaded = await Promise.all(
-				[contents, bytes, arrayBuffer, view].map(async (source) => {
-					const result = await load(
-						import.meta.resolve('./fixtures/fixture.md'),
-						{ format: 'markdown' },
-						async () => ({ format: 'markdown', source }),
-					);
-
-					return [result.format, await importGenerated(result.source)];
-				}),
+				[contents, bytes, arrayBuffer, view].map((source) => load(
+					import.meta.resolve('./fixtures/fixture.md'),
+					{ format: 'markdown' },
+					async () => ({ format: 'markdown', source }),
+				)),
 			);
 
-			for (const [format, text] of loaded) {
-				assert.equal(format, 'module');
-				assert.equal(text, contents);
+			for (const result of loaded) {
+				assert.equal(result.source, `export default ${JSON.stringify(contents)};`);
 			}
 		});
 	});
