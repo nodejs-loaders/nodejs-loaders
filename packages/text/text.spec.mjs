@@ -79,7 +79,31 @@ describe('text loader', { concurrency: true }, () => {
 
 			for (const [result, source ] of loaded) {
 				assert.equal(result.format, 'module');
-				assert.equal(result.source, `export default \`${source}\`;`);
+				assert.equal(result.source, `export default ${JSON.stringify(source)};`);
+			}
+		});
+
+		it('should normalise binary sources to their text', async () => {
+			const contents = '\uFEFFcafé — ✓\n';
+			const bytes = Buffer.from(contents, 'utf8');
+			const padded = Buffer.concat([Buffer.from('**'), bytes, Buffer.from('**')]);
+			// A view that starts after the padding, so the loader must respect its offset and length.
+			const view = new Uint8Array(padded.buffer, padded.byteOffset + 2, bytes.byteLength);
+			const arrayBuffer = bytes.buffer.slice(
+				bytes.byteOffset,
+				bytes.byteOffset + bytes.byteLength,
+			);
+
+			const loaded = await Promise.all(
+				[contents, bytes, arrayBuffer, view].map((source) => load(
+					import.meta.resolve('./fixtures/fixture.md'),
+					{ format: 'markdown' },
+					async () => ({ format: 'markdown', source }),
+				)),
+			);
+
+			for (const result of loaded) {
+				assert.equal(result.source, `export default ${JSON.stringify(contents)};`);
 			}
 		});
 	});
