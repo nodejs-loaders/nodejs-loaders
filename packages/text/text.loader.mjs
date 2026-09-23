@@ -62,7 +62,7 @@ function finaliseLoadText(loadedResult, { format }) {
 	const rawSource = loadedResult.source;
 	const text = typeof rawSource === 'string'
 		? rawSource
-		: textDecoder.decode(rawSource ?? new Uint8Array());
+		: textDecoder.decode(rawSource);
 
 	return {
 		format: 'module',
