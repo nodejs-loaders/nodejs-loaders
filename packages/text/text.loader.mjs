@@ -32,6 +32,13 @@ function finaliseResolveText(resolvedResult, ctx) {
 }
 
 /**
+ * Decodes a binary source as UTF-8. `ignoreBOM` keeps a leading byte order mark, matching what
+ * reading the same file as text returns.
+ * @type {TextDecoder}
+ */
+const textDecoder = new TextDecoder('utf-8', { ignoreBOM: true });
+
+/**
  * @type {import('node:module').LoadHook}
  */
 function loadText(url, ctx, nextLoad) {
@@ -50,11 +57,16 @@ export { loadText as load };
 function finaliseLoadText(loadedResult, { format }) {
 	if (!formats.has(format)) return loadedResult;
 
-	const source = `export default \`${loadedResult.source}\`;`;
+	// Serialise the text instead of interpolating it into a template literal: backticks, `${…}`, and
+	// backslash sequences in the file would otherwise run as JavaScript rather than import literally.
+	const rawSource = loadedResult.source;
+	const text = typeof rawSource === 'string'
+		? rawSource
+		: textDecoder.decode(rawSource);
 
 	return {
 		format: 'module',
-		source,
+		source: `export default ${JSON.stringify(text)};`,
 	};
 }
 
