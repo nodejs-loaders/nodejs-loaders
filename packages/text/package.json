@@ -1,5 +1,5 @@
 {
-  "version": "1.2.1",
+  "version": "1.2.2",
   "name": "@nodejs-loaders/text",
   "description": "Extend node to support plain-text files via customization hooks.",
   "type": "module",
@@ -19,7 +19,7 @@
     "plain text"
   ],
   "engines": {
-    "node": ">=22 || ^20.6.0 || ^18.19.0"
+    "node": ">=26.8.0 <26.5.0 || >=24.21.0 <24.18.0 >24.0.0 || 22 || ^20.6.0 || ^18.19.0"
   },
   "dependencies": {
     "@nodejs-loaders/chain-utils": "^1.1.1",

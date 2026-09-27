@@ -82,6 +82,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
+          check-latest: true
 
       - name: Clean install dependencies
         run: npm ci
