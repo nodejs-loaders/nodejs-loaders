@@ -2,7 +2,7 @@ import { createRequire, findPackageJSON } from 'node:module';
 import { emitWarning } from 'node:process';
 
 /** @typedef {import('esbuild').TransformOptions} ESBuildOptions */
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
  * This config must contain options that are compatible with esbuild's `transform` API.

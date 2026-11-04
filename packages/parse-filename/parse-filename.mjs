@@ -1,8 +1,8 @@
 import path from 'node:path';
 
 /**
- * @typedef {import('../types.d.ts').AbsoluteFilePath} AbsoluteFilePath
- * @typedef {import('../types.d.ts').ResolvedSpecifier} ResolvedSpecifier
+ * @typedef {`${typeof import('node:path').sep}${string}`} AbsoluteFilePath
+ * @typedef {`${'data'|'file'|'https'}://${string}`} ResolvedSpecifier
  */
 
 /**

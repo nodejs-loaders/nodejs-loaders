@@ -8,8 +8,8 @@ import JSON5 from 'json5';
 
 /**
  * @typedef {import('type-fest').TsConfigJson} TSConfig
- * @typedef {import('../types.d.ts').AbsoluteFilePath} AbsoluteFilePath
- * @typedef {import('../types.d.ts').FileURL} FileURL
+ * @typedef {`${typeof import('node:path').sep}${string}`} AbsoluteFilePath
+ * @typedef {`file://${string}`} FileURL
  */
 
 export const meta = {
