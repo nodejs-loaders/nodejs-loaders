@@ -7,7 +7,7 @@ import { pathToFileURL, URL } from 'node:url';
 import JSON5 from 'json5';
 
 /**
- * @typedef {import('type-fest').TsConfigJson} TSConfig
+ * @typedef {{ compilerOptions?: { baseUrl?: string, paths?: Record<string, string[]> } }} TSConfig
  * @typedef {import('../types.d.ts').AbsoluteFilePath} AbsoluteFilePath
  * @typedef {import('../types.d.ts').FileURL} FileURL
  */
