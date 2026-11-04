@@ -3,7 +3,7 @@
 import { getAliases, meta } from './get-aliases-from-tsconfig.mjs';
 
 /** @typedef {import('type-fest').TsConfigJson} TsConfigJson */
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
  * @typedef {object} AliasInitConfig

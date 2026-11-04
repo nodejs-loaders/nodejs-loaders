@@ -9,7 +9,7 @@ import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 
 import { findEsbuildConfig } from './find-esbuild-config.mjs';
 
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
  * The load hook needs to know the parent URL to find the esbuild config.

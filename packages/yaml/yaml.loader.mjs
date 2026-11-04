@@ -3,7 +3,7 @@ import { parse } from 'yaml';
 import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
  * @type {import('node:module').ResolveHook}

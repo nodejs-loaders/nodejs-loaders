@@ -4,7 +4,7 @@ import _upperFirst from 'lodash.upperfirst';
 import { runForAsyncOrSync } from '@nodejs-loaders/chain-utils/run-normalised';
 import { getFilenameParts } from '@nodejs-loaders/parse-filename';
 
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 const nonWords = /[\W$]/;
 

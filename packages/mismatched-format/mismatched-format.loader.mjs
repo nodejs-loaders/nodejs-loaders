@@ -2,7 +2,7 @@ import { getFilenameExt } from '@nodejs-loaders/parse-filename';
 
 import { containsCJS } from './contains-cjs.mjs';
 
-/** @typedef {import('../types.d.ts').FileURL} FileURL */
+/** @typedef {`file://${string}`} FileURL */
 
 /**
  * This loader attempts to detect and override misconfigured packages, such as those that declare
